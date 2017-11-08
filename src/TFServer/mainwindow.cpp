@@ -6,6 +6,12 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+}
+
+void MainWindow::startGame(){
+
+
 }
 
 MainWindow::~MainWindow()
