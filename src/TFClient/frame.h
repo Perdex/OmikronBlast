@@ -2,12 +2,13 @@
 #define FRAME_H
 
 #include <QWidget>
+#include <QMainWindow>
 
 namespace Ui {
 class Frame;
 }
 
-class Frame : public QWidget
+class Frame : public QMainWindow
 {
     Q_OBJECT
 

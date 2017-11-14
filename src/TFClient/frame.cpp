@@ -2,7 +2,7 @@
 #include "ui_frame.h"
 
 Frame::Frame(QWidget *parent) :
-    QWidget(parent),
+    QMainWindow(parent),
     ui(new Ui::Frame)
 {
     ui->setupUi(this);
