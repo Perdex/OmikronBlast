@@ -6,6 +6,7 @@ Frame::Frame(QWidget *parent) :
     ui(new Ui::Frame)
 {
     ui->setupUi(this);
+    this->setWindowState(Qt::WindowFullScreen);
 }
 
 Frame::~Frame()
