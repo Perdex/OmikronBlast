@@ -1,7 +1,6 @@
 #ifndef FRAME_H
 #define FRAME_H
 
-#include <QWidget>
 #include <QMainWindow>
 
 namespace Ui {
