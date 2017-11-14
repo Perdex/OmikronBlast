@@ -15,6 +15,7 @@ public:
     explicit Frame(QWidget *parent = 0);
     ~Frame();
     void switchView();
+    void onConnected();
 
 private:
     Ui::Frame *ui;

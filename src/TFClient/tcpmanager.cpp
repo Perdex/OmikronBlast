@@ -1,16 +1,19 @@
 #include "tcpmanager.h"
 #include <QTcpSocket>
+#include <QtDebug>
 
-TCPManager::TCPManager() : sock(), port(2000), data()
+TCPManager::TCPManager() : sock(), port(-1), data()
 {
     QObject::connect(&sock, &QTcpSocket::connected, this, &TCPManager::onConnected);
     QObject::connect(&sock, &QTcpSocket::disconnected, this, &TCPManager::onDisconnected);
-
-    data->setDevice(&sock);
-    data->setVersion(QDataStream::Qt_5_9);
+    QObject::connect(&sock,
+                     static_cast<void(QAbstractSocket::*)(QAbstractSocket::SocketError)>(&QAbstractSocket::error),
+                     this,
+                     &TCPManager::onError);
 }
 
-void TCPManager::connectTo(const QString &hostname) {
+void TCPManager::connectTo(const QString &hostname, const int port) {
+    this->port = port;
     sock.connectToHost(hostname, port);
 }
 
@@ -37,6 +40,11 @@ void TCPManager::onPushUpdate() {
  * Initialize connection
  */
 void TCPManager::onConnected() {
+
+    data->setDevice(&sock);
+    data->setVersion(QDataStream::Qt_5_9);
+
+    emit connected();
 
     sock.write("TFGAME-CLIENT");
 
@@ -71,4 +79,8 @@ void TCPManager::onConnected() {
  */
 void TCPManager::onDisconnected() {
 
+}
+
+void TCPManager::onError(QAbstractSocket::SocketError err) {
+    emit error(err);
 }

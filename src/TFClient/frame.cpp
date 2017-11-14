@@ -4,9 +4,19 @@
 
 #include <QObject>
 
+// This is really WIP and should only be used as a sandbox
+// Like this entire class currently
 void Frame::switchView() {
     ui->views->setCurrentIndex(1);
-    qDebug() << "Curr: " << ui->views->currentIndex() << "\n";
+    QGraphicsScene *scene = new QGraphicsScene(0, 0, 8000, 8000, ui->canvas);
+    ui->canvas->setScene(scene);
+
+    ui->canvas->centerOn(5000, 5000); // Use this to move
+
+    scene->addLine(0, 0, 100, 100);
+    scene->addLine(0, 0, 5100, 5100);
+
+    scene->invalidate();
 }
 
 Frame::Frame(QWidget *parent) :
@@ -16,8 +26,10 @@ Frame::Frame(QWidget *parent) :
     ui->setupUi(this);
     this->setWindowState(Qt::WindowFullScreen);
     QObject::connect(ui->commandLinkButton, &QCommandLinkButton::pressed, this, &Frame::switchView);
+}
 
-    qDebug() << "Curr: " << ui->views->currentIndex() << "\n";
+void Frame::onConnected() {
+
 }
 
 Frame::~Frame()
