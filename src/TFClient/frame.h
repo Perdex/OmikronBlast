@@ -14,6 +14,7 @@ class Frame : public QMainWindow
 public:
     explicit Frame(QWidget *parent = 0);
     ~Frame();
+    void switchView();
 
 private:
     Ui::Frame *ui;

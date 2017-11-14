@@ -59,7 +59,9 @@ void TCPManager::onConnected() {
 
     emit idReceived(*id);
 
-    emit mapReceived(data);
+    // TODO: Read map
+
+    emit mapReceived(/*map*/);
 
     QObject::connect(&sock, &QTcpSocket::readyRead, this, &TCPManager::onReadyRead);
 }
