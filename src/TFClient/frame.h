@@ -15,7 +15,10 @@ public:
     explicit Frame(QWidget *parent = 0);
     ~Frame();
     void switchView();
+public slots:
     void onConnected();
+private slots:
+    void onQuit();
 
 private:
     Ui::Frame *ui;

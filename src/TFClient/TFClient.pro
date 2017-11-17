@@ -26,11 +26,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         frame.cpp \
-    tcpmanager.cpp
+    tcpmanager.cpp \
+    canvas.cpp
 
 HEADERS += \
         frame.h \
-    tcpmanager.h
+    tcpmanager.h \
+    canvas.h
 
 FORMS += \
         frame.ui
