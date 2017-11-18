@@ -10,6 +10,6 @@ string Map::streaming(){
 return stream;
 }
 
-void Map::isWall(){
+void Map::isWall(int x, int y){
 
 }

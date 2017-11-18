@@ -8,12 +8,12 @@ class Map
 public:
     Map();
     ~Map();
-    string streaming();
+    string streaming(); //turha?
     void isWall;
 
 private:
-    string stream;
-    int map[30][25];
+    string stream;  //turha?
+    int map[30][30];
 };
 
 #endif // MAP_H
