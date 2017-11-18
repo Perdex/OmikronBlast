@@ -38,4 +38,5 @@ FORMS += \
         frame.ui
 
 DISTFILES += \
-    Images/background.png
+    Images/background.png \
+    Images/squarebox.png
