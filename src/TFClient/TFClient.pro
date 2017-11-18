@@ -38,6 +38,4 @@ FORMS += \
         frame.ui
 
 DISTFILES += \
-    Images/air.png \
-    Images/box.png \
     Images/background.png
