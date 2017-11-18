@@ -2,11 +2,14 @@
 #define MAP_H
 
 
-class map
+class Map
 {
 
 public:
-    map();
+    Map();
+    ~Map();
+    char stream;
+    void isWall;
 };
 
 #endif // MAP_H

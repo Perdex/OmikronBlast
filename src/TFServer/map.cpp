@@ -1,6 +1,14 @@
 #include "map.h"
 
-map::map()
+Map::Map()
 {
+
+}
+
+void Map::stream(){
+
+}
+
+void Map::isWall(){
 
 }
