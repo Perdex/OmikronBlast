@@ -39,4 +39,5 @@ FORMS += \
 
 DISTFILES += \
     Images/air.png \
-    Images/box.png
+    Images/box.png \
+    Images/background.png
