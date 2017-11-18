@@ -1,12 +1,13 @@
 #include "map.h"
+#include <string.h>
 
 Map::Map()
 {
 
 }
 
-void Map::stream(){
-
+string Map::streaming(){
+return stream;
 }
 
 void Map::isWall(){
