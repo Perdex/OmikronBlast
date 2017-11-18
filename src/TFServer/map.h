@@ -13,7 +13,7 @@ public:
 
 private:
     QString stream;  //turha?
-    int map[30][30];
+    int map[25][20];
 };
 
 #endif // MAP_H

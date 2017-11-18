@@ -13,5 +13,8 @@ return stream;
 }
 
 bool Map::isWall(int x, int y){
-
+    if(this->map[x][y]==1){
+        return true;
+    }
+    return false;
 }
