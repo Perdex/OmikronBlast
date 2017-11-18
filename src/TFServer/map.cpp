@@ -8,10 +8,10 @@ Map::Map()
 
 }
 
-string Map::streaming(){
+QString Map::streaming(){
 return stream;
 }
 
-void Map::isWall(int x, int y){
+bool Map::isWall(int x, int y){
 
 }

@@ -3,9 +3,13 @@
 
 #include <QMainWindow>
 
+#define FRAME_TIME 200
+
 namespace Ui {
-class MainWindow;
+    class MainWindow;
 }
+class TCPManager;
+class QTimer;
 
 class MainWindow : public QMainWindow
 {
@@ -17,9 +21,14 @@ public:
 
 public slots:
     void startGame();
+    void executeTurn();
 
 private:
     Ui::MainWindow *ui;
+    TCPManager *tcpmanager;
+    QTimer *gameLoopTimer;
+    //joku tällanen tänne
+    //QVector<GameObject*> objects;
 };
 
 #endif // MAINWINDOW_H

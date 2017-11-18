@@ -1,6 +1,6 @@
 #ifndef MAP_H
 #define MAP_H
-
+#include <QString>
 
 class Map
 {
@@ -8,11 +8,11 @@ class Map
 public:
     Map();
     ~Map();
-    string streaming(); //turha?
-    void isWall;
+    QString streaming(); //turha?
+    bool isWall(int x, int y);
 
 private:
-    string stream;  //turha?
+    QString stream;  //turha?
     int map[30][30];
 };
 

@@ -65,6 +65,9 @@ quint16 TCPManager::getPort(){
 
 void TCPManager::newClient(){
 
+    auto socket = server->nextPendingConnection();
+    clients.push_back(socket);
+    //QObject::connect(socket, &QTcpSocket::channelReadyRead, this, receiveData);
     qDebug() << "ASDF client found!!1\n";
 
 }
