@@ -1,18 +1,22 @@
 #include "tcpmanager.h"
+#include "mainwindow.h"
+
 #include <QTcpServer>
 #include <QTcpSocket>
 #include <QVector>
 #include <QHostAddress>
 #include <QMessageBox>
+#include <QNetworkInterface>
 
-TCPManager::TCPManager()
+TCPManager::TCPManager(MainWindow* mainWindow)
     : clients(),
       server(nullptr),
       port(2000),
-      data()
+      data(),
+      mainWindow(mainWindow)
 {
 
-    server = new QTcpServer[10];
+    server = new QTcpServer();
     if (!server->listen()) {
         QMessageBox::critical(NULL, QString("TFServer"),
                               QString("Unable to start the server: %1.")
@@ -22,8 +26,10 @@ TCPManager::TCPManager()
     }
 
     QObject::connect(server, &QTcpServer::newConnection, this, &TCPManager::newClient);
-
-    /* esimerkistä kopioitu
+/*
+ * Can be used for debugging
+ * Copied from example
+ *
     QString ipAddress;
     QList<QHostAddress> ipAddressesList = QNetworkInterface::allAddresses();
     // use the first non-localhost IPv4 address
@@ -37,9 +43,9 @@ TCPManager::TCPManager()
     // if we did not find one, use IPv4 localhost
     if (ipAddress.isEmpty())
         ipAddress = QHostAddress(QHostAddress::LocalHost).toString();
-    statusLabel->setText(tr("The server is running on\n\nIP: %1\nport: %2\n\n"
-                            "Run the Fortune Client example now.")
-                         .arg(ipAddress).arg(tcpServer->serverPort()));
+    QMessageBox::information(NULL, QString("Server status"),
+                          QString("The server is running on\n\nIP: %1\nport: %2\n\n")
+                         .arg(ipAddress).arg(server->serverPort()));
 */
 }
 
@@ -57,9 +63,9 @@ QString TCPManager::getAddress(){
         return server->serverAddress().toString();
     return QString();
 }
-quint16 TCPManager::getPort(){
+QString TCPManager::getPort(){
     if(server != nullptr)
-        return server->serverPort();
+        return QString("%1").arg(server->serverPort());
     return 0;
 }
 
@@ -69,6 +75,13 @@ void TCPManager::newClient(){
     clients.push_back(socket);
     //QObject::connect(socket, &QTcpSocket::channelReadyRead, this, receiveData);
     qDebug() << "ASDF client found!!1\n";
+
+    QString s;
+    for(auto client: clients){
+        s += client->peerName();
+        s += '\n';
+    }
+    mainWindow->setPlayersText(s);
 
 }
 

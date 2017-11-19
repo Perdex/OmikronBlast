@@ -8,10 +8,18 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    tcpmanager(new TCPManager()),
+    tcpmanager(nullptr),
     gameLoopTimer(nullptr)
 {
     ui->setupUi(this);
+
+    tcpmanager = new TCPManager(this);
+
+    QString s = "Server active at:\n";
+    s += tcpmanager->getAddress();
+    s += "\nport: ";
+    s += tcpmanager->getPort();
+    ui->InfoLabel->setText(s);
 
     //initialize and connect the main loop timer: will not run yet
     gameLoopTimer = new QTimer(this);
@@ -31,13 +39,21 @@ MainWindow::~MainWindow()
 }
 
 void MainWindow::startGame(){
-
     qDebug() << "Starting game";
-
     gameLoopTimer->start(FRAME_TIME);
-
 }
 
+/*
+ * Updates the window text
+ * Used for showing connected clients
+ */
+void MainWindow::setPlayersText(QString text){
+    ui->PlayersLabel->setText(text);
+}
+
+/*
+ * Main loop content, called once every FRAME_TIME ms
+ */
 void MainWindow::executeTurn(){
 
     qDebug() << "Doing a turn!";
@@ -46,10 +62,10 @@ void MainWindow::executeTurn(){
     //jotain tällasta tänne:
     /*
     for(auto object: objects){
-        object.doturn(tcpmanager);
+        object->doturn(tcpmanager);
     }
     for(auto object: objects){
-        object.move(tcpmanager);
+        object->move(tcpmanager);
     }
     */
     tcpmanager->sendData();
