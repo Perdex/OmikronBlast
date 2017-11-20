@@ -28,13 +28,16 @@ SOURCES += \
         mainwindow.cpp \
     tcpmanager.cpp \
     stuff.cpp \
-    player.cpp
+    player.cpp\
+    map.cpp
 
 HEADERS += \
         mainwindow.h \
     tcpmanager.h \
     stuff.h \
-    player.h
+    player.h\
+    map.h
+
 
 FORMS += \
         mainwindow.ui

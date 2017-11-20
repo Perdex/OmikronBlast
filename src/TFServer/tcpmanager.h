@@ -7,15 +7,16 @@
 class QTcpServer;
 class QTcpSocket;
 class QHostAddress;
+class MainWindow;
 
 class TCPManager: public QObject
 {
     Q_OBJECT
 public:
-    TCPManager();
+    TCPManager(MainWindow* mainWindow);
     ~TCPManager();
     QString getAddress();
-    quint16 getPort();
+    QString getPort();
     QVector<QString> readData();
     void sendData();
     void addData(QString data);
@@ -26,6 +27,7 @@ private:
     QTcpServer *server;
     uint port;
     QVector<QString> data;
+    MainWindow* mainWindow;
 };
 
 #endif // TCPMANAGER_H

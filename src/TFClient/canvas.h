@@ -5,6 +5,8 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 
+#include "item.h"
+
 class Canvas : public QGraphicsView
 {
 public:
@@ -12,8 +14,8 @@ public:
 protected:
     void mouseMoveEvent(QMouseEvent*);
     QGraphicsScene* scene;
-    int centerX = 5000;
-    int centerY = 5000;
+    int centerX = 500;
+    int centerY = 500;
 };
 
 #endif // CANVAS_H
