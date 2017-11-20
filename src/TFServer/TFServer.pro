@@ -27,14 +27,14 @@ SOURCES += \
         main.cpp \
         mainwindow.cpp \
     tcpmanager.cpp \
-    map.cpp \
-    projectile.cpp
+    stuff.cpp \
+    player.cpp
 
 HEADERS += \
         mainwindow.h \
     tcpmanager.h \
-    map.h \
-    projectile.h
+    stuff.h \
+    player.h
 
 FORMS += \
         mainwindow.ui
