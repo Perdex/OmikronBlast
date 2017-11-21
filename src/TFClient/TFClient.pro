@@ -28,13 +28,17 @@ SOURCES += \
         frame.cpp \
     tcpmanager.cpp \
     canvas.cpp \
-    item.cpp
+    item.cpp \
+    player.cpp \
+    stuff.cpp
 
 HEADERS += \
         frame.h \
     tcpmanager.h \
     canvas.h \
-    item.h
+    item.h \
+    player.h \
+    stuff.h
 
 FORMS += \
         frame.ui
