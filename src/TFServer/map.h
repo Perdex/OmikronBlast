@@ -8,12 +8,12 @@ class Map
 public:
     Map();
     ~Map();
-    QString streaming(); //turha?
+    QString streaming();
     bool isWall(int x, int y);
 
 private:
-    QString stream;  //turha?
-    int map[25][20];
+    QString stream;
+    int map[20][25];
 };
 
 #endif // MAP_H
