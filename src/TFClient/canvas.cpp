@@ -6,6 +6,8 @@ Canvas::Canvas(QWidget* p) :
     QGraphicsView(p),
     status()
 {
+    viewport()->installEventFilter(this);
+
     status[Qt::Key_W] = false;
     status[Qt::Key_A] = false;
     status[Qt::Key_S] = false;
@@ -42,6 +44,14 @@ void Canvas::keyReleaseEvent(QKeyEvent *ke)
         status[ke->key()] = false;
         emit keysChanged(status);
     }
+}
+
+bool Canvas::eventFilter(QObject *obj, QEvent *ev)
+{
+    if(obj == viewport() && ev->type() == QEvent::Wheel) {
+        return true;
+    }
+    return false;
 }
 
 

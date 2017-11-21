@@ -18,6 +18,8 @@ protected:
     void mouseMoveEvent(QMouseEvent*);
     void keyPressEvent(QKeyEvent*);
     void keyReleaseEvent(QKeyEvent*);
+    bool eventFilter(QObject *, QEvent *);
+
     QGraphicsScene* scene;
     int centerX = 1500;
     int centerY = 1500;
