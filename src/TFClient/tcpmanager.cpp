@@ -22,6 +22,7 @@ void TCPManager::disconnect(const QString &reason) {
     emit disconnected(reason);
 }
 
+
 /*
  * This method is for pulling updates
  */
