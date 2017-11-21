@@ -2,6 +2,6 @@
     <qresource prefix="/sounds"/>
     <qresource prefix="/images">
         <file>Images/background.png</file>
-        <file>Images/squarebox.png</file>
+        <file alias="Squarebox.png">Images/squarebox.png</file>
     </qresource>
 </RCC>

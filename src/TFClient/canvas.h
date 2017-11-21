@@ -14,8 +14,8 @@ public:
 protected:
     void mouseMoveEvent(QMouseEvent*);
     QGraphicsScene* scene;
-    int centerX = 500;
-    int centerY = 500;
+    int centerX = 1500;
+    int centerY = 1500;
 };
 
 #endif // CANVAS_H
