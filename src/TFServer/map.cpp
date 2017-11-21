@@ -9,7 +9,7 @@ Map::Map()
     for(int i=0; i<20; i++){
         for(int j=0; j<25; j++){
             map[i][j]=rand()%2;   //generates random map: 0(=no box) or 1(=box)
-            str.append((QString::number(map[i][j])));
+            str.append((QString::number(map[i][j])));   //needs some sort of id to be set apart from all data(?)
         }
     }
     stream=str;
@@ -17,6 +17,10 @@ Map::Map()
 
 QString Map::streaming(){
     return stream;
+}
+
+void Map::send(TCPManager* manager){
+    manager->addData(stream);
 }
 
 bool Map::isWall(int x, int y){
