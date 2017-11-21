@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "TCPManager.h"
+#include "tcpmanager.h"
 
 #include <QTimer>
 #include <QDebug>
