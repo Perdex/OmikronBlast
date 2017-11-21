@@ -1,11 +1,18 @@
 #include "canvas.h"
+#include "keys.h"
 
-#include <QDir>
 #include <QtDebug>
 
 Canvas::Canvas(QWidget* p) :
-    QGraphicsView(p)
+    QGraphicsView(p),
+    status()
 {
+    status[Qt::Key_W] = false;
+    status[Qt::Key_A] = false;
+    status[Qt::Key_S] = false;
+    status[Qt::Key_D] = false;
+    status[Qt::Key_Space] = false;
+
     scene = new QGraphicsScene(0,0,4000,4000, this);
     this->setScene(scene);
     QPixmap pm(":/images/Images/background.png");
@@ -21,3 +28,21 @@ Canvas::Canvas(QWidget* p) :
 void Canvas::mouseMoveEvent(QMouseEvent *me) {
     this->centerOn(centerX + (me->x() - this->width()/2)/2, centerY + (me->y() - this->height()/2)/2);
 }
+
+void Canvas::keyPressEvent(QKeyEvent *ke)
+{
+    if(status.contains(ke->key()) && !status[ke->key()]) {
+        status[ke->key()] = true;
+        emit keysChanged(status);
+    }
+}
+
+void Canvas::keyReleaseEvent(QKeyEvent *ke)
+{
+    if(status.contains(ke->key()) && status[ke->key()]) {
+        status[ke->key()] = false;
+        emit keysChanged(status);
+    }
+}
+
+

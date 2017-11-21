@@ -9,6 +9,10 @@ void Frame::switchView() {
     ui->views->setCurrentIndex(1);
 }
 
+void Frame::dbg(const QMap<int, bool> &keys) {
+    qDebug() << keys;
+}
+
 Frame::Frame(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::Frame)
@@ -20,6 +24,7 @@ Frame::Frame(QWidget *parent) :
 
     QObject::connect(ui->quitButton, &QPushButton::clicked, this, &Frame::onQuit);
     QObject::connect(ui->commandLinkButton, &QCommandLinkButton::pressed, this, &Frame::switchView);
+    QObject::connect(ui->canvas, &Canvas::keysChanged, this, &Frame::dbg);
 }
 
 void Frame::onConnected() {

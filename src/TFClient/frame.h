@@ -14,11 +14,12 @@ class Frame : public QMainWindow
 public:
     explicit Frame(QWidget *parent = 0);
     ~Frame();
-    void switchView();
 public slots:
     void onConnected();
+    void switchView();
 private slots:
     void onQuit();
+    void dbg(const QMap<int, bool>&);
 
 private:
     Ui::Frame *ui;
