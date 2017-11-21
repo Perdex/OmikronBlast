@@ -5,7 +5,7 @@ player::player(std::string name, char id, double& x, double& y): name(name), id(
 {
     ammo = '0';
     fuel = '0';
-    isMe = FALSE;
+    isMe = false;
     mouseClicked = '0';
 }
 player::~player(){}
