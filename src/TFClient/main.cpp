@@ -10,6 +10,7 @@ int main(int argc, char *argv[])
     TCPManager tcp;
 
     QObject::connect(&tcp, &TCPManager::connected, &w, &Frame::onConnected);
+    QObject::connect(&w, &Frame::requestConnection, &tcp, &TCPManager::connectTo);
 
     w.show();
 

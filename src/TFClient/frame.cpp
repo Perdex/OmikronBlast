@@ -5,8 +5,7 @@
 #include <QObject>
 
 void Frame::switchView() {
-    QCursor::setPos(mapToGlobal(QPoint(width()/2, height()/2)));
-    ui->views->setCurrentIndex(1);
+
 }
 
 void Frame::dbg(const QMap<int, bool> &keys) {
@@ -23,12 +22,20 @@ Frame::Frame(QWidget *parent) :
     ui->views->setCurrentIndex(0);
 
     QObject::connect(ui->quitButton, &QPushButton::clicked, this, &Frame::onQuit);
-    QObject::connect(ui->commandLinkButton, &QCommandLinkButton::pressed, this, &Frame::switchView);
+    QObject::connect(ui->commandLinkButton, &QCommandLinkButton::pressed, this, &Frame::onConnectClicked);
     QObject::connect(ui->canvas, &Canvas::keysChanged, this, &Frame::dbg);
 }
 
-void Frame::onConnected() {
+void Frame::onConnectClicked() {
+    ui->status->setText("Trying to connect...");
+    emit requestConnection(ui->s_addr->text(), ui->s_port->text().toInt());
+}
 
+void Frame::onConnected() {
+    ui->status->setText("Connected.");
+
+    QCursor::setPos(mapToGlobal(QPoint(width()/2, height()/2)));
+    ui->views->setCurrentIndex(1);
 }
 
 void Frame::onQuit() {

@@ -20,6 +20,9 @@ public slots:
 private slots:
     void onQuit();
     void dbg(const QMap<int, bool>&);
+    void onConnectClicked();
+signals:
+    void requestConnection(const QString, const int);
 
 private:
     Ui::Frame *ui;

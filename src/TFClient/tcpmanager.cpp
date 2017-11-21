@@ -41,10 +41,8 @@ void TCPManager::onPushUpdate() {
  */
 void TCPManager::onConnected() {
 
-    data->setDevice(&sock);
+    /*data->setDevice(&sock);
     data->setVersion(QDataStream::Qt_5_9);
-
-    emit connected();
 
     sock.write("TFGAME-CLIENT");
 
@@ -69,7 +67,9 @@ void TCPManager::onConnected() {
 
     // TODO: Read map
 
-    emit mapReceived(/*map*/);
+    emit mapReceived(/*map);*/
+
+    emit connected();
 
     QObject::connect(&sock, &QTcpSocket::readyRead, this, &TCPManager::onReadyRead);
 }
