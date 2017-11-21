@@ -42,3 +42,6 @@ FORMS += \
 DISTFILES += \
     Images/background.png \
     Images/squarebox.png
+
+RESOURCES += \
+    media.qrc
