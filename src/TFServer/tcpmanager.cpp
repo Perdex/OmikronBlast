@@ -76,12 +76,12 @@ void TCPManager::newClient(){
     //QObject::connect(socket, &QTcpSocket::channelReadyRead, this, receiveData);
     qDebug() << "ASDF client found!!1\n";
 
-    QString s;
-    for(auto client: clients){
-        s += client->peerName();
-        s += '\n';
-    }
-    mainWindow->setPlayersText(s);
+    //QString s;
+    //for(auto client: clients){
+    //    s += client->peerName();
+    //    s += '\n';
+    //}
+    mainWindow->setPlayersText(QString("Number connected: %1").arg(clients.length()));
 
 }
 
