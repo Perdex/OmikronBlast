@@ -34,8 +34,7 @@ HEADERS += \
         frame.h \
     tcpmanager.h \
     canvas.h \
-    item.h \
-    keys.h
+    item.h
 
 FORMS += \
         frame.ui
