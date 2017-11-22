@@ -1,6 +1,5 @@
 #include "player.h"
 #include "stuff.h"
-
 #define AMMOMAX 5
 #define JETFUELMAX 100.0
 #define PLAYERWIDTH 20
@@ -10,6 +9,7 @@
 #define TERMINALSPEED 100.0
 #define HORIZONTALMOVEMENT 20.0
 #define JUMPSTRENGTH 30.0
+#define FUELCONSUMPTION 5.0
 
 player::player(std::string name, char id, double& x, double& y, bool dead = 0, int ammoMax = AMMOMAX, double fuelMax = JETFUELMAX,
                double angle = 0) :
@@ -82,22 +82,43 @@ std::ostream& player::encode(std::ostream& o)
     o << type << getIsDead() << getHorizontalPos() << getVerticalPos() << fuel << getId();
     return o;
 }
-void player::goLeft()
+void player::decode(QString str)
 {
-    goingLeft = 1;
+    if(str[0] == str[1])
+    {
+        goingLeft = 0;
+        goingRight = 0;
+    }
+    else if(str[0]==1)
+    {
+        goingLeft = 1;
+        goingRight = 0;
+    }
+    else
+    {
+        goingLeft = 0;
+        goingRight = 1;
+    }
+
+    if(str[2] == 1)
+        jump();
+
+    if(str[3] == 1 && fuelLeft != 0)
+    {
+        fuelLeft = qMax(0.0, fuelLeft - FUELCONSUMPTION);
+        jetpackStatus = 1;
+    }
+    else
+    {
+        jetpackStatus = 0;
+    }
+
+    if(str[4] == 1)
+    {
+        shoot();
+    }
 }
-void player::stopLeft()
-{
-    goingLeft = 0;
-}
-void player::goRight()
-{
-    goingRight = 1;
-}
-void player::stopRight()
-{
-    goingRight = 0;
-}
+
 void player::startFall()
 {
     isFalling = 1;
@@ -128,19 +149,12 @@ void player::move()
     changeVerticalPos(getVerticalSpeed());
     changeHorizontalPos(getHorizontalSpeed());
 }
-void player::activateJetpack()
-{
-    jetpackStatus = 1;
-}
-void player::deactivateJetpack()
-{
-    jetpackStatus = 0;
-}
+
 void player::shoot()
 {
 
 }
 void player::die()
 {
-    isDead = 1;
+    isDead = true;
 }

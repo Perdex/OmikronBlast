@@ -3,6 +3,8 @@
 #include <ctime>
 #include <iostream>
 #include "stuff.h"
+#include <QString>
+#include <QtGlobal>
 
 
 class player : public stuff
@@ -23,17 +25,12 @@ public:
     time_t getLastMagazineFull() const;
     time_t getLastJetpackUse() const;
     std::ostream& encode(std::ostream&);
+    void decode(QString);
   public slots:
-    void goLeft();
-    void stopLeft();
-    void goRight();
-    void stopRight();
     void startFall();
     void stopFall();
     void jump();
     void move();
-    void activateJetpack();
-    void deactivateJetpack();
     void shoot();
     void die();
 
