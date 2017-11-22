@@ -80,7 +80,7 @@ QString player::encode()
     char type = '0';
     char fuel = ((int)(getFuelLeft() + 0.5)) + '0';
     QTextStream stre;
-    stre << type << " " << getIsDead() << " " << getHorizontalPos() << " " << getVerticalPos() << " " << fuel << " " << getId();
+    stre << type << " " << getIsDead() << " " << getHorizontalPos() << " " << getVerticalPos() << " " << getAmmoLeft() << " " << fuel << " " << getId();
     QString str = stre.readAll();
     return str;
 }
