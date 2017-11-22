@@ -75,12 +75,14 @@ time_t player::getLastJetpackUse() const
 {
     return lastJetpackUse;
 }
-std::ostream& player::encode(std::ostream& o)
+QString player::encode()
 {
     char type = '0';
     char fuel = ((int)(getFuelLeft() + 0.5)) + '0';
-    o << type << getIsDead() << getHorizontalPos() << getVerticalPos() << fuel << getId();
-    return o;
+    QTextStream stre;
+    stre << type << " " << getIsDead() << " " << getHorizontalPos() << " " << getVerticalPos() << " " << fuel << " " << getId();
+    QString str = stre.readAll();
+    return str;
 }
 void player::decode(QString str)
 {

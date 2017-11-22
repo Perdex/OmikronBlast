@@ -5,6 +5,7 @@
 #include "stuff.h"
 #include <QString>
 #include <QtGlobal>
+#include <QTextStream>
 
 
 class player : public stuff
@@ -24,7 +25,7 @@ public:
     char getId() const;
     time_t getLastMagazineFull() const;
     time_t getLastJetpackUse() const;
-    std::ostream& encode(std::ostream&);
+    QString encode();
     void decode(QString);
   public slots:
     void startFall();
