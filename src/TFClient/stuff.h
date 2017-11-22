@@ -15,6 +15,8 @@ public:
     virtual void draw() = 0;
     double getHorizontalPos();
     double getVerticalPos();
+    void setHorizontalPos(double);
+    void setVerticalPos(double);
 
 private:
     double horizontalPos;

@@ -83,5 +83,6 @@ void TCPManager::onDisconnected() {
 }
 
 void TCPManager::onError(QAbstractSocket::SocketError err) {
+    qDebug() << err;
     emit error(err);
 }

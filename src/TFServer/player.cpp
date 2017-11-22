@@ -11,9 +11,9 @@
 #define JUMPSTRENGTH 30.0
 #define FUELCONSUMPTION 5.0
 
-player::player(std::string name, char id, double& x, double& y, bool dead = 0, int ammoMax = AMMOMAX, double fuelMax = JETFUELMAX,
+player::player(QString name, QChar id, double& x, double& y, bool dead = 0, int ammoMax = AMMOMAX, double fuelMax = JETFUELMAX,
                double angle = 0) :
-    name(name), id(id), stuff(x,y,0,0), isDead(dead), ammoMax(ammoMax), fuelMax(fuelMax), weaponAngle(angle)
+    stuff(x,y,0,0), name(name), id(id), isDead(dead), ammoMax(ammoMax), fuelMax(fuelMax), weaponAngle(angle)
 {
     width = PLAYERWIDTH;
     height = PLAYERHEIGHT;
@@ -59,11 +59,11 @@ double player::getFuelMax() const
 {
     return fuelMax;
 }
-std::string player::getName() const
+QString player::getName() const
 {
     return name;
 }
-char player::getId() const
+QChar player::getId() const
 {
     return id;
 }
@@ -77,8 +77,8 @@ time_t player::getLastJetpackUse() const
 }
 QString player::encode()
 {
-    char type = '0';
-    char fuel = ((int)(getFuelLeft() + 0.5)) + '0';
+    QChar type = '0';
+    QChar fuel = ((int)(getFuelLeft() + 0.5)) + '0';
     QTextStream stre;
     stre << type << " " << getIsDead() << " " << getHorizontalPos() << " " << getVerticalPos() << " " << getAmmoLeft() << " " << fuel << " " << getId();
     QString str = stre.readAll();

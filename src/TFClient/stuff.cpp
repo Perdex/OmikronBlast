@@ -26,3 +26,13 @@ double stuff::getVerticalPos()
 {
     return verticalPos;
 }
+
+void stuff::setHorizontalPos(double nw)
+{
+    horizontalPos = nw;
+}
+
+void stuff::setVerticalPos(double nw)
+{
+    verticalPos = nw;
+}

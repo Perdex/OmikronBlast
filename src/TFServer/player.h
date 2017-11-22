@@ -11,7 +11,7 @@
 class player : public stuff
 {
 public:
-    player(std::string, char, double&, double&, bool, int, double,  double);
+    player(QString, QChar, double&, double&, bool, int, double,  double);
     ~player();
     bool getIsDead()const;
     int getWidth() const;
@@ -21,8 +21,8 @@ public:
     bool getJetpackStatus() const;
     double getFuelLeft() const;
     double getFuelMax() const;
-    std::string getName() const;
-    char getId() const;
+    QString getName() const;
+    QChar getId() const;
     time_t getLastMagazineFull() const;
     time_t getLastJetpackUse() const;
     QString encode();
@@ -36,8 +36,8 @@ public:
     void die();
 
 private:
-    std::string name;
-    char id;
+    QString name;
+    QChar id;
     bool isDead;
     int width;
     int height;

@@ -8,19 +8,20 @@
 class player :public stuff
 {
 public:
-    player(std::string, char, double&, double&);
+    player(QString, QChar, double&, double&);
     ~player();
     void decode(QString);
     void draw();
     QString encode();
 
 private:
-    std::string name;
-    char id;
-    char ammo;
-    char fuel;
+    QString name;
+    QChar id;
+    bool isDead;
+    QChar ammo;
+    QChar fuel;
     bool isMe;
-    char mouseClicked;
+    QChar mouseClicked;
 };
 
 #endif // PLAYER_H
