@@ -75,14 +75,15 @@ time_t player::getLastJetpackUse() const
 {
     return lastJetpackUse;
 }
-QString player::encode()
+QDataStream& player::encode(QDataStream& stre)
 {
     QChar type = '0';
     QChar fuel = ((int)(getFuelLeft() + 0.5)) + '0';
-    QTextStream stre;
-    stre << type << " " << getIsDead() << " " << getHorizontalPos() << " " << getVerticalPos() << " " << getAmmoLeft() << " " << fuel << " " << getId();
-    QString str = stre.readAll();
-    return str;
+    stre << type << getIsDead() << getHorizontalPos() << getVerticalPos() << getAmmoLeft() << fuel << getId();
+
+    //only if sata is wanted as a string
+    //QString str = stre.readAll();
+    return stre;
 }
 void player::decode(QString str)
 {

@@ -6,6 +6,7 @@
 #include <QString>
 #include <QtGlobal>
 #include <QTextStream>
+#include <QDataStream>
 
 
 class player : public stuff
@@ -25,7 +26,7 @@ public:
     QChar getId() const;
     time_t getLastMagazineFull() const;
     time_t getLastJetpackUse() const;
-    QString encode();
+    QDataStream& encode(QDataStream&);
     void decode(QString);
   public slots:
     void startFall();
