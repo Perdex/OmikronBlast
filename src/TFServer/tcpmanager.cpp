@@ -76,6 +76,18 @@ void TCPManager::newClient(){
     //QObject::connect(socket, &QTcpSocket::channelReadyRead, this, receiveData);
     qDebug() << "ASDF client found!!1\n";
 
+    QByteArray msg;
+    QDataStream stream(&msg, QIODevice::WriteOnly);
+    stream.setVersion(QDataStream::Qt_5_9);
+
+    qint8 id = 1;
+    QString ver = "TFGAME-SERVER";
+
+    stream << ver << id;
+
+    socket->write(msg);
+    socket->flush();
+
     //QString s;
     //for(auto client: clients){
     //    s += client->peerName();

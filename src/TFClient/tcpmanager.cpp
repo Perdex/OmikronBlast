@@ -2,7 +2,7 @@
 #include <QTcpSocket>
 #include <QtDebug>
 
-TCPManager::TCPManager() : sock(), port(-1), data()
+TCPManager::TCPManager() : sock()
 {
     QObject::connect(&sock, &QTcpSocket::connected, this, &TCPManager::onConnected);
     QObject::connect(&sock, &QTcpSocket::disconnected, this, &TCPManager::onDisconnected);
@@ -42,10 +42,15 @@ void TCPManager::onPushUpdate() {
  */
 void TCPManager::onConnected() {
 
-    /*data->setDevice(&sock);
+    data = new QDataStream(&sock);
     data->setVersion(QDataStream::Qt_5_9);
 
     sock.write("TFGAME-CLIENT");
+
+    if(!sock.waitForReadyRead(3000)){
+        qDebug() << "Timeout";
+        return;
+    }
 
     QString msg;
     do{
@@ -53,22 +58,25 @@ void TCPManager::onConnected() {
         *data >> msg;
     }while(!data->commitTransaction());
 
+    qDebug() << msg;
+
     if(msg != "TFGAME-SERVER") {
         disconnect("Bad message from server.");
         return;
     }
 
-    char *id;
+    qint8 id;
     do{
         data->startTransaction();
         *data >> id;
     }while(!data->commitTransaction());
 
-    emit idReceived(*id);
+    //emit idReceived(id);
+    qDebug() << id;
 
     // TODO: Read map
 
-    emit mapReceived(/*map);*/
+    //emit mapReceived(map);
 
     emit connected();
 
