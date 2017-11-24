@@ -48,7 +48,7 @@ void TCPManager::onConnected() {
     sock.write("TFGAME-CLIENT");
 
     if(!sock.waitForReadyRead(3000)){
-        qDebug() << "Timeout";
+        emit error(sock.error());
         return;
     }
 
@@ -71,7 +71,7 @@ void TCPManager::onConnected() {
         *data >> id;
     }while(!data->commitTransaction());
 
-    //emit idReceived(id);
+    emit idReceived(id);
     qDebug() << id;
 
     // TODO: Read map
