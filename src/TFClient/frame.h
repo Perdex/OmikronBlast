@@ -2,6 +2,7 @@
 #define FRAME_H
 
 #include <QMainWindow>
+#include "canvas.h"
 
 namespace Ui {
 class Frame;
@@ -14,6 +15,7 @@ class Frame : public QMainWindow
 public:
     explicit Frame(QWidget *parent = 0);
     ~Frame();
+    const Canvas& getCanvas() const;
 public slots:
     void onConnected();
     void switchView();

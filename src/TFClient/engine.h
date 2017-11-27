@@ -7,15 +7,17 @@
 #include "canvas.h"
 #include "stuff.h"
 
-class Engine
+class Engine : public QObject
 {
+    Q_OBJECT
 public:
-    Engine(Canvas&, TCPManager&);
+    Engine(const Canvas&, TCPManager&);
     ~Engine();
+    void start();
 private:
     QMap<qint16, stuff*> items;
     TCPManager& tcp;
-    Canvas& canvas;
+    const Canvas& canvas;
 private slots:
     void readData(QDataStream*);
 };

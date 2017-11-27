@@ -26,6 +26,10 @@ Frame::Frame(QWidget *parent) :
     QObject::connect(ui->canvas, &Canvas::keysChanged, this, &Frame::dbg);
 }
 
+const Canvas& Frame::getCanvas() const {
+    return ui->canvas;
+}
+
 void Frame::onConnectClicked() {
     ui->status->setText("Trying to connect...");
     emit requestConnection(ui->s_addr->text(), ui->s_port->text().toInt());

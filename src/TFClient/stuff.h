@@ -22,5 +22,4 @@ private:
     double horizontalPos;
     double verticalPos;
 };
-
 #endif // STUFF_H
