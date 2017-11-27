@@ -30,7 +30,8 @@ SOURCES += \
     canvas.cpp \
     item.cpp \
     player.cpp \
-    stuff.cpp
+    stuff.cpp \
+    engine.cpp
 
 HEADERS += \
         frame.h \
@@ -38,7 +39,8 @@ HEADERS += \
     canvas.h \
     item.h \
     player.h \
-    stuff.h
+    stuff.h \
+    engine.h
 
 FORMS += \
         frame.ui
