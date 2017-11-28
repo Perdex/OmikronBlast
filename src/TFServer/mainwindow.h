@@ -12,6 +12,8 @@ class TCPManager;
 class QTimer;
 class QTcpSocket;
 class stuff;
+class Map;
+class QTime;
 
 class MainWindow : public QMainWindow
 {
@@ -30,6 +32,8 @@ private:
     Ui::MainWindow *ui;
     TCPManager *tcpmanager;
     QTimer *gameLoopTimer;
+    QTime *time;
+    Map *map;
     //joku tällanen tänne
     QVector<stuff*> objects;
 };

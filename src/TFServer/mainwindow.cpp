@@ -3,15 +3,19 @@
 #include "tcpmanager.h"
 #include "player.h"
 #include "stuff.h"
+#include "map.h"
 
 #include <QTimer>
+#include <QTime>
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     tcpmanager(nullptr),
-    gameLoopTimer(nullptr)
+    gameLoopTimer(nullptr),
+    time(nullptr),
+    map(nullptr)
 {
     ui->setupUi(this);
 
@@ -38,6 +42,14 @@ MainWindow::~MainWindow()
         delete tcpmanager;
         tcpmanager = nullptr;
     }
+    if(map){
+        delete map;
+        map = nullptr;
+    }
+    if(time){
+        delete time;
+        time = nullptr;
+    }
     for(stuff* s: objects){
         delete s;
     }
@@ -46,7 +58,13 @@ MainWindow::~MainWindow()
 
 void MainWindow::startGame(){
     qDebug() << "Starting game";
+
+    map = new Map();
+    map->send(tcpmanager);
+
     gameLoopTimer->start(FRAME_TIME);
+    time = new QTime();
+    time->start();
 }
 
 /*
@@ -70,16 +88,18 @@ void MainWindow::addPlayer(QDataStream *stream){
  */
 void MainWindow::executeTurn(){
 
-    qDebug() << "Doing a turn!";
 
-    //jotain tällasta tänne:
+    int dt = time->elapsed();
+    time->restart();
+    qDebug() << "Doing a turn! dt: " << dt;
+
 /*
     for(auto object: objects){
-        object->doturn(tcpmanager);
+        object->doturn();
     }
 */
     for(auto object: objects){
-        object->move(tcpmanager);
+        object->move(dt, tcpmanager);
     }
 
     tcpmanager->flush();

@@ -16,6 +16,10 @@ Map::Map()
     stream=str;
 }
 
+Map::~Map(){
+
+}
+
 QString Map::streaming(){
     return stream;
 }

@@ -33,7 +33,7 @@ public:
     void startFall();
     void stopFall();
     void jump();
-    void move(TCPManager *mgr);
+    void move(int dt, TCPManager *mgr);
     void shoot();
     void die();
 
