@@ -6,6 +6,8 @@
 #include <QGraphicsScene>
 
 #include "item.h"
+#include "stuff.h"
+#include "player.h"
 
 class Canvas : public QGraphicsView
 {

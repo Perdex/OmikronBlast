@@ -3,5 +3,6 @@
     <qresource prefix="/images">
         <file>Images/background.png</file>
         <file alias="Squarebox.png">Images/squarebox.png</file>
+        <file>Images/Marinestance.png</file>
     </qresource>
 </RCC>

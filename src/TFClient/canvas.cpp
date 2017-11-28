@@ -21,6 +21,15 @@ Canvas::Canvas(QWidget* p) :
     QGraphicsPixmapItem *item = new QGraphicsPixmapItem();
     item->setPixmap(pm);
     scene->addItem(item);
+
+
+    double x = 1000.0;
+    double y = 1000.0;
+    player *dude = new player("pertti",'f',x, y);
+    dude->setPos(dude->getHorizontalPos(),dude->getVerticalPos());
+    scene->addItem(dude);
+
+
     this->centerOn(centerX, centerY);
 
     scene->invalidate();

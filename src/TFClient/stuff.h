@@ -3,16 +3,17 @@
 #include <QString>
 
 #include <QObject>
+#include <QGraphicsItem>
 #include <QVector>
 
-class stuff: public QObject
+class stuff: public QGraphicsItem
 {
-    Q_OBJECT
+
 public:
     stuff(double &, double &);
     ~stuff();
     void decodeType(QString);
-    virtual void draw() = 0;
+//   virtual void draw() = 0;
     double getHorizontalPos();
     double getVerticalPos();
     void setHorizontalPos(double);

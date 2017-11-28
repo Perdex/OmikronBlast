@@ -57,3 +57,13 @@ QString player::encode()
 
 }
 
+void player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+    painter->setBrush(Qt::blue);
+    painter->drawPixmap(0,0,50,100,QPixmap(":/images/Images/Marinestance.png"));
+}
+QRectF player::boundingRect() const
+{
+    return QRectF(0,0,50,100);
+}
+
