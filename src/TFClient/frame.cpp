@@ -23,7 +23,7 @@ Frame::Frame(QWidget *parent) :
 
     QObject::connect(ui->quitButton, &QPushButton::clicked, this, &Frame::onQuit);
     QObject::connect(ui->commandLinkButton, &QCommandLinkButton::pressed, this, &Frame::onConnectClicked);
-    QObject::connect(ui->canvas, &Canvas::keysChanged, this, &Frame::dbg);
+    //QObject::connect(ui->canvas, &Canvas::statusChanged, this, &Frame::dbg);
 }
 
 Canvas& Frame::getCanvas() const {

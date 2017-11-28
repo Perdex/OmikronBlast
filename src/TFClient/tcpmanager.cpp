@@ -33,8 +33,16 @@ void TCPManager::onReadyRead() {
 /*
  * This method is for pushing updates to server
  */
-void TCPManager::onPushUpdate() {
+void TCPManager::onPushUpdate(const QMap<int, bool> &status, float ang, bool clicked) {
+    QByteArray block;
+    QDataStream tmp(&block, QIODevice::WriteOnly);
+    tmp.setVersion(QDataStream::Qt_5_9);
 
+    qDebug() << status << clicked << ang;
+    tmp << status << clicked << ang;
+
+    sock.write(block);
+    sock.flush();
 }
 
 /*
@@ -62,6 +70,8 @@ void TCPManager::onConnected() {
         disconnect("Bad message from server.");
         return;
     }
+
+    //TODO Lue tässä jo olemassa olevat pelaajat.
 
     qint8 id;
     do{

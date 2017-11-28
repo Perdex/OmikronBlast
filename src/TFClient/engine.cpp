@@ -18,6 +18,7 @@ Engine::~Engine() {
 
 void Engine::start() {
     QObject::connect(&tcp, &TCPManager::updateReceived, this, &Engine::readData);
+    QObject::connect(&canvas, &Canvas::statusChanged, &tcp, &TCPManager::onPushUpdate);
 }
 
 void Engine::setPlayer(qint16 id) {
