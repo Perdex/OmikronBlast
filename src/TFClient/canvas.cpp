@@ -22,21 +22,28 @@ Canvas::Canvas(QWidget* p) :
     item->setPixmap(pm);
     scene->addItem(item);
 
-
-    double x = 1000.0;
-    double y = 1000.0;
+// t.jaakko
+    double x = 2500.0;
+    double y = 2500.0;
     player *dude = new player("pertti",'f',x, y);
     dude->setPos(dude->getHorizontalPos(),dude->getVerticalPos());
     scene->addItem(dude);
+    this->centerOn(dude->getHorizontalPos(),dude->getVerticalPos());
 
 
-    this->centerOn(centerX, centerY);
+//    this->centerOn(centerX,centerY);
 
     scene->invalidate();
 }
 
 void Canvas::mouseMoveEvent(QMouseEvent *me) {
-    this->centerOn(centerX + (me->x() - this->width()/2)/2, centerY + (me->y() - this->height()/2)/2);
+    double x = 2500.0;
+    double y = 2500.0;
+    player *dude = new player("pertti",'f',x, y);
+    this->centerOn(dude->getHorizontalPos() + (me->x() - this->width()/2)/2, dude->getVerticalPos() + (me->y() - this->height()/2)/2);
+    // ^^varmaan pitää hakee jostain playerlistasta mut en osannu tehä tähän hätään muutenkaan
+
+//    this->centerOn(centerX + (me->x() - this->width()/2)/2, centerY + (me->y() - this->height()/2)/2);
 }
 
 void Canvas::keyPressEvent(QKeyEvent *ke)
