@@ -32,7 +32,7 @@ Canvas& Frame::getCanvas() const {
 
 void Frame::onConnectClicked() {
     ui->status->setText("Trying to connect...");
-    emit requestConnection(ui->s_addr->text(), ui->s_port->text().toInt());
+    emit requestConnection(ui->s_address->text(), ui->s_port->text().toInt());
 }
 
 void Frame::onConnected() {
