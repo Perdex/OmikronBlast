@@ -14,6 +14,8 @@ class Canvas : public QGraphicsView
     Q_OBJECT
 public:
     Canvas(QWidget* p = 0);
+    void setMyPlayer(player*);
+    void addPlayer(player*);
 signals:
     void keysChanged(const QMap<int, bool>&);
 protected:
@@ -23,10 +25,12 @@ protected:
     bool eventFilter(QObject *, QEvent *);
 
     QGraphicsScene* scene;
-    int centerX = 1500;
-    int centerY = 1500;
+    //int centerX = 1500;
+    //int centerY = 1500;
 
     QMap<int, bool> status;
+
+    player *my_player;
 };
 
 #endif // CANVAS_H

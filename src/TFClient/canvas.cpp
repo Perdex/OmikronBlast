@@ -1,10 +1,9 @@
 #include "canvas.h"
-
+#include "player.h"
 #include <QtDebug>
 
 Canvas::Canvas(QWidget* p) :
-    QGraphicsView(p),
-    status()
+    QGraphicsView(p), status()
 {
     viewport()->installEventFilter(this);
 
@@ -22,28 +21,11 @@ Canvas::Canvas(QWidget* p) :
     item->setPixmap(pm);
     scene->addItem(item);
 
-// t.jaakko
-    double x = 2500.0;
-    double y = 2500.0;
-    player *dude = new player("pertti",'f',x, y);
-    dude->setPos(dude->getHorizontalPos(),dude->getVerticalPos());
-    scene->addItem(dude);
-    this->centerOn(dude->getHorizontalPos(),dude->getVerticalPos());
-
-
-//    this->centerOn(centerX,centerY);
-
     scene->invalidate();
 }
 
 void Canvas::mouseMoveEvent(QMouseEvent *me) {
-    double x = 2500.0;
-    double y = 2500.0;
-    player *dude = new player("pertti",'f',x, y);
-    this->centerOn(dude->getHorizontalPos() + (me->x() - this->width()/2)/2, dude->getVerticalPos() + (me->y() - this->height()/2)/2);
-    // ^^varmaan pitää hakee jostain playerlistasta mut en osannu tehä tähän hätään muutenkaan
-
-//    this->centerOn(centerX + (me->x() - this->width()/2)/2, centerY + (me->y() - this->height()/2)/2);
+    this->centerOn(my_player->getHorizontalPos() + (me->x() - this->width()/2)/2, my_player->getVerticalPos() + (me->y() - this->height()/2)/2);
 }
 
 void Canvas::keyPressEvent(QKeyEvent *ke)
@@ -52,6 +34,15 @@ void Canvas::keyPressEvent(QKeyEvent *ke)
         status[ke->key()] = true;
         emit keysChanged(status);
     }
+}
+
+void Canvas::setMyPlayer(player* p) {
+    my_player = p;
+    this->centerOn(p->x(), p->y());
+}
+
+void Canvas::addPlayer(player *p) {
+    scene->addItem(p);
 }
 
 void Canvas::keyReleaseEvent(QKeyEvent *ke)

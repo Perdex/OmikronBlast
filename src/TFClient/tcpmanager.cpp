@@ -58,8 +58,6 @@ void TCPManager::onConnected() {
         *data >> msg;
     }while(!data->commitTransaction());
 
-    qDebug() << msg;
-
     if(msg != "TFGAME-SERVER") {
         disconnect("Bad message from server.");
         return;
@@ -72,7 +70,6 @@ void TCPManager::onConnected() {
     }while(!data->commitTransaction());
 
     emit idReceived(id);
-    qDebug() << id;
 
     // TODO: Read map
 

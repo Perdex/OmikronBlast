@@ -1,7 +1,8 @@
 #include "player.h"
 #include <QString>
+#include <QtDebug>
 
-player::player(QString name, QChar id, double& x, double& y): name(name), id(id), stuff(x,y)
+player::player(QString name, QChar id, double x, double y): name(name), id(id), stuff(x,y)
 {
     ammo = 0;
     fuel = 0;

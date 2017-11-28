@@ -9,7 +9,7 @@
 class player :public stuff
 {
 public:
-    player(QString, QChar, double&, double&);
+    player(QString, QChar, double, double);
     ~player();
     void decode(QString);
     void draw();

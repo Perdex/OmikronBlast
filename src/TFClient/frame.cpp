@@ -26,8 +26,8 @@ Frame::Frame(QWidget *parent) :
     QObject::connect(ui->canvas, &Canvas::keysChanged, this, &Frame::dbg);
 }
 
-const Canvas& Frame::getCanvas() const {
-    return ui->canvas;
+Canvas& Frame::getCanvas() const {
+    return *(ui->canvas);
 }
 
 void Frame::onConnectClicked() {

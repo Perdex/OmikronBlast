@@ -11,14 +11,16 @@ class Engine : public QObject
 {
     Q_OBJECT
 public:
-    Engine(const Canvas&, TCPManager&);
+    Engine(Canvas&, TCPManager&);
     ~Engine();
     void start();
 private:
     QMap<qint16, stuff*> items;
     TCPManager& tcp;
-    const Canvas& canvas;
+    Canvas& canvas;
+    qint16 my_id;
 private slots:
+    void setPlayer(qint16 id);
     void readData(QDataStream*);
 };
 

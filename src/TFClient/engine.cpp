@@ -4,8 +4,12 @@
 #include "stuff.h"
 #include "canvas.h"
 
-Engine::Engine(const Canvas& c, TCPManager& t) : items(), tcp(t), canvas(c)
+#include <QtDebug>
+
+Engine::Engine(Canvas& c, TCPManager& t) : items(), tcp(t), canvas(c)
 {
+    QObject::connect(&tcp, &TCPManager::idReceived,
+                     this, &Engine::setPlayer);
 }
 
 Engine::~Engine() {
@@ -16,6 +20,22 @@ void Engine::start() {
     QObject::connect(&tcp, &TCPManager::updateReceived, this, &Engine::readData);
 }
 
+void Engine::setPlayer(qint16 id) {
+    my_id = id;
+
+    //TODO jonnekkin muualle.
+    items[id] = new player("pertti", 'f', 2500, 2500);
+
+    player *p = static_cast<player*>(items[id]);
+
+    //TODO Jaakkooo!!!!!!
+    p->setPos(p->getHorizontalPos(), p->getVerticalPos());
+
+    canvas.setMyPlayer(p);
+    canvas.addPlayer(p);
+}
+
+
 void Engine::readData(QDataStream* data) {
     while(!data->atEnd()) {
         data->startTransaction();
@@ -23,7 +43,7 @@ void Engine::readData(QDataStream* data) {
         qint16 id;
         *data >> id;
 
-        //items[*id]->encode(data);
+        //items[id]->decode(data);
 
         if(!data->commitTransaction()) return;
     }

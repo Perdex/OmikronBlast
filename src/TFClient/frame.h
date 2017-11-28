@@ -15,7 +15,7 @@ class Frame : public QMainWindow
 public:
     explicit Frame(QWidget *parent = 0);
     ~Frame();
-    const Canvas& getCanvas() const;
+    Canvas& getCanvas() const;
 public slots:
     void onConnected();
     void switchView();
