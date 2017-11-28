@@ -14,7 +14,7 @@ public:
     void disconnect(const QString&);
 
 public slots:
-    void onPushUpdate(/*something here*/);
+    void onPushUpdate(const QMap<int, bool>& status, float ang, bool clicked);
     void onConnected();
     void onDisconnected();
 

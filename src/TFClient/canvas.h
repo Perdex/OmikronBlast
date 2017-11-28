@@ -9,6 +9,8 @@
 #include "stuff.h"
 #include "player.h"
 
+#define ANGLE 0
+
 class Canvas : public QGraphicsView
 {
     Q_OBJECT
@@ -17,11 +19,13 @@ public:
     void setMyPlayer(player*);
     void addPlayer(player*);
 signals:
-    void keysChanged(const QMap<int, bool>&);
+    void statusChanged(const QMap<int, bool>&, float ang, bool clicked);
 protected:
     void mouseMoveEvent(QMouseEvent*);
     void keyPressEvent(QKeyEvent*);
     void keyReleaseEvent(QKeyEvent*);
+    void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
     bool eventFilter(QObject *, QEvent *);
 
     QGraphicsScene* scene;
@@ -31,6 +35,8 @@ protected:
     QMap<int, bool> status;
 
     player *my_player;
+
+    bool mouseKey1Down;
 };
 
 #endif // CANVAS_H

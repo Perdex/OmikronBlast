@@ -3,8 +3,8 @@
 #include <QtDebug>
 
 Canvas::Canvas(QWidget* p) :
-    QGraphicsView(p), status()
-{
+    QGraphicsView(p), status(), mouseKey1Down(false)
+{   
     viewport()->installEventFilter(this);
 
     status[Qt::Key_W] = false;
@@ -24,18 +24,6 @@ Canvas::Canvas(QWidget* p) :
     scene->invalidate();
 }
 
-void Canvas::mouseMoveEvent(QMouseEvent *me) {
-    this->centerOn(my_player->getHorizontalPos() + (me->x() - this->width()/2)/2, my_player->getVerticalPos() + (me->y() - this->height()/2)/2);
-}
-
-void Canvas::keyPressEvent(QKeyEvent *ke)
-{
-    if(status.contains(ke->key()) && !status[ke->key()]) {
-        status[ke->key()] = true;
-        emit keysChanged(status);
-    }
-}
-
 void Canvas::setMyPlayer(player* p) {
     my_player = p;
     this->centerOn(p->x(), p->y());
@@ -45,11 +33,38 @@ void Canvas::addPlayer(player *p) {
     scene->addItem(p);
 }
 
+void Canvas::mouseMoveEvent(QMouseEvent *me) {
+    this->centerOn(my_player->getHorizontalPos() + (me->x() - this->width()/2)/2, my_player->getVerticalPos() + (me->y() - this->height()/2)/2);
+}
+
+void Canvas::mousePressEvent(QMouseEvent *me) {
+    if(!mouseKey1Down && me->button() == Qt::LeftButton) {
+        mouseKey1Down = true;
+        QPointF p = mapToScene(me->pos());
+        //qDebug() << p;
+        emit statusChanged(status, qAtan2(p.y() - my_player->y(), p.x() - my_player->x()), true);
+    }
+}
+
+void Canvas::mouseReleaseEvent(QMouseEvent *event) {
+    if(event->button() == Qt::LeftButton) {
+        mouseKey1Down = false;
+    }
+}
+
+void Canvas::keyPressEvent(QKeyEvent *ke)
+{
+    if(status.contains(ke->key()) && !status[ke->key()]) {
+        status[ke->key()] = true;
+        emit statusChanged(status, 0, false);
+    }
+}
+
 void Canvas::keyReleaseEvent(QKeyEvent *ke)
 {
     if(status.contains(ke->key()) && status[ke->key()]) {
         status[ke->key()] = false;
-        emit keysChanged(status);
+        emit statusChanged(status, 0, false);
     }
 }
 
