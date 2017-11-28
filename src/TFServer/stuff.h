@@ -4,17 +4,20 @@
 #include <QObject>
 #include <QVector>
 
+class TCPManager;
+
 class stuff: public QObject
 {
     Q_OBJECT
 public:
-    stuff(double &, double &, double, double);
+    stuff(double &, double &, double, double);//NIMEÄ NÄMÄ!!!
+    stuff(QDataStream *s){}//TODO implement this
     ~stuff();
     double getVerticalPos() const;
     double getHorizontalPos() const;
     double getVerticalSpeed() const;
     double getHorizontalSpeed() const;
-    virtual void move() = 0;
+    virtual void move(TCPManager* mgr) = 0;
     void changeVerticalSpeed(double);
     void changeHorizontalSpeed(double);
     void setVerticalSpeed(double);

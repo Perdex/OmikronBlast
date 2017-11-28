@@ -13,6 +13,7 @@ class player : public stuff
 {
 public:
     player(QString, QChar, double&, double&, bool, int, double,  double);
+    player(QDataStream *stream): stuff(stream){}//TODO
     ~player();
     bool getIsDead()const;
     int getWidth() const;
@@ -32,7 +33,7 @@ public:
     void startFall();
     void stopFall();
     void jump();
-    void move();
+    void move(TCPManager *mgr);
     void shoot();
     void die();
 

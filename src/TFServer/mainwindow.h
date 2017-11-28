@@ -10,6 +10,8 @@ namespace Ui {
 }
 class TCPManager;
 class QTimer;
+class QTcpSocket;
+class stuff;
 
 class MainWindow : public QMainWindow
 {
@@ -19,7 +21,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void setPlayersText(QString text);
-
+    void addPlayer(QDataStream *stream);
 public slots:
     void startGame();
     void executeTurn();
@@ -29,7 +31,7 @@ private:
     TCPManager *tcpmanager;
     QTimer *gameLoopTimer;
     //joku tällanen tänne
-    //QVector<GameObject*> objects;
+    QVector<stuff*> objects;
 };
 
 #endif // MAINWINDOW_H

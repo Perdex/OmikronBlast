@@ -12,7 +12,6 @@ TCPManager::TCPManager(MainWindow* mainWindow)
     : clients(),
       server(nullptr),
       port(2000),
-      data(),
       mainWindow(mainWindow)
 {
 
@@ -95,8 +94,9 @@ void TCPManager::newClient(){
     //}
     mainWindow->setPlayersText(QString("Number connected: %1").arg(clients.length()));
 
+    mainWindow->addPlayer(new QDataStream(socket));
 }
-
+/*
 QVector<QString> TCPManager::readData(){
     QVector<QString> receivedData;
     for(auto client: clients){
@@ -119,8 +119,16 @@ void TCPManager::sendData(){
     }
     data.clear();
 }
+*/
+void TCPManager::flush(){
+    for(QTcpSocket* client: clients)
+        client->flush();
+}
+TCPManager *TCPManager::operator<<(QString s){
+    for(QTcpSocket* client: clients){
+        client->write(s.toUtf8());
+    }
 
-void TCPManager::addData(QString s){
-    data += s;
+    return this;
 }
 

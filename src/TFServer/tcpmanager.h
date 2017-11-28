@@ -17,16 +17,14 @@ public:
     ~TCPManager();
     QString getAddress();
     QString getPort();
-    QVector<QString> readData();
-    void sendData();
-    void addData(QString data);
+    TCPManager *operator<<(QString s);
+    void flush();
 private slots:
     void newClient();
 private:
     QVector<QTcpSocket*> clients;
     QTcpServer *server;
     uint port;
-    QVector<QString> data;
     MainWindow* mainWindow;
 };
 

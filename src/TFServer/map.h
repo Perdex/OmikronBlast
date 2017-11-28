@@ -8,7 +8,8 @@
 #include <QMessageBox>
 #include <QNetworkInterface>
 #include <QString>
-#include "tcpmanager.h"
+
+class TCPManager;
 
 class Map
 {

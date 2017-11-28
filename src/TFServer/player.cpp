@@ -135,7 +135,7 @@ void player::jump()
     if(!isFalling)
         setVerticalSpeed(JUMPSTRENGTH);
 }
-void player::move()
+void player::move(TCPManager* mgr)
 {
     if(jetpackStatus)
         setVerticalSpeed(JETPACKPOWER);

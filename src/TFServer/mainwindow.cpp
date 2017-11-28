@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "tcpmanager.h"
+#include "player.h"
+#include "stuff.h"
 
 #include <QTimer>
 #include <QDebug>
@@ -36,6 +38,10 @@ MainWindow::~MainWindow()
         delete tcpmanager;
         tcpmanager = nullptr;
     }
+    for(stuff* s: objects){
+        delete s;
+    }
+    objects.clear();
 }
 
 void MainWindow::startGame(){
@@ -52,22 +58,30 @@ void MainWindow::setPlayersText(QString text){
 }
 
 /*
+ * Adds a player to the game once connected
+ * sock: the tcp socket for receiving data
+ */
+void MainWindow::addPlayer(QDataStream *stream){
+    objects += new player(stream);
+}
+
+/*
  * Main loop content, called once every FRAME_TIME ms
  */
 void MainWindow::executeTurn(){
 
     qDebug() << "Doing a turn!";
-    tcpmanager->readData();
 
     //jotain tällasta tänne:
-    /*
+/*
     for(auto object: objects){
         object->doturn(tcpmanager);
     }
+*/
     for(auto object: objects){
         object->move(tcpmanager);
     }
-    */
-    tcpmanager->sendData();
+
+    tcpmanager->flush();
 }
 

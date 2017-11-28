@@ -1,4 +1,5 @@
 #include "map.h"
+#include "tcpmanager.h"
 #include <QString>
 
 
@@ -20,7 +21,7 @@ QString Map::streaming(){
 }
 
 void Map::send(TCPManager* manager){
-    manager->addData(stream);
+    *manager << stream;
 }
 
 bool Map::isWall(int x, int y){
