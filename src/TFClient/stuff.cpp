@@ -3,7 +3,7 @@
 
 stuff::stuff(double& x, double& y): horizontalPos(x), verticalPos(y)
 {
-
+    setPos(horizontalPos, verticalPos);
 }
 
 void stuff::decodeType(QString i)
@@ -30,9 +30,11 @@ double stuff::getVerticalPos()
 void stuff::setHorizontalPos(double nw)
 {
     horizontalPos = nw;
+    setPos(nw, verticalPos);
 }
 
 void stuff::setVerticalPos(double nw)
 {
     verticalPos = nw;
+    setPos(horizontalPos, nw);
 }

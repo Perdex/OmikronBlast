@@ -29,7 +29,8 @@ void Engine::setPlayer(qint16 id) {
     player *p = static_cast<player*>(items[id]);
 
     //TODO Jaakkooo!!!!!!
-    p->setPos(p->getHorizontalPos(), p->getVerticalPos());
+    //p->setPos(p->getHorizontalPos(), p->getVerticalPos());
+    //DONED
 
     canvas.setMyPlayer(p);
     canvas.addPlayer(p);
