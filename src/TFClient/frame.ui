@@ -33,7 +33,7 @@
     <item row="0" column="0">
      <widget class="QStackedWidget" name="views">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="main">
        <layout class="QGridLayout" name="gridLayout_2">
@@ -105,7 +105,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QLineEdit" name="s_addr"/>
+           <widget class="QLineEdit" name="s_address"/>
           </item>
           <item>
            <widget class="QLabel" name="label_2">
