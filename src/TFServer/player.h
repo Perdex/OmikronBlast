@@ -12,7 +12,8 @@
 class player : public stuff
 {
 public:
-    player(QString, QChar, double&, double&, bool, int, double,  double);
+    player(QString name, QChar id, double& x, double& y, bool dead, int ammoMax, double fuelMax,
+           double angle);
     player(QDataStream *stream): stuff(stream){}//TODO
     ~player();
     bool getIsDead()const;

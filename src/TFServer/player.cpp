@@ -79,9 +79,9 @@ QDataStream& player::encode(QDataStream& stre)
 {
     QChar type = '0';
     QChar fuel = ((int)(getFuelLeft() + 0.5)) + '0';
-    stre << type << getIsDead() << getHorizontalPos() << getVerticalPos() << getAmmoLeft() << fuel << getId();
+    stre  << getId() << type << getIsDead() << getHorizontalPos() << getVerticalPos() << getAmmoLeft() << fuel;
 
-    //only if sata is wanted as a string
+    //only if data is wanted as a string
     //QString str = stre.readAll();
     return stre;
 }

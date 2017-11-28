@@ -16,7 +16,7 @@ player::~player(){}
 //     << " " << getVerticalPos() << " " << getAmmoLeft() << " " << fuel << " " << getId()
 void player::decode(QString str)
 {
-    int i = 2;
+/*    int i = 2;
     QString tester = "";
     int s = str.size();
 
@@ -46,6 +46,7 @@ void player::decode(QString str)
     i++;
     i++;
     fuel = str[i];
+*/
 }
 
 void player::draw()
