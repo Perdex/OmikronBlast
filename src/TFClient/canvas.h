@@ -18,6 +18,8 @@ public:
     Canvas(QWidget* p = 0);
     void setMyPlayer(player*);
     void addPlayer(player*);
+    void addItem(Item*, int, int);
+
 signals:
     void statusChanged(const QMap<int, bool>&, float ang, bool clicked);
 protected:

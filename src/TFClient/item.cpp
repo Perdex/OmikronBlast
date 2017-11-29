@@ -4,7 +4,9 @@
 #include <QDataStream>
 #include "canvas.h"
 
-Item::Item(){}
+Item::Item(){
+
+}
 
 Item::~Item(){}
 
@@ -22,7 +24,7 @@ void Item::read(TCPManager *manager){
      */
 }
 
-void Item::draw(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void Item::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     painter->setBrush(Qt::black);
     painter->drawPixmap(0,0,100,100,QPixmap(":/images/Images/square.png"));

@@ -1,5 +1,6 @@
 #include "canvas.h"
 #include "player.h"
+#include "item.h"
 #include <QtDebug>
 
 Canvas::Canvas(QWidget* p) :
@@ -32,6 +33,12 @@ void Canvas::setMyPlayer(player* p) {
 void Canvas::addPlayer(player *p) {
     scene->addItem(p);
 }
+
+void Canvas::addItem(Item* item, int x, int y) {
+    scene->addItem(item);
+    item->setPos(x, y);
+}
+
 
 void Canvas::mouseMoveEvent(QMouseEvent *me) {
     this->centerOn(my_player->getHorizontalPos() + (me->x() - this->width()/2)/2, my_player->getVerticalPos() + (me->y() - this->height()/2)/2);

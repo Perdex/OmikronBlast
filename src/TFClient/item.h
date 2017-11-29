@@ -12,7 +12,7 @@ public:
     Item();
     ~Item();
     void read(TCPManager *manager);
-    void draw(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QRectF boundingRect() const;
 
 private:
