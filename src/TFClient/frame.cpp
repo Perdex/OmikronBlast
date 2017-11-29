@@ -17,7 +17,7 @@ Frame::Frame(QWidget *parent) :
     ui(new Ui::Frame)
 {
     ui->setupUi(this);
-    this->setWindowState(Qt::WindowFullScreen);
+    //this->setWindowState(Qt::WindowFullScreen);
 
     ui->views->setCurrentIndex(0);
 
