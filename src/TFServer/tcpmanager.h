@@ -8,6 +8,7 @@ class QTcpServer;
 class QTcpSocket;
 class QHostAddress;
 class MainWindow;
+class stuff;
 
 class TCPManager: public QObject
 {
@@ -17,7 +18,8 @@ public:
     ~TCPManager();
     QString getAddress();
     QString getPort();
-    TCPManager *operator<<(stuff s);
+    TCPManager *operator<<(stuff*);
+    TCPManager *operator<<(QString);
     void flush();
 private slots:
     void newClient();

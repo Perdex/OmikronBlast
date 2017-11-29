@@ -8,6 +8,8 @@
 #include <QMessageBox>
 #include <QNetworkInterface>
 
+#include "stuff.h"
+
 TCPManager::TCPManager(MainWindow* mainWindow)
     : clients(),
       server(nullptr),
@@ -124,11 +126,20 @@ void TCPManager::flush(){
     for(QTcpSocket* client: clients)
         client->flush();
 }
-TCPManager *TCPManager::operator<<(stuff s){
+
+TCPManager *TCPManager::operator<<(QString s){
+    for(QTcpSocket* client: clients){
+        client->write(s.toUtf8());
+    }
+
+    return this;
+}
+
+TCPManager *TCPManager::operator<<(stuff *s){
     QByteArray block;
     QDataStream stream(&block, QIODevice::WriteOnly);
     stream.setVersion(QDataStream::Qt_5_9);
-    stream << s;
+    //stream << *s;
 
     for(QTcpSocket* client: clients){
         client->write(block);
