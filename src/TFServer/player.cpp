@@ -27,6 +27,15 @@ player::player(QString name, QChar id, double& x, double& y, bool dead = 0, int 
     goingRight = 0;
 }
 player::~player(){}
+
+QDataStream& player::operator<<(QDataStream& stream)
+{
+    QChar type = '0';
+    QChar fuel = ((int)(getFuelLeft() + 0.5)) + '0';
+    stream << getId() << type << getIsDead() << getHorizontalPos() << getVerticalPos() << getAmmoLeft() << fuel;
+    return stream;
+}
+
 bool player::getIsDead() const
 {
     return isDead;
@@ -67,24 +76,15 @@ QChar player::getId() const
 {
     return id;
 }
-time_t player::getLastMagazineFull() const
+int player::getLastMagazineFull() const
 {
     return lastMagazineFull;
 }
-time_t player::getLastJetpackUse() const
+int player::getLastJetpackUse() const
 {
     return lastJetpackUse;
 }
-QDataStream& player::encode(QDataStream& stre)
-{
-    QChar type = '0';
-    QChar fuel = ((int)(getFuelLeft() + 0.5)) + '0';
-    stre  << getId() << type << getIsDead() << getHorizontalPos() << getVerticalPos() << getAmmoLeft() << fuel;
 
-    //only if data is wanted as a string
-    //QString str = stre.readAll();
-    return stre;
-}
 void player::decode(QString str)
 {
     if(str[0] == str[1])

@@ -17,6 +17,8 @@ void stuff::decodeType(QString i)
 
 stuff::~stuff(){}
 
+
+
 double stuff::getHorizontalPos()
 {
     return horizontalPos;

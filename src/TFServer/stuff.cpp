@@ -3,6 +3,8 @@
 stuff::stuff(double& x, double& y, double dx = 0 , double dy = 0) : horizontalPos(x), verticalPos(y),
              horizontalSpeed(dx), verticalSpeed(dy){}
 stuff::~stuff(){}
+
+
 double stuff::getVerticalPos() const
 {
     return verticalPos;

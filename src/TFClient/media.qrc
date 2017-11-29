@@ -4,6 +4,5 @@
         <file>Images/background.png</file>
         <file alias="Squarebox.png">Images/squarebox.png</file>
         <file>Images/Marinestance.png</file>
-        <file>Images/square.png</file>
     </qresource>
 </RCC>

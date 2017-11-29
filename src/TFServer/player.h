@@ -16,6 +16,8 @@ public:
            double angle);
     player(QDataStream *stream): stuff(stream){}//TODO
     ~player();
+    QDataStream& operator<<(QDataStream& stream);
+
     bool getIsDead()const;
     int getWidth() const;
     int getHeight() const;
@@ -26,9 +28,8 @@ public:
     double getFuelMax() const;
     QString getName() const;
     QChar getId() const;
-    time_t getLastMagazineFull() const;
-    time_t getLastJetpackUse() const;
-    QDataStream& encode(QDataStream&);
+    int getLastMagazineFull() const;
+    int getLastJetpackUse() const;
     void decode(QString);
   public slots:
     void startFall();

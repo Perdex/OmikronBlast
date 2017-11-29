@@ -10,9 +10,10 @@ class stuff: public QObject
 {
     Q_OBJECT
 public:
-    stuff(double &, double &, double, double);//NIMEÄ NÄMÄ!!!
+    stuff(double & x, double & y , double dx, double dy);
     stuff(QDataStream *s){}//TODO implement this
     ~stuff();
+    virtual QDataStream& operator<<(QDataStream& stream) = 0;
     double getVerticalPos() const;
     double getHorizontalPos() const;
     double getVerticalSpeed() const;
