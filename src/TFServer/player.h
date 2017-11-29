@@ -12,7 +12,7 @@
 class player : public stuff
 {
 public:
-    player(QString name, QChar id, double& x, double& y, bool dead, int ammoMax, double fuelMax,
+    player(QString name, qint16 id, double& x, double& y, bool dead, int ammoMax, double fuelMax,
            double angle);
     player(QDataStream *stream): stuff(stream){}//TODO
     ~player();
@@ -27,7 +27,6 @@ public:
     double getFuelLeft() const;
     double getFuelMax() const;
     QString getName() const;
-    QChar getId() const;
     int getLastMagazineFull() const;
     int getLastJetpackUse() const;
     void decode(QString);
@@ -41,7 +40,6 @@ public:
 
 private:
     QString name;
-    QChar id;
     bool isDead;
     int width;
     int height;

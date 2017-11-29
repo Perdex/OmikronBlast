@@ -1,9 +1,13 @@
 #include "stuff.h"
 
-stuff::stuff(double& x, double& y, double dx = 0 , double dy = 0) : horizontalPos(x), verticalPos(y),
+stuff::stuff(qint16 id, double& x, double& y, double dx = 0 , double dy = 0) : id(id), horizontalPos(x), verticalPos(y),
              horizontalSpeed(dx), verticalSpeed(dy){}
 stuff::~stuff(){}
 
+qint16 stuff::getId() const
+{
+    return id;
+}
 
 double stuff::getVerticalPos() const
 {

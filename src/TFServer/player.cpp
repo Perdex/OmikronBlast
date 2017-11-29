@@ -11,9 +11,9 @@
 #define JUMPSTRENGTH 30.0
 #define FUELCONSUMPTION 5.0
 
-player::player(QString name, QChar id, double& x, double& y, bool dead = 0, int ammoMax = AMMOMAX, double fuelMax = JETFUELMAX,
+player::player(QString name, qint16 id, double& x, double& y, bool dead = 0, int ammoMax = AMMOMAX, double fuelMax = JETFUELMAX,
                double angle = 0) :
-    stuff(x,y,0,0), name(name), id(id), isDead(dead), ammoMax(ammoMax), fuelMax(fuelMax), weaponAngle(angle)
+    stuff(id, x,y,0,0), name(name),  isDead(dead), ammoMax(ammoMax), fuelMax(fuelMax), weaponAngle(angle)
 {
     width = PLAYERWIDTH;
     height = PLAYERHEIGHT;
@@ -72,10 +72,7 @@ QString player::getName() const
 {
     return name;
 }
-QChar player::getId() const
-{
-    return id;
-}
+
 int player::getLastMagazineFull() const
 {
     return lastMagazineFull;

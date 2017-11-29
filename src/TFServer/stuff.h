@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include <QVector>
+#include <QString>
+#include <QtGlobal>
 
 class TCPManager;
 
@@ -10,10 +12,11 @@ class stuff: public QObject
 {
     Q_OBJECT
 public:
-    stuff(double & x, double & y , double dx, double dy);
+    stuff(qint16 id, double & x, double & y , double dx, double dy);
     stuff(QDataStream *s){}//TODO implement this
     ~stuff();
     virtual QDataStream& operator<<(QDataStream& stream) = 0;
+    qint16 getId() const;
     double getVerticalPos() const;
     double getHorizontalPos() const;
     double getVerticalSpeed() const;
@@ -27,6 +30,7 @@ public:
     void changeHorizontalPos(double);
 
 private:
+    qint16 id;
     double horizontalPos;
     double verticalPos;
     double horizontalSpeed;
