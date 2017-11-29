@@ -79,7 +79,7 @@ void TCPManager::newClient(){
     QDataStream stream(&msg, QIODevice::WriteOnly);
     stream.setVersion(QDataStream::Qt_5_9);
 
-    qint8 id = 1;
+    qint16 id = clients.size();
     QString ver = "TFGAME-SERVER";
 
     stream << ver << id;
@@ -124,9 +124,14 @@ void TCPManager::flush(){
     for(QTcpSocket* client: clients)
         client->flush();
 }
-TCPManager *TCPManager::operator<<(QString s){
+TCPManager *TCPManager::operator<<(stuff s){
+    QByteArray block;
+    QDataStream stream(&block, QIODevice::WriteOnly);
+    stream.setVersion(QDataStream::Qt_5_9);
+    stream << s;
+
     for(QTcpSocket* client: clients){
-        client->write(s.toUtf8());
+        client->write(block);
     }
 
     return this;
