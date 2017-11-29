@@ -33,7 +33,7 @@ signals:
     void idReceived(qint8);
     void disconnected(const QString&);
     void connected();
-    void error(QAbstractSocket::SocketError);
+    void error(QString);
 };
 
 #endif // TCPMANAGER_H

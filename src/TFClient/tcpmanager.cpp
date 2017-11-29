@@ -56,7 +56,7 @@ void TCPManager::onConnected() {
     sock.write("TFGAME-CLIENT");
 
     if(!sock.waitForReadyRead(3000)){
-        emit error(sock.error());
+        emit error(sock.errorString());
         return;
     }
 
@@ -97,7 +97,7 @@ void TCPManager::onDisconnected() {
 
 }
 
-void TCPManager::onError(QAbstractSocket::SocketError err) {
-    qDebug() << err;
-    emit error(err);
+void TCPManager::onError(QAbstractSocket::SocketError) {
+    //qDebug() << err;
+    emit error(sock.errorString());
 }

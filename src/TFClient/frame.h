@@ -19,6 +19,7 @@ public:
 public slots:
     void onConnected();
     void switchView();
+    void setStatus(QString);
 private slots:
     void onQuit();
     void dbg(const QMap<int, bool>&);
