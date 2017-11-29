@@ -33,7 +33,7 @@ void Engine::setPlayer(qint16 id) {
     //p->setPos(p->getHorizontalPos(), p->getVerticalPos());
     //DONED
     Item* item= new Item();
-    canvas.addItem(item, 1000, 1000);
+    canvas.addItem(item, 2600, 2600);
 
     canvas.setMyPlayer(p);
     canvas.addPlayer(p);
