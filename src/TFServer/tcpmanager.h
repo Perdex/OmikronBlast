@@ -17,7 +17,7 @@ public:
     ~TCPManager();
     QString getAddress();
     QString getPort();
-    TCPManager *operator<<(QString s);
+    TCPManager *operator<<(stuff s);
     void flush();
 private slots:
     void newClient();
