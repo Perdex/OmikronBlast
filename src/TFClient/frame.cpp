@@ -36,10 +36,14 @@ void Frame::onConnectClicked() {
 }
 
 void Frame::onConnected() {
-    ui->status->setText("Connected.");
+    setStatus("Connected.");
 
     QCursor::setPos(mapToGlobal(QPoint(width()/2, height()/2)));
     ui->views->setCurrentIndex(1);
+}
+
+void Frame::setStatus(QString s) {
+    ui->status->setText(s);
 }
 
 void Frame::onQuit() {
