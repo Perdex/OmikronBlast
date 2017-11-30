@@ -17,8 +17,8 @@ TCPManager::TCPManager(MainWindow* mainWindow)
       mainWindow(mainWindow)
 {
 
-    server = new QTcpServer();
-    if (!server->listen()) {
+    server = new QTcpServer(this);
+    if (!server->listen(QHostAddress::Any, port)) {
         QMessageBox::critical(NULL, QString("TFServer"),
                               QString("Unable to start the server: %1.")
                               .arg(server->errorString()));
