@@ -1,5 +1,6 @@
 #include "stuff.h"
 #include <QDataStream>
+#include <QtDebug>
 
 stuff::stuff(qint16 id, double& x, double& y, double dx = 0 , double dy = 0) : id(id), horizontalPos(x), verticalPos(y),
              horizontalSpeed(dx), verticalSpeed(dy){}
@@ -9,6 +10,7 @@ stuff::stuff(qint16 id, QDataStream *s) : id(id), stream(s) {
     verticalPos = 2500;
     horizontalSpeed = 0;
     verticalSpeed = 0;
+    qDebug() << "My dev is" << stream->device();
 }
 
 stuff::~stuff(){}

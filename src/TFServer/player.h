@@ -54,7 +54,6 @@ private:
     bool isFalling;
     bool goingLeft;
     bool goingRight;
-    QDataStream *stream;
 };
 
 #endif // PLAYER_H
