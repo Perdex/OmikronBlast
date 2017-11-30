@@ -25,7 +25,7 @@ QString Map::streaming(){
 }
 
 void Map::send(TCPManager* manager){
-    *manager << stream;
+    *manager << &stream;
 }
 
 bool Map::isWall(int x, int y){

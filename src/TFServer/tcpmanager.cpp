@@ -127,12 +127,12 @@ void TCPManager::flush(){
         client->flush();
 }
 
-TCPManager *TCPManager::operator<<(QString s){
+TCPManager &TCPManager::operator<<(QString* s){
     for(QTcpSocket* client: clients){
-        client->write(s.toUtf8());
+        client->write(s->toUtf8());
     }
 
-    return this;
+    return *this;
 }
 
 TCPManager &TCPManager::operator<<(stuff *s){
