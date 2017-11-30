@@ -1,5 +1,6 @@
 #include "player.h"
 #include "stuff.h"
+#include "tcpmanager.h"
 #define AMMOMAX 5
 #define JETFUELMAX 100.0
 #define PLAYERWIDTH 20
@@ -132,7 +133,7 @@ void player::jump()
     if(!isFalling)
         setVerticalSpeed(JUMPSTRENGTH);
 }
-void player::move(int dt, TCPManager* mgr)
+void player::move(int dt, TCPManager &mgr)
 {
     if(jetpackStatus)
         setVerticalSpeed(JETPACKPOWER);
@@ -148,6 +149,8 @@ void player::move(int dt, TCPManager* mgr)
 
     changeVerticalPos(getVerticalSpeed());
     changeHorizontalPos(getHorizontalSpeed());
+
+    mgr << (stuff*)this;
 }
 
 void player::shoot()

@@ -135,16 +135,15 @@ TCPManager *TCPManager::operator<<(QString s){
     return this;
 }
 
-TCPManager *TCPManager::operator<<(stuff *s){
+TCPManager &TCPManager::operator<<(stuff *s){
     QByteArray block;
     QDataStream stream(&block, QIODevice::WriteOnly);
     stream.setVersion(QDataStream::Qt_5_9);
-    //stream << *s;
+    stream << *s;
 
     for(QTcpSocket* client: clients){
         client->write(block);
     }
 
-    return this;
+    return *this;
 }
-

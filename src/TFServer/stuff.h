@@ -28,7 +28,7 @@ public:
     void setHorizontalSpeed(double);
     void changeVerticalPos(double);
     void changeHorizontalPos(double);
-
+    friend QDataStream& operator<<(QDataStream& stream, const stuff &s);
 private:
     qint16 id;
     double horizontalPos;
@@ -36,7 +36,5 @@ private:
     double horizontalSpeed;
     double verticalSpeed;
 };
-
-QDataStream& operator<<(QDataStream& stream, stuff *s);
 
 #endif // STUFF_H
