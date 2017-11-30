@@ -21,6 +21,7 @@ public:
     double getHorizontalPos() const;
     double getVerticalSpeed() const;
     double getHorizontalSpeed() const;
+    virtual void doStep(int dt) = 0;
     virtual void move(int dt, TCPManager* mgr) = 0;
     void changeVerticalSpeed(double);
     void changeHorizontalSpeed(double);

@@ -30,10 +30,10 @@ public:
     int getLastMagazineFull() const;
     int getLastJetpackUse() const;
     void decode(QString);
-public slots:
     void startFall();
     void stopFall();
     void jump();
+    void doStep(int dt);
     void move(int dt, TCPManager &mgr);
     void shoot();
     void die();

@@ -5,11 +5,11 @@
 #define JETFUELMAX 100.0
 #define PLAYERWIDTH 20
 #define PLAYERHEIGHT 40
-#define GRAVITY 10.0
-#define JETPACKPOWER 20.0
-#define TERMINALSPEED 100.0
-#define HORIZONTALMOVEMENT 20.0
-#define JUMPSTRENGTH 30.0
+#define GRAVITY 0.1
+#define JETPACKPOWER 0.2
+#define TERMINALSPEED 10.0
+#define HORIZONTALMOVEMENT 2.0
+#define JUMPSTRENGTH 3.0
 #define FUELCONSUMPTION 5.0
 
 player::player(QString name, qint16 id, double& x, double& y, bool dead = 0, int ammoMax = AMMOMAX, double fuelMax = JETFUELMAX,
@@ -133,12 +133,12 @@ void player::jump()
     if(!isFalling)
         setVerticalSpeed(JUMPSTRENGTH);
 }
-void player::move(int dt, TCPManager &mgr)
+void player::doStep(int dt)
 {
     if(jetpackStatus)
-        setVerticalSpeed(JETPACKPOWER);
+        changeVerticalSpeed(JETPACKPOWER * dt);
     else if(isFalling)
-        changeVerticalSpeed(-GRAVITY);
+        changeVerticalSpeed(-GRAVITY * dt);
 
     if(goingRight && !goingLeft)
         setHorizontalSpeed(HORIZONTALMOVEMENT);
@@ -146,9 +146,11 @@ void player::move(int dt, TCPManager &mgr)
         setHorizontalSpeed(-HORIZONTALMOVEMENT);
     else
         setHorizontalSpeed(0);
-
-    changeVerticalPos(getVerticalSpeed());
-    changeHorizontalPos(getHorizontalSpeed());
+}
+void player::move(int dt, TCPManager &mgr)
+{
+    changeVerticalPos(getVerticalSpeed() * dt);
+    changeHorizontalPos(getHorizontalSpeed() * dt);
 
     mgr << (stuff*)this;
 }
