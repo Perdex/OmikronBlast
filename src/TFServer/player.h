@@ -14,7 +14,7 @@ class player : public stuff
 public:
     player(QString name, qint16 id, double& x, double& y, bool dead, int ammoMax, double fuelMax,
            double angle);
-    player(QDataStream *stream): stuff(stream){}//TODO
+    player(qint16 id, QDataStream *stream): stuff(id, stream){}//TODO
     ~player();
     QDataStream& operator<<(QDataStream& stream);
 

@@ -13,7 +13,7 @@ class stuff: public QObject
     Q_OBJECT
 public:
     stuff(qint16 id, double & x, double & y , double dx, double dy);
-    stuff(QDataStream *s){}//TODO implement this
+    stuff(qint16 id, QDataStream *s){}//TODO implement this
     ~stuff();
     virtual QDataStream& operator<<(QDataStream& stream) = 0;
     qint16 getId() const;
@@ -36,6 +36,8 @@ private:
     double verticalPos;
     double horizontalSpeed;
     double verticalSpeed;
+protected:
+    QDataStream *stream;
 };
 
 #endif // STUFF_H
