@@ -49,3 +49,11 @@ void stuff::changeVerticalPos(double change)
 {
     verticalPos += change;
 }
+
+QDataStream& operator<<(QDataStream& stream, stuff *s)
+{
+    stream << s->getId()
+           << s->getHorizontalPos() << s->getVerticalPos();
+    //TODO player(+projectile)-spesifiä juttua
+    return stream;
+}

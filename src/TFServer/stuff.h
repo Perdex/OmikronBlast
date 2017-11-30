@@ -37,4 +37,6 @@ private:
     double verticalSpeed;
 };
 
+QDataStream& operator<<(QDataStream& stream, stuff *s);
+
 #endif // STUFF_H
