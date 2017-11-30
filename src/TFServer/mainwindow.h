@@ -23,7 +23,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void setPlayersText(QString text);
-    void addPlayer(QDataStream *stream);
+    void addPlayer(qint16 id, QDataStream *stream);
 public slots:
     void startGame();
     void executeTurn();

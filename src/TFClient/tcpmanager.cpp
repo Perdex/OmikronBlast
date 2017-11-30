@@ -27,6 +27,7 @@ void TCPManager::disconnect(const QString &reason) {
  * This method is for pulling updates
  */
 void TCPManager::onReadyRead() {
+    qDebug() << "RECV";
     emit updateReceived(data);
 }
 

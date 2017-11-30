@@ -59,8 +59,8 @@ MainWindow::~MainWindow()
 void MainWindow::startGame(){
     qDebug() << "Starting game";
 
-    map = new Map();
-    map->send(tcpmanager);
+    //map = new Map();
+    //map->send(tcpmanager);
 
     gameLoopTimer->start(FRAME_TIME);
     time = new QTime();
@@ -79,8 +79,8 @@ void MainWindow::setPlayersText(QString text){
  * Adds a player to the game once connected
  * sock: the tcp socket for receiving data
  */
-void MainWindow::addPlayer(QDataStream *stream){
-    //objects += new player(stream);
+void MainWindow::addPlayer(qint16 id, QDataStream *stream){
+    objects += new player(id, stream);
 }
 
 /*
@@ -94,11 +94,12 @@ void MainWindow::executeTurn(){
     qDebug() << "Doing a turn! dt: " << dt;
 
 
-    for(auto object: objects)
+    for(auto object: objects) {
         object->doStep(dt);
+    }
 
     for(auto object: objects)
-        object->move(dt, tcpmanager);
+        object->move(dt, *tcpmanager);
 
 
     tcpmanager->flush();

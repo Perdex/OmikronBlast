@@ -9,6 +9,7 @@ player::player(QString name, QChar id, double x, double y): name(name), id(id), 
     isMe = false;
     mouseClicked = 0;
     isDead = 0;
+    angle = 0.0;
 }
 player::~player(){}
 

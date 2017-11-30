@@ -14,9 +14,9 @@ class player : public stuff
 public:
     player(QString name, qint16 id, double& x, double& y, bool dead, int ammoMax, double fuelMax,
            double angle);
-    player(qint16 id, QDataStream *stream): stuff(id, stream){}//TODO
+    player(qint16 id, QDataStream *stream);
     ~player();
-    QDataStream& operator<<(QDataStream& stream);
+    //QDataStream& operator<<(QDataStream& stream);
 
     bool getIsDead()const;
     int getWidth() const;
@@ -35,7 +35,7 @@ public:
     void jump();
     void doStep(int dt);
     void move(int dt, TCPManager &mgr);
-    void shoot();
+    void shoot(double angle);
     void die();
 
 private:
@@ -54,6 +54,7 @@ private:
     bool isFalling;
     bool goingLeft;
     bool goingRight;
+    QDataStream *stream;
 };
 
 #endif // PLAYER_H

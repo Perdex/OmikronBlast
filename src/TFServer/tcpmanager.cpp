@@ -96,7 +96,7 @@ void TCPManager::newClient(){
     //}
     mainWindow->setPlayersText(QString("Number connected: %1").arg(clients.length()));
 
-    mainWindow->addPlayer(new QDataStream(socket));
+    mainWindow->addPlayer(id, &stream);
 }
 /*
 QVector<QString> TCPManager::readData(){

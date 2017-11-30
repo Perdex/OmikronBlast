@@ -9,7 +9,7 @@
 class player :public stuff
 {
 public:
-    player(QString, QChar, double, double);
+    player(QString name, QChar id, double x, double y);
     ~player();
     void decode(QString);
     void draw();
@@ -23,6 +23,7 @@ private:
     QString name;
     QChar id;
     bool isDead;
+    double angle;
     QChar ammo;
     QChar fuel;
     bool isMe;

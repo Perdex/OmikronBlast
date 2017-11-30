@@ -1,6 +1,9 @@
 #include "player.h"
 #include "stuff.h"
 #include "tcpmanager.h"
+#include <QDataStream>
+#include <QMap>
+#include <QtDebug>
 #define AMMOMAX 5
 #define JETFUELMAX 100.0
 #define PLAYERWIDTH 20
@@ -27,15 +30,21 @@ player::player(QString name, qint16 id, double& x, double& y, bool dead = 0, int
     goingLeft = 0;
     goingRight = 0;
 }
+
+player::player(qint16 id, QDataStream *stream) : stuff(id, stream) {
+    setVerticalPos(2500);
+    setHorizontalPos(2500);
+}
+
 player::~player(){}
 
-QDataStream& player::operator<<(QDataStream& stream)
-{
-    QChar type = '0';
-    QChar fuel = ((int)(getFuelLeft() + 0.5)) + '0';
-    stream << getId() << type << getIsDead() << getHorizontalPos() << getVerticalPos() << getAmmoLeft() << fuel;
-    return stream;
-}
+//QDataStream& player::operator<<(QDataStream& stream)
+//{
+//    QChar type = '0';
+//    QChar fuel = ((int)(getFuelLeft() + 0.5)) + '0';
+//    stream << getId() << type << getIsDead() << getHorizontalPos() << getVerticalPos() << getAmmoLeft() << fuel;
+//    return stream;
+//}
 
 bool player::getIsDead() const
 {
@@ -85,39 +94,7 @@ int player::getLastJetpackUse() const
 
 void player::decode(QString str)
 {
-    if(str[0] == str[1])
-    {
-        goingLeft = 0;
-        goingRight = 0;
-    }
-    else if(str[0]==1)
-    {
-        goingLeft = 1;
-        goingRight = 0;
-    }
-    else
-    {
-        goingLeft = 0;
-        goingRight = 1;
-    }
 
-    if(str[2] == 1)
-        jump();
-
-    if(str[3] == 1 && fuelLeft != 0)
-    {
-        fuelLeft = qMax(0.0, fuelLeft - FUELCONSUMPTION);
-        jetpackStatus = 1;
-    }
-    else
-    {
-        jetpackStatus = 0;
-    }
-
-    if(str[4] == 1)
-    {
-        shoot();
-    }
 }
 
 void player::startFall()
@@ -135,6 +112,28 @@ void player::jump()
 }
 void player::doStep(int dt)
 {
+    QMap<int, bool> map;
+    bool clicked;
+    double angle;
+
+     qDebug() << (!stream);
+
+    stream->startTransaction();
+
+    *stream >> map >> clicked >> angle;
+    qDebug() << "Doned";
+
+    if(stream->commitTransaction()) {
+        jetpackStatus = map[Qt::Key_W];
+        isFalling = map[Qt::Key_S];
+        if(map[Qt::Key_Space])
+            jump();
+        goingLeft = map[Qt::Key_A];
+        goingRight = map[Qt::Key_D];
+        if(clicked)
+            shoot(angle);
+    }
+    qDebug() << angle;
     if(jetpackStatus)
         changeVerticalSpeed(JETPACKPOWER * dt);
     else if(isFalling)
@@ -155,7 +154,7 @@ void player::move(int dt, TCPManager &mgr)
     mgr << (stuff*)this;
 }
 
-void player::shoot()
+void player::shoot(double angle)
 {
 
 }

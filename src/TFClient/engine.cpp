@@ -64,6 +64,8 @@ void Engine::readData(QDataStream* data) {
         qint16 id;
         *data >> id;
 
+        qDebug() << id;
+
         *data >> items[id];
 
         if(!data->commitTransaction()) return;

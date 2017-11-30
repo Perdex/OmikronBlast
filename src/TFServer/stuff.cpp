@@ -58,6 +58,14 @@ void stuff::changeVerticalPos(double change)
 {
     verticalPos += change;
 }
+void stuff::setHorizontalPos(double x)
+{
+    horizontalPos = x;
+}
+void stuff::setVerticalPos(double y)
+{
+    verticalPos = y;
+}
 
 QDataStream& operator<<(QDataStream& stream, const stuff &s)
 {
