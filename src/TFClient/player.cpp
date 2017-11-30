@@ -61,8 +61,17 @@ QString player::encode()
 
 void player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    painter->setBrush(Qt::blue);
-    painter->drawPixmap(-25,-50,50,100,QPixmap(":/images/Images/Marinestance.png"));
+    //unnecessary?
+    //painter->setBrush(Qt::blue);
+
+    static QPixmap pic1a = QPixmap(":/images/Images/Marinestance.png");
+    static QPixmap pic2a = QPixmap(":/images/Images/Marinestance_2.png");
+    //make a flipping transformation. Or make the weapon as a separate image and rotate it to correct angle
+    //static QPixmap pic1b = pic1a.transformed(QTransform());
+    //static QPixmap pic2b = pic2a.transformed(QTransform());
+
+    //if angle points up, use pic2: if angle is to the left, use mirror images
+    painter->drawPixmap(-25,-50,50,100,pic1a);
 }
 QRectF player::boundingRect() const
 {
