@@ -34,7 +34,6 @@ player::player(QString name, qint16 id, double& x, double& y, bool dead = 0, int
 player::player(qint16 id, QDataStream *stream) : stuff(id, stream) {
     setVerticalPos(2500);
     setHorizontalPos(2500);
-    qDebug() << this->stream->device();
 }
 
 player::~player(){}
@@ -122,7 +121,6 @@ void player::doStep(int dt)
     stream->startTransaction();
 
     *stream >> map >> clicked >> angle;
-    qDebug() << "Doned";
 
     if(stream->commitTransaction()) {
         jetpackStatus = map[Qt::Key_W];
@@ -134,7 +132,7 @@ void player::doStep(int dt)
         if(clicked)
             shoot(angle);
     }
-    qDebug() << angle;
+
     if(jetpackStatus)
         changeVerticalSpeed(JETPACKPOWER * dt);
     else if(isFalling)

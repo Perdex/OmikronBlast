@@ -30,7 +30,7 @@ private slots:
 signals:
     void updateReceived(QDataStream*);
     void mapReceived(/*Map&*/);
-    void idReceived(qint8);
+    void idReceived(qint16);
     void disconnected(const QString&);
     void connected();
     void error(QString);

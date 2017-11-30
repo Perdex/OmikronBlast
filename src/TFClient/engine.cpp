@@ -58,14 +58,12 @@ void Engine::setPlayer(qint16 id) {
 
 
 void Engine::readData(QDataStream* data) {
-    qDebug() << items;
+    qDebug() << items.values();
     while(!data->atEnd()) {
         data->startTransaction();
 
         qint16 id;
         *data >> id;
-
-        qDebug() << id;
 
         *data >> items[id];
 

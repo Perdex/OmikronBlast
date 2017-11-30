@@ -27,7 +27,6 @@ void TCPManager::disconnect(const QString &reason) {
  * This method is for pulling updates
  */
 void TCPManager::onReadyRead() {
-    qDebug() << "RECV";
     emit updateReceived(data);
 }
 
@@ -74,7 +73,7 @@ void TCPManager::onConnected() {
 
     //TODO Lue tässä jo olemassa olevat pelaajat.
 
-    qint8 id;
+    qint16 id;
     do{
         data->startTransaction();
         *data >> id;

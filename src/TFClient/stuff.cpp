@@ -1,5 +1,6 @@
 #include "stuff.h"
 #include <QString>
+#include <QtDebug>
 
 stuff::stuff(double& x, double& y): horizontalPos(x), verticalPos(y)
 {

@@ -10,7 +10,6 @@ stuff::stuff(qint16 id, QDataStream *s) : id(id), stream(s) {
     verticalPos = 2500;
     horizontalSpeed = 0;
     verticalSpeed = 0;
-    qDebug() << "My dev is" << stream->device();
 }
 
 stuff::~stuff(){}
