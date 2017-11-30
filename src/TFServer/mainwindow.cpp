@@ -93,14 +93,13 @@ void MainWindow::executeTurn(){
     time->restart();
     qDebug() << "Doing a turn! dt: " << dt;
 
-/*
-    for(auto object: objects){
-        object->doturn();
-    }
-*/
-    for(auto object: objects){
+
+    for(auto object: objects)
+        object->doStep(dt);
+
+    for(auto object: objects)
         object->move(dt, tcpmanager);
-    }
+
 
     tcpmanager->flush();
 }
