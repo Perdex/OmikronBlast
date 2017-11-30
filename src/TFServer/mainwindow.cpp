@@ -80,7 +80,7 @@ void MainWindow::setPlayersText(QString text){
  * sock: the tcp socket for receiving data
  */
 void MainWindow::addPlayer(QDataStream *stream){
-    objects += new player(stream);
+    //objects += new player(stream);
 }
 
 /*

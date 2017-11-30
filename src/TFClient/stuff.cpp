@@ -40,3 +40,12 @@ void stuff::setVerticalPos(double nw)
     verticalPos = nw;
     setPos(horizontalPos, nw);
 }
+
+QDataStream& operator>>(QDataStream &stream, stuff *s) {
+    double hp, vp;
+    stream >> hp >> vp;
+    s->setHorizontalPos(hp);
+    s->setVerticalPos(vp);
+    //TODO player(+projectile)-spesifiä juttua
+    return stream;
+}

@@ -18,7 +18,7 @@ public:
     double getVerticalPos();
     void setHorizontalPos(double);
     void setVerticalPos(double);
-
+    friend QDataStream& operator>>(QDataStream&, stuff*);
 private:
     double horizontalPos;
     double verticalPos;
