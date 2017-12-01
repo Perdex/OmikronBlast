@@ -116,25 +116,36 @@ void player::doStep(int dt)
     bool clicked;
     double angle;
 
-     qDebug() << stream->version();
+     //qDebug() << stream->status();
 
     stream->startTransaction();
 
     *stream >> map >> clicked >> angle;
 
+    //qDebug() << map << clicked << angle;
+
     if(stream->commitTransaction()) {
-        jetpackStatus = map[Qt::Key_W];
-        isFalling = map[Qt::Key_S];
-        if(map[Qt::Key_Space])
-            jump();
-        goingLeft = map[Qt::Key_A];
-        goingRight = map[Qt::Key_D];
-        if(clicked)
-            shoot(angle);
+        //jetpackStatus = map[Qt::Key_W];
+        //isFalling = map[Qt::Key_S];
+        //if(map[Qt::Key_Space])
+        //    jump();
+        //goingLeft = map[Qt::Key_A];
+        //goingRight = map[Qt::Key_D];
+        //if(clicked)
+        //    shoot(angle);
+        qDebug() << map;
+
+        if(map[Qt::Key_W] && !map[Qt::Key_S]) setVerticalSpeed(-80);
+        else if(map[Qt::Key_S] && !map[Qt::Key_W]) setVerticalSpeed(80);
+        else setVerticalSpeed(0);
+
+        if(map[Qt::Key_A] && !map[Qt::Key_D]) setHorizontalSpeed(-80);
+        else if(map[Qt::Key_D] && !map[Qt::Key_A]) setHorizontalSpeed(80);
+        else setHorizontalSpeed(0);
+
     }
 
-    /*
-    if(jetpackStatus)
+    /*if(jetpackStatus)
         changeVerticalSpeed(JETPACKPOWER * dt);
     else if(isFalling)
         changeVerticalSpeed(-GRAVITY * dt);
@@ -144,15 +155,12 @@ void player::doStep(int dt)
     else if(!goingRight && goingLeft)
         setHorizontalSpeed(-HORIZONTALMOVEMENT);
     else
-        setHorizontalSpeed(0);
-    */
+        setHorizontalSpeed(0);*/
 }
 void player::move(int dt, TCPManager &mgr)
 {
-    //changeVerticalPos(getVerticalSpeed() * dt);
-    //changeHorizontalPos(getHorizontalSpeed() * dt);
-
-    changeHorizontalPos(3);
+    changeVerticalPos(getVerticalSpeed() * dt / 1000);
+    changeHorizontalPos(getHorizontalSpeed() * dt / 1000);
 
     mgr << (stuff*)this;
 }

@@ -7,6 +7,7 @@
 #include <QHostAddress>
 #include <QMessageBox>
 #include <QNetworkInterface>
+#include <QString>
 
 #include "stuff.h"
 
@@ -73,34 +74,45 @@ QString TCPManager::getPort(){
 void TCPManager::newClient(){
 
     auto socket = server->nextPendingConnection();
+
+    if(!socket->waitForReadyRead(3000)) {
+        qDebug() << "Connection timed out.";
+        return;
+    }
+
     clients.push_back(socket);
     //QObject::connect(socket, &QTcpSocket::channelReadyRead, this, receiveData);
     qDebug() << "ASDF client found!!1\n";
+
+    QDataStream *in = new QDataStream(socket);
+    in->setVersion(QDataStream::Qt_5_9);
+
+    QString cver;
+    do{
+    in->startTransaction();
+    *in >> cver;
+    }while(!in->commitTransaction());
+
+    if(cver != "TFGAME-CLIENT") {
+        qDebug() << cver;
+        return;
+    }
 
     QByteArray msg;
     QDataStream stream(&msg, QIODevice::WriteOnly);
     stream.setVersion(QDataStream::Qt_5_9);
 
     qint16 id = clients.size();
-    QString ver = "TFGAME-SERVER";
+    QString sver = "TFGAME-SERVER";
 
-    stream << ver << id;
+    stream << sver << id;
 
     socket->write(msg);
     socket->flush();
 
-    //QString s;
-    //for(auto client: clients){
-    //    s += client->peerName();
-    //    s += '\n';
-    //}
     mainWindow->setPlayersText(QString("Number connected: %1").arg(clients.length()));
 
-    QDataStream *s = new QDataStream(socket);
-    //s->setDevice(socket);
-    qDebug() << s->device();
-    s->setVersion(QDataStream::Qt_5_9);
-    mainWindow->addPlayer(id, s);
+    mainWindow->addPlayer(id, in);
 }
 /*
 QVector<QString> TCPManager::readData(){

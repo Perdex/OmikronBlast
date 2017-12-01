@@ -71,7 +71,7 @@ void Canvas::mouseReleaseEvent(QMouseEvent *event) {
 
 void Canvas::keyPressEvent(QKeyEvent *ke)
 {
-    if(status.contains(ke->key()) && !status[ke->key()]) {
+    if(!ke->isAutoRepeat() && status.contains(ke->key()) && !status[ke->key()]) {
         status[ke->key()] = true;
         emit statusChanged(status, 0, false);
     }
@@ -79,7 +79,7 @@ void Canvas::keyPressEvent(QKeyEvent *ke)
 
 void Canvas::keyReleaseEvent(QKeyEvent *ke)
 {
-    if(status.contains(ke->key()) && status[ke->key()]) {
+    if(!ke->isAutoRepeat() && status.contains(ke->key()) && status[ke->key()]) {
         status[ke->key()] = false;
         emit statusChanged(status, 0, false);
     }

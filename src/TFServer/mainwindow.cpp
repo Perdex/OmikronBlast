@@ -91,7 +91,7 @@ void MainWindow::executeTurn(){
 
     int dt = time->elapsed();
     time->restart();
-    qDebug() << "Doing a turn! dt: " << dt;
+    //qDebug() << "Doing a turn! dt: " << dt;
 
 
     for(auto object: objects) {
