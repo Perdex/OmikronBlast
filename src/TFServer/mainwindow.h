@@ -3,7 +3,7 @@
 
 #include <QMainWindow>
 
-#define FRAME_TIME 200
+#define FRAME_TIME 20
 
 namespace Ui {
     class MainWindow;

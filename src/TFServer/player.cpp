@@ -133,6 +133,7 @@ void player::doStep(int dt)
             shoot(angle);
     }
 
+    /*
     if(jetpackStatus)
         changeVerticalSpeed(JETPACKPOWER * dt);
     else if(isFalling)
@@ -144,11 +145,14 @@ void player::doStep(int dt)
         setHorizontalSpeed(-HORIZONTALMOVEMENT);
     else
         setHorizontalSpeed(0);
+    */
 }
 void player::move(int dt, TCPManager &mgr)
 {
-    changeVerticalPos(getVerticalSpeed() * dt);
-    changeHorizontalPos(getHorizontalSpeed() * dt);
+    //changeVerticalPos(getVerticalSpeed() * dt);
+    //changeHorizontalPos(getHorizontalSpeed() * dt);
+
+    changeHorizontalPos(3);
 
     mgr << (stuff*)this;
 }

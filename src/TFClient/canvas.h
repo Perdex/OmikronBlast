@@ -19,7 +19,7 @@ public:
     void setMyPlayer(player*);
     void addPlayer(player*);
     void addItem(Item*, int, int);
-
+    void center();
 signals:
     void statusChanged(const QMap<int, bool>&, float ang, bool clicked);
 protected:
@@ -28,13 +28,13 @@ protected:
     void keyReleaseEvent(QKeyEvent*);
     void mousePressEvent(QMouseEvent *event);
     void mouseReleaseEvent(QMouseEvent *event);
+
     bool eventFilter(QObject *, QEvent *);
 
     QGraphicsScene* scene;
-    //int centerX = 1500;
-    //int centerY = 1500;
 
     QMap<int, bool> status;
+    double mouseX, mouseY;
 
     player *my_player;
 

@@ -27,7 +27,12 @@ Canvas::Canvas(QWidget* p) :
 
 void Canvas::setMyPlayer(player* p) {
     my_player = p;
+
+    //QObject::connect(p, &player::moved, this, &Canvas::center);
+
     this->centerOn(p->x(), p->y());
+    mouseX = p->x();
+    mouseY = p->y();
 }
 
 void Canvas::addPlayer(player *p) {
@@ -39,16 +44,21 @@ void Canvas::addItem(Item* item, int x, int y) {
     item->setPos(x, y);
 }
 
+void Canvas::center() {
+    this->centerOn(my_player->getHorizontalPos() + (mouseX - this->width()/2)/2, my_player->getVerticalPos() + (mouseY - this->height()/2)/2);
+}
 
 void Canvas::mouseMoveEvent(QMouseEvent *me) {
-    this->centerOn(my_player->getHorizontalPos() + (me->x() - this->width()/2)/2, my_player->getVerticalPos() + (me->y() - this->height()/2)/2);
+    mouseY = me->y();
+    mouseX = me->x();
+    center();
+    //this->centerOn(my_player->getHorizontalPos() + (me->x() - this->width()/2)/2, my_player->getVerticalPos() + (me->y() - this->height()/2)/2);
 }
 
 void Canvas::mousePressEvent(QMouseEvent *me) {
     if(!mouseKey1Down && me->button() == Qt::LeftButton) {
         mouseKey1Down = true;
         QPointF p = mapToScene(me->pos());
-        //qDebug() << p;
         emit statusChanged(status, qAtan2(p.y() - my_player->y(), p.x() - my_player->x()), true);
     }
 }

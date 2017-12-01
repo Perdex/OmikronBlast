@@ -69,4 +69,5 @@ void Engine::readData(QDataStream* data) {
 
         if(!data->commitTransaction()) return;
     }
+    canvas.center();
 }
