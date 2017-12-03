@@ -10,7 +10,7 @@ class stuff: public QGraphicsItem
 {
 
 public:
-    stuff(double &, double &);
+    stuff(qint16 id, double &x, double &y);
     ~stuff();
     void decodeType(QString);
 //   virtual void draw() = 0;
@@ -20,6 +20,7 @@ public:
     void setVerticalPos(double);
     friend QDataStream& operator>>(QDataStream&, stuff*);
 private:
+    qint16 id;
     double horizontalPos;
     double verticalPos;
 };

@@ -9,18 +9,14 @@
 class player :public stuff
 {
 public:
-    player(QString name, QChar id, double x, double y);
+    player(QString name, qint16 id, double x, double y);
     ~player();
-    void decode(QString);
-    void draw();
-    QString encode();
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QRectF boundingRect() const;
 
 private:
     QString name;
-    QChar id;
     bool isDead;
     double angle;
     QChar ammo;
