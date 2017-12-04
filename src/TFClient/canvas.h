@@ -19,6 +19,7 @@ public:
     void setMyPlayer(player*);
     void addPlayer(player*);
     void addItem(Item*, int, int);
+    void buildMap(int [][39]);
     void center();
 signals:
     void statusChanged(const QMap<int, bool>&, float ang, bool clicked);

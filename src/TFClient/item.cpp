@@ -35,4 +35,10 @@ QRectF Item::boundingRect() const
     return QRectF(0,0,100,100);
 }
 
+/*int* mapping(){
+    int* p;
+    p=placement;
+    return p;
+}*/
+
 

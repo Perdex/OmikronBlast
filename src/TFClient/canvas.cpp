@@ -44,6 +44,18 @@ void Canvas::addItem(Item* item, int x, int y) {
     item->setPos(x, y);
 }
 
+void Canvas::buildMap(int p[][39]){
+    for(int i=0; i<40; i++){
+        for(int j=0; j<40; j++){
+            if(p[i][j]==1){
+                Item* it= new Item();
+                scene->addItem(it);
+                it->setPos(i*100, j*100);
+            }
+        }
+    }
+}
+
 void Canvas::center() {
     this->centerOn(my_player->getHorizontalPos() + (mouseX - this->width()/2)/2, my_player->getVerticalPos() + (mouseY - this->height()/2)/2);
 }
