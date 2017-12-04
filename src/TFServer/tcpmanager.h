@@ -21,8 +21,10 @@ public:
     TCPManager &operator<<(stuff* obj);
     TCPManager &operator<<(QString* s);
     void flush();
+    void gameStarted();
 private slots:
     void newClient();
+    void clientLost();
 private:
     QVector<QTcpSocket*> clients;
     QTcpServer *server;

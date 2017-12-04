@@ -12,6 +12,7 @@ class TCPManager;
 class QTimer;
 class QTcpSocket;
 class stuff;
+class player;
 class Map;
 class QTime;
 
@@ -22,8 +23,8 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void setPlayersText(QString text);
     void addPlayer(qint16 id, QDataStream *stream);
+    void endGame();
 public slots:
     void startGame();
     void executeTurn();
@@ -33,9 +34,14 @@ private:
     TCPManager *tcpmanager;
     QTimer *gameLoopTimer;
     QTime *time;
+    int timeElapsed;
     Map *map;
-    //joku tällanen tänne
+    bool running;
+    //objects includes also players
     QVector<stuff*> objects;
+    //players, sorted by points
+    QVector<player*> players;
+    void updateText();
 };
 
 #endif // MAINWINDOW_H

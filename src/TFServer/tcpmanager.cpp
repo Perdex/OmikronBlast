@@ -60,6 +60,13 @@ TCPManager::~TCPManager()
 
 }
 
+/*
+ * Game is starting, stop accepting players (might be changed later)
+ */
+void TCPManager::gameStarted(){
+    server->pauseAccepting();
+}
+
 QString TCPManager::getAddress(){
     if(server != nullptr)
         return server->serverAddress().toString();
@@ -81,16 +88,17 @@ void TCPManager::newClient(){
     }
 
     clients.push_back(socket);
-    //QObject::connect(socket, &QTcpSocket::channelReadyRead, this, receiveData);
-    qDebug() << "ASDF client found!!1\n";
+    QObject::connect(socket, &QTcpSocket::disconnected, this, &clientLost);
+
+    qDebug() << "Client found!\n";
 
     QDataStream *in = new QDataStream(socket);
     in->setVersion(QDataStream::Qt_5_9);
 
     QString cver;
     do{
-    in->startTransaction();
-    *in >> cver;
+        in->startTransaction();
+        *in >> cver;
     }while(!in->commitTransaction());
 
     if(cver != "TFGAME-CLIENT") {
@@ -110,10 +118,15 @@ void TCPManager::newClient(){
     socket->write(msg);
     socket->flush();
 
-    mainWindow->setPlayersText(QString("Number connected: %1").arg(clients.length()));
-
     mainWindow->addPlayer(id, in);
 }
+
+void TCPManager::clientLost(){
+    qDebug() << "A client was lost! Terminating";
+    mainWindow->endGame();
+    this->deleteLater();
+}
+
 /*
 QVector<QString> TCPManager::readData(){
     QVector<QString> receivedData;
