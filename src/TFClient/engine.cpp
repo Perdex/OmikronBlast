@@ -33,9 +33,8 @@ void Engine::setPlayer(qint16 id) {
     //p->setPos(p->getHorizontalPos(), p->getVerticalPos());
     //DONED
 
-    //tässä pitäisi laittaa joko syötteenä item, johon tallennettu mapin array TAI
-    //suoraan syötteenä pointteri arrrayhin, jollon buildMap pitää muuttaa hiukan
-    //canvas.buildMap(Item *item);
+
+    //canvas.buildMap(p[39][39]);
 
     canvas.setMyPlayer(p);
     canvas.addPlayer(p);
