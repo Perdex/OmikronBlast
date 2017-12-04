@@ -8,7 +8,6 @@
 #include <QTextStream>
 #include <QDataStream>
 
-
 class player : public stuff
 {
 public:

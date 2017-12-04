@@ -15,6 +15,9 @@ public:
     ~Engine();
     void start();
 private:
+    void processUpdate(QDataStream*);
+    void processStatus(QDataStream*);
+
     QMap<qint16, stuff*> items;
     TCPManager& tcp;
     Canvas& canvas;
