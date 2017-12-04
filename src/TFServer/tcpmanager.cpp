@@ -88,9 +88,9 @@ void TCPManager::newClient(){
     }
 
     clients.push_back(socket);
-    QObject::connect(socket, &QTcpSocket::disconnected, this, &clientLost);
+    QObject::connect(socket, &QTcpSocket::disconnected, this, &TCPManager::clientLost);
 
-    qDebug() << "Client found!\n";
+    qDebug() << "Client found!";
 
     QDataStream *in = new QDataStream(socket);
     in->setVersion(QDataStream::Qt_5_9);

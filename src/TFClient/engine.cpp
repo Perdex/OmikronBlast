@@ -58,7 +58,7 @@ void Engine::setPlayer(qint16 id) {
 
 
 void Engine::readData(QDataStream* data) {
-    //qDebug() << items.values();
+    qDebug() << items;
     while(!data->atEnd()) {
         data->startTransaction();
 
@@ -67,7 +67,7 @@ void Engine::readData(QDataStream* data) {
 
         *data >> items[id];
 
-        if(!data->commitTransaction()) return;
+        if(!data->commitTransaction()) break;
     }
     canvas.center();
 }

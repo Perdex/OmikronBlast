@@ -65,8 +65,10 @@ void MainWindow::startGame(){
 
     tcpmanager->gameStarted();
 
-    map = new Map();
-    map->send(tcpmanager);
+    //Ei saa poistaa kommenteista ennen kuin client osaa
+    //vastaanottaa kartan
+    //map = new Map();
+    //map->send(tcpmanager);
 
     gameLoopTimer->start(FRAME_TIME);
     time = new QTime();

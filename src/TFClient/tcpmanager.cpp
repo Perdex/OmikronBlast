@@ -39,7 +39,6 @@ void TCPManager::onPushUpdate(const QMap<int, bool> &status, float ang, bool cli
     tmp.setVersion(QDataStream::Qt_5_9);
 
     tmp << status << clicked << ang;
-    qDebug() << status;
 
     sock.write(block);
     sock.flush();
