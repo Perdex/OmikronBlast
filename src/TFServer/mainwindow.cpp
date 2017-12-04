@@ -13,11 +13,12 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     tcpmanager(nullptr),
-    gameLoopTimer(nullptr),
+    //gameLoopTimer(nullptr),
     time(nullptr),
     timeElapsed(0),
     map(nullptr),
-    running(false)
+    running(false),
+    started(false)
 {
     ui->setupUi(this);
 
@@ -30,8 +31,8 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->InfoLabel->setText(s);
 
     //initialize and connect the main loop timer: will not run yet
-    gameLoopTimer = new QTimer(this);
-    QObject::connect(gameLoopTimer, SIGNAL(timeout()), this, SLOT(executeTurn()));
+    //gameLoopTimer = new QTimer(this);
+    //QObject::connect(gameLoopTimer, SIGNAL(timeout()), this, SLOT(executeTurn()));
 
     //connect the start button to start game
     QObject::connect(ui->startButton, SIGNAL(clicked(bool)), this, SLOT(startGame()));
@@ -58,25 +59,42 @@ MainWindow::~MainWindow()
     objects.clear();
 }
 
+/*
+ * Start, pause or continue the game
+ */
 void MainWindow::startGame(){
-    qDebug() << "Starting game";
+    if(!running){
+        running = true;
+        if(!started){
+            qDebug() << "Starting game";
 
-    running = true;
+            started = true;
+            tcpmanager->gameStarted();
 
-    tcpmanager->gameStarted();
+            map = new Map();
+            map->send(tcpmanager);
 
-    map = new Map();
-    map->send(tcpmanager);
+            time = new QTime();
+            time->start();
+        }else{
+            qDebug() << "Continuing game";
 
-    gameLoopTimer->start(FRAME_TIME);
-    time = new QTime();
-    time->start();
+            time->restart();
+        }
+
+        ui->startButton->setText("Pause game");
+        QTimer::singleShot(FRAME_TIME, this, &executeTurn);
+    }else{
+        //pause
+        ui->startButton->setText("Continue game");
+        running = false;
+    }
 }
 
 void MainWindow::endGame(){
     qDebug() << "Ending the game!";
     running = false;
-    gameLoopTimer->stop();
+    //gameLoopTimer->stop();
 }
 
 
@@ -104,7 +122,7 @@ void MainWindow::addPlayer(qint16 id, QDataStream *stream){
 void MainWindow::updateText(){
 
     //Set the info label text
-    QString s = QString("Game running! t: %1").arg(timeElapsed);
+    QString s = QString("Game running! t: %1 s").arg(timeElapsed / 100);
     ui->InfoLabel->setText(s);
 
     s = "Players:\n";
@@ -151,5 +169,6 @@ void MainWindow::executeTurn(){
     updateText();
 
     tcpmanager->flush();
+    QTimer::singleShot(FRAME_TIME, this, &executeTurn);
 }
 

@@ -32,15 +32,18 @@ public slots:
 private:
     Ui::MainWindow *ui;
     TCPManager *tcpmanager;
-    QTimer *gameLoopTimer;
+    //QTimer *gameLoopTimer;
     QTime *time;
     int timeElapsed;
     Map *map;
     bool running;
+    bool started;
+
     //objects includes also players
     QVector<stuff*> objects;
     //players, sorted by points
     QVector<player*> players;
+
     void updateText();
 };
 
