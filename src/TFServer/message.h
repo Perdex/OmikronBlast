@@ -11,7 +11,7 @@ enum class MessageType {
 };
 
 enum class GameStatus : qint8 {
-    COUNTDOWN, START, PAUSED, UNPAUSED, END
+    MAP_TRANSFER, COUNTDOWN, START, PAUSED, UNPAUSED, END
 };
 
 class Message

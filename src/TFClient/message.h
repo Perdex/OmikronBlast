@@ -5,11 +5,11 @@
 #include <QDataStream>
 class stuff;
 
-enum MessageType {
+enum class MessageType : qint8 {
     UPDATE, STATUS
 };
 
-enum GameStatus {
+enum class GameStatus : qint8 {
     COUNTDOWN, START, PAUSED, UNPAUSED, END
 };
 
@@ -22,20 +22,18 @@ class Message
 public:
     Message(MessageType t) : m_type(t) {}
     const MessageType& type() const { return m_type; }
-    friend QDataStream& operator>>(QDataStream&, Message&);
+    static Message* create(QDataStream*);
 private:
     MessageType m_type;
 };
 
-template<typename T>
 class StatusMessage : public Message
 {
 public:
-    StatusMessage(GameStatus s, QVariant& d)
-        : Message(STATUS), m_status(s), m_data(d) {}
+    StatusMessage(GameStatus s, QVariant d)
+        : Message(MessageType::STATUS), m_status(s), m_data(d) {}
     const GameStatus status() const { return m_status; }
-    const  T data() const { return m_data.value<T>(); }
-    friend QDataStream& operator>>(QDataStream&, StatusMessage&);
+    template <typename T> const T data() const { return m_data.value<T>(); }
 private:
     GameStatus m_status;
     QVariant m_data;
@@ -44,12 +42,12 @@ private:
 class UpdateMessage : public Message
 {
 public:
-    UpdateMessage(stuff* s)
-        : Message(UPDATE), m_stuff(s) {}
-    const stuff* data() const { return m_stuff; }
-    friend QDataStream& operator>>(QDataStream&, UpdateMessage&);
+    UpdateMessage(qint16 i, QDataStream* d)
+        : Message(MessageType::UPDATE), m_id(i), m_data(d) {}
+    const QDataStream* data() const { return m_data; }
 private:
-    stuff* m_stuff;
+    qint16 m_id;
+    QDataStream* m_data;
 };
 
 #endif // MESSAGE_H
