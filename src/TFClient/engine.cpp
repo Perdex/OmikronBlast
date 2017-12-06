@@ -8,10 +8,7 @@
 #include <QtDebug>
 
 Engine::Engine(Canvas& c, TCPManager& t) : items(), tcp(t), canvas(c)
-{
-    QObject::connect(&tcp, &TCPManager::idReceived,
-                     this, &Engine::setPlayer);
-}
+{}
 
 Engine::~Engine() {
 
@@ -43,39 +40,74 @@ void Engine::setPlayer(qint16 id) {
 
 
 void Engine::readData(QDataStream* data) {
-    Message *msg;
     while(!data->atEnd()) {
         data->startTransaction();
 
-        msg = Message::create(data);
+        Message *msg = Message::create(data);
+
+        if(!data->commitTransaction()) break;
 
         switch (msg->type()) {
         case MessageType::STATUS: {
-            StatusMessage sm = *(static_cast<StatusMessage*>(msg));
+            StatusMessage *sm = static_cast<StatusMessage*>(msg);
             processStatus(sm);
             break;
         }
         case MessageType::UPDATE: {
-            UpdateMessage um = *(static_cast<UpdateMessage*>(msg));
+            UpdateMessage *um = static_cast<UpdateMessage*>(msg);
             processUpdate(um, data);
             break;
         }
         default:
             break;
         }
-
-        if(!data->commitTransaction()) break;
+        delete msg;
     }
-    delete msg;
-    canvas.center();
 }
 
-void Engine::processStatus(StatusMessage& msg)
+void Engine::processStatus(StatusMessage* msg)
 {
+    qDebug() << msg;
+    switch (msg->status()) {
+    case GameStatus::HANDSHAKE: {
+        qDebug() << msg->data<QString>();
+        if(msg->data<QString>() != "TFGAME-SERVER") {
+            qDebug() << "Smthing is amiss.";
+            tcp.disconnect("Bad server type.");
+        }
+        break;
+    }
+    case GameStatus::ID_TRANSFER: {
+        qint16 id = msg->data<qint16>();
+        setPlayer(id);
+        break;
+    }
+    case GameStatus::MAP_TRANSFER: {
 
+        break;
+    }
+    case GameStatus::COUNTDOWN: {
+        break;
+    }
+    case GameStatus::START: {
+        break;
+    }
+    case GameStatus::PAUSED: {
+        break;
+    }
+    case GameStatus::END: {
+        break;
+    }
+    default:
+        break;
+    }
 }
 
-void Engine::processUpdate(UpdateMessage &msg, QDataStream *stream)
+void Engine::processUpdate(UpdateMessage *msg, QDataStream *stream)
 {
-    *stream >> items[msg.id()];
+    stream->startTransaction();
+
+    *stream >> items[msg->id()];
+
+    stream->commitTransaction();
 }

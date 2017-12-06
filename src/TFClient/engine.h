@@ -18,8 +18,8 @@ public:
     ~Engine();
     void start();
 private:
-    void processUpdate(UpdateMessage&, QDataStream*);
-    void processStatus(StatusMessage&);
+    void processUpdate(UpdateMessage*, QDataStream*);
+    void processStatus(StatusMessage*);
 
     QMap<qint16, stuff*> items;
     TCPManager& tcp;

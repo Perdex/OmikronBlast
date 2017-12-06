@@ -4,7 +4,7 @@
 #include <QtDebug>
 
 Canvas::Canvas(QWidget* p) :
-    QGraphicsView(p), status(), mouseKey1Down(false)
+    QGraphicsView(p), status(), my_player(nullptr), mouseKey1Down(false)
 {   
     viewport()->installEventFilter(this);
 
@@ -27,12 +27,9 @@ Canvas::Canvas(QWidget* p) :
 
 void Canvas::setMyPlayer(player* p) {
     my_player = p;
-
-    //QObject::connect(p, &player::moved, this, &Canvas::center);
-
-    this->centerOn(p->x(), p->y());
     mouseX = p->x();
     mouseY = p->y();
+    center();
 }
 
 void Canvas::addPlayer(player *p) {
@@ -57,10 +54,12 @@ void Canvas::buildMap(int p[][39]){
 }
 
 void Canvas::center() {
+    if(my_player == nullptr) return;
     this->centerOn(my_player->getHorizontalPos() + (mouseX - this->width()/2)/2, my_player->getVerticalPos() + (mouseY - this->height()/2)/2);
 }
 
 void Canvas::mouseMoveEvent(QMouseEvent *me) {
+    if(my_player == nullptr) return;
     mouseY = me->y();
     mouseX = me->x();
     center();
@@ -68,6 +67,7 @@ void Canvas::mouseMoveEvent(QMouseEvent *me) {
 }
 
 void Canvas::mousePressEvent(QMouseEvent *me) {
+    if(my_player == nullptr) return;
     if(!mouseKey1Down && me->button() == Qt::LeftButton) {
         mouseKey1Down = true;
         QPointF p = mapToScene(me->pos());

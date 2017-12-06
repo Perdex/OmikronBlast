@@ -10,6 +10,7 @@ enum class MessageType : qint8 {
 };
 
 enum class GameStatus : qint8 {
+    HANDSHAKE,
     ID_TRANSFER,
     MAP_TRANSFER,
     COUNTDOWN,
@@ -26,6 +27,8 @@ class Message
      * UpdateMessage, and thus it should never be constructed manually.
      */
 public:
+    Message() {}
+    virtual ~Message() {}
     Message(MessageType t) : m_type(t) {}
     const MessageType& type() const { return m_type; }
     static Message* create(QDataStream*);

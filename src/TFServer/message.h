@@ -3,6 +3,7 @@
 
 #include <QVariant>
 #include <QDataStream>
+#include <QtDebug>
 
 class stuff;
 
@@ -11,6 +12,7 @@ enum class MessageType {
 };
 
 enum class GameStatus : qint8 {
+    HANDSHAKE,
     ID_TRANSFER,
     MAP_TRANSFER,
     COUNTDOWN,
@@ -27,6 +29,8 @@ class Message
      * UpdateMessage, and it should never be constructed manually.
      */
 public:
+    Message() {}
+    virtual ~Message() {}
     Message(MessageType t) : m_type(t) {}
     const MessageType& type() const { return m_type; }
     friend QDataStream& operator<<(QDataStream&, Message*);
@@ -37,14 +41,14 @@ private:
 class StatusMessage : public Message
 {
 public:
-    StatusMessage(GameStatus s, QVariant* d)
+    StatusMessage(GameStatus s, QVariant& d)
         : Message(MessageType::STATUS), m_status(s), m_data(d) {}
     const GameStatus status() const { return m_status; }
-    template<typename T> const T data() const { return m_data->value<T>(); }
+    template<typename T> const T data() const { return m_data.value<T>(); }
     friend QDataStream& operator<<(QDataStream&, StatusMessage*);
 private:
     GameStatus m_status;
-    QVariant *m_data;
+    QVariant m_data;
 };
 
 class UpdateMessage : public Message

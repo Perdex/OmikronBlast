@@ -39,7 +39,7 @@ void Frame::onConnected() {
     setStatus("Connected.");
 
     QCursor::setPos(mapToGlobal(QPoint(width()/2, height()/2)));
-    ui->views->setCurrentIndex(1);
+    ui->views->setCurrentIndex(1); // Tää rivi
 }
 
 void Frame::setStatus(QString s) {
