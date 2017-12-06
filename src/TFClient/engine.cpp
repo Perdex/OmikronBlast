@@ -3,6 +3,7 @@
 #include "tcpmanager.h"
 #include "stuff.h"
 #include "canvas.h"
+#include "message.h"
 
 #include <QtDebug>
 
@@ -42,16 +43,39 @@ void Engine::setPlayer(qint16 id) {
 
 
 void Engine::readData(QDataStream* data) {
-    qDebug() << items;
+    Message *msg;
     while(!data->atEnd()) {
         data->startTransaction();
 
-        qint16 id;
-        *data >> id;
+        msg = Message::create(data);
 
-        *data >> items[id];
+        switch (msg->type()) {
+        case MessageType::STATUS: {
+            StatusMessage sm = *(static_cast<StatusMessage*>(msg));
+            processStatus(sm);
+            break;
+        }
+        case MessageType::UPDATE: {
+            UpdateMessage um = *(static_cast<UpdateMessage*>(msg));
+            processUpdate(um, data);
+            break;
+        }
+        default:
+            break;
+        }
 
         if(!data->commitTransaction()) break;
     }
+    delete msg;
     canvas.center();
+}
+
+void Engine::processStatus(StatusMessage& msg)
+{
+
+}
+
+void Engine::processUpdate(UpdateMessage &msg, QDataStream *stream)
+{
+    *stream >> items[msg.id()];
 }

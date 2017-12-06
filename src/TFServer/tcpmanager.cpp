@@ -9,6 +9,7 @@
 #include <QNetworkInterface>
 #include <QString>
 
+#include "message.h"
 #include "stuff.h"
 
 TCPManager::TCPManager(MainWindow* mainWindow)
@@ -169,6 +170,19 @@ TCPManager &TCPManager::operator<<(stuff *s){
     QDataStream stream(&block, QIODevice::WriteOnly);
     stream.setVersion(QDataStream::Qt_5_9);
     stream << *s;
+
+    for(QTcpSocket* client: clients){
+        client->write(block);
+    }
+
+    return *this;
+}
+
+TCPManager &TCPManager::operator<<(Message *msg) {
+    QByteArray block;
+    QDataStream stream(&block, QIODevice::WriteOnly);
+    stream.setVersion(QDataStream::Qt_5_9);
+    stream << msg;
 
     for(QTcpSocket* client: clients){
         client->write(block);

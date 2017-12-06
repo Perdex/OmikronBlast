@@ -18,15 +18,15 @@ Message* Message::create(QDataStream *stream)
         qint8 gs;
         QVariant qv;
         *stream >> gs >> qv;
-        msg = static_cast<Message*>
+        msg = (Message*)
                 (new StatusMessage((GameStatus)gs, qv));
         break;
     }
     case MessageType::UPDATE: {
         qint16 id;
         *stream >> id;
-        msg = static_cast<Message*>
-                (new UpdateMessage(id, stream));
+        msg = (Message*)
+                (new UpdateMessage(id));
         break;
     }
     default:

@@ -10,7 +10,13 @@ enum class MessageType : qint8 {
 };
 
 enum class GameStatus : qint8 {
-    COUNTDOWN, START, PAUSED, UNPAUSED, END
+    ID_TRANSFER,
+    MAP_TRANSFER,
+    COUNTDOWN,
+    START,
+    PAUSED,
+    UNPAUSED,
+    END
 };
 
 class Message
@@ -42,12 +48,11 @@ private:
 class UpdateMessage : public Message
 {
 public:
-    UpdateMessage(qint16 i, QDataStream* d)
-        : Message(MessageType::UPDATE), m_id(i), m_data(d) {}
-    const QDataStream* data() const { return m_data; }
+    UpdateMessage(qint16 i)
+        : Message(MessageType::UPDATE), m_id(i) {}
+    const qint16 id() const { return m_id; }
 private:
     qint16 m_id;
-    QDataStream* m_data;
 };
 
 #endif // MESSAGE_H

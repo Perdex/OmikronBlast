@@ -1,5 +1,6 @@
 #include "player.h"
 #include "stuff.h"
+#include "message.h"
 #include "tcpmanager.h"
 #include <QDataStream>
 #include <QMap>
@@ -165,7 +166,7 @@ void player::move(int dt, TCPManager &mgr)
     changeVerticalPos(getVerticalSpeed() * dt / 1000);
     changeHorizontalPos(getHorizontalSpeed() * dt / 1000);
 
-    mgr << (stuff*)this;
+    mgr << (Message*)(new UpdateMessage((stuff*)this));
 }
 
 void player::shoot(double angle)
