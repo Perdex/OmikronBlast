@@ -196,8 +196,6 @@ TCPManager &TCPManager::operator<<(Message *msg) {
     stream.setVersion(QDataStream::Qt_5_9);
     stream << msg;
 
-    qDebug() << block;
-
     for(QTcpSocket* client: clients){
         client->write(block);
     }

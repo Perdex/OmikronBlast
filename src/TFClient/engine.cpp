@@ -70,7 +70,7 @@ void Engine::readData(QDataStream* data) {
 
 void Engine::processStatus(StatusMessage* msg)
 {
-    qDebug() << "Status" << (qint8)msg->status();
+    //qDebug() << "Status" << (qint8)msg->status();
     switch (msg->status()) {
     case GameStatus::HANDSHAKE: {
         if(msg->data<QString>() != "TFGAME-SERVER") {
@@ -85,7 +85,7 @@ void Engine::processStatus(StatusMessage* msg)
         break;
     }
     case GameStatus::MAP_TRANSFER: {
-
+        canvas.buildMap(msg->data<QString>());
         break;
     }
     case GameStatus::COUNTDOWN: {
@@ -94,6 +94,7 @@ void Engine::processStatus(StatusMessage* msg)
     case GameStatus::START: {
         emit started();
         canvas.center();
+        canvas.buildMap(""); //This is a test
         break;
     }
     case GameStatus::PAUSED: {

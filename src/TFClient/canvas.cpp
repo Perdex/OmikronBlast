@@ -4,7 +4,7 @@
 #include <QtDebug>
 
 Canvas::Canvas(QWidget* p) :
-    QGraphicsView(p), status(), my_player(nullptr), mouseKey1Down(false)
+    QGraphicsView(p), status(), my_player(nullptr), mouseKey1Down(false), map()
 {   
     viewport()->installEventFilter(this);
 
@@ -40,6 +40,21 @@ void Canvas::addPlayer(player *p) {
 void Canvas::addItem(Item* item, int x, int y) {
     scene->addItem(item);
     item->setPos(x, y);
+}
+
+void Canvas::buildMap(QString s) {
+    map = new QPixmap(scene->width(), scene->height());
+    map->fill(Qt::transparent);
+    QPixmap tile(":/images/Squarebox.png");
+    tile = tile.scaled(30, 30);
+    QPainter painter(map);
+
+    //Tämäkin on testi
+    //Tähän pitäisi laittaa koko kartan piirtäminen
+    //merkkijonosta s.
+    painter.drawPixmap(2600, 2600, tile);
+
+    scene->addPixmap(*map);
 }
 
 void Canvas::buildMap(int p[][39]){
