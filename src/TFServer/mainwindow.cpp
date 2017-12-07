@@ -80,8 +80,8 @@ void MainWindow::startGame(){
 
             //Ei saa poistaa kommenteista ennen kuin client osaa
             //vastaanottaa kartan
-            //map = new Map();
-            //map->send(tcpmanager);
+            map = new Map();
+            map->send(tcpmanager);
 
             time = new QTime();
             time->start();
@@ -167,7 +167,7 @@ void MainWindow::executeTurn(){
     int dt = time->elapsed();
     time->restart();
     timeElapsed += dt;
-    qDebug() << "Doing a turn! dt: " << dt;
+    //qDebug() << "Doing a turn! dt: " << dt;
 
     for(auto object: objects)
         object->doStep(dt);

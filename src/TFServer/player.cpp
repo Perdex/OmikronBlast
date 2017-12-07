@@ -139,12 +139,15 @@ void player::doStep(int dt)
         //    shoot(angle);
         qDebug() << map;
 
-        if(map[Qt::Key_W] && !map[Qt::Key_S]) setVerticalSpeed(-80);
-        else if(map[Qt::Key_S] && !map[Qt::Key_W]) setVerticalSpeed(80);
+        //Älkää käyttäkö taikanumeroita! noissa oli kaikissa vaan 80
+        int speed = 500;
+
+        if(map[Qt::Key_W] && !map[Qt::Key_S]) setVerticalSpeed(-speed);
+        else if(map[Qt::Key_S] && !map[Qt::Key_W]) setVerticalSpeed(speed);
         else setVerticalSpeed(0);
 
-        if(map[Qt::Key_A] && !map[Qt::Key_D]) setHorizontalSpeed(-80);
-        else if(map[Qt::Key_D] && !map[Qt::Key_A]) setHorizontalSpeed(80);
+        if(map[Qt::Key_A] && !map[Qt::Key_D]) setHorizontalSpeed(-speed);
+        else if(map[Qt::Key_D] && !map[Qt::Key_A]) setHorizontalSpeed(speed);
         else setHorizontalSpeed(0);
 
     }

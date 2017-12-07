@@ -45,7 +45,7 @@ class StatusMessage : public Message
 public:
     StatusMessage(GameStatus s)
         : Message(MessageType::STATUS), m_status(s), m_data() {}
-    StatusMessage(GameStatus s, QVariant& d)
+    StatusMessage(GameStatus s, const QVariant& d)
         : Message(MessageType::STATUS), m_status(s), m_data(d) {}
     const GameStatus status() const { return m_status; }
     template<typename T> const T data() const { return m_data.value<T>(); }

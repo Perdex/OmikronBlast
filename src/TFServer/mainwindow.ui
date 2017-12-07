@@ -14,7 +14,7 @@
    <string>TFServer</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background: #888</string>
+   <string notr="true">background: #999</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <property name="sizePolicy">

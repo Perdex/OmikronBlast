@@ -27,7 +27,7 @@ public:
 
 private:
     QString stream;
-    int map[39][39];
+    int map[40][40];
 };
 
 #endif // MAP_H

@@ -1,5 +1,6 @@
 #include "map.h"
 #include "tcpmanager.h"
+#include "message.h"
 #include <QString>
 
 
@@ -7,21 +8,21 @@
 Map::Map()
 {
     QString str;
-    for(int i=0; i<40; i++){
-        for(int j=0; j<40; j++){
-            if(i==0 || i==39 || j==1 || j==39){  //outlines of the cave
+    for(int i = 0; i < 40; i++){
+        for(int j = 0; j < 40; j++){
+            if(i==0 || i==39 || j==0 || j==39){  //outlines of the cave
                 map[i][j]=1;
-                str.append((QString::number(map[i][j])));
-            }
-            else{
-                int first=rand()%2;
-                if(first==1){
-                map[i][j]=rand()%2;   //generates random map: 0(=no box) or 1(=box)
+                str.append('1');
+            }else{
+                //generates random map: 0(=no box) or 1(=box)
+                if(rand() % 4 == 0){
+                    map[i][j] = 1;
+                    str.append('1');
+                }else{
+                    map[i][j] = 0;
+                    str.append('0');
                 }
-                else{
-                    map[i][j]=first;
-                }
-                str.append((QString::number(map[i][j])));   //needs some sort of id to be set apart from all data(?)
+                //needs some sort of id to be set apart from all data(?)
             }
         }
     }
@@ -37,14 +38,13 @@ QString Map::streaming(){
 }
 
 void Map::send(TCPManager* manager){
-    *manager << &stream;
+
+    StatusMessage *msg = new StatusMessage(GameStatus::MAP_TRANSFER, stream);
+    *manager << msg;
 }
 
 bool Map::isWall(int x, int y){
-    if(this->map[x][y]==1){
-        return true;
-    }
-    return false;
+    return this->map[x][y] == 1;
 }
 
 std::pair<int, int> Map::newPoint(int x, int y, std::pair<int, int> vector){

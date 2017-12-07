@@ -52,10 +52,9 @@ void Canvas::buildMap(QString s) {
     //Tämäkin on testi
     //Tähän pitäisi laittaa koko kartan piirtäminen
     //merkkijonosta s.
-    QString s="1010100010101";   //random, korvataan oikealla
     for(int i=0; i<40; i++){
         for(int j=0; j<40; j++){
-            if(s[i+j]=='1'){
+            if(s[40 * i + j]=='1'){
                 painter.drawPixmap(i*100, j*100, tile);
             }
         }
