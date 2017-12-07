@@ -65,6 +65,7 @@ void Engine::readData(QDataStream* data) {
         }
         delete msg;
     }
+    canvas.center();
 }
 
 void Engine::processStatus(StatusMessage* msg)
@@ -92,6 +93,7 @@ void Engine::processStatus(StatusMessage* msg)
     }
     case GameStatus::START: {
         emit started();
+        canvas.center();
         break;
     }
     case GameStatus::PAUSED: {
@@ -107,7 +109,7 @@ void Engine::processStatus(StatusMessage* msg)
 
 void Engine::processUpdate(UpdateMessage *msg, QDataStream *stream)
 {
-    qDebug() << msg->id() << items;
+    //qDebug() << msg->id() << items;
     stream->startTransaction();
 
     *stream >> items[msg->id()];

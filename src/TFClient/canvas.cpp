@@ -29,6 +29,7 @@ void Canvas::setMyPlayer(player* p) {
     my_player = p;
     mouseX = p->x();
     mouseY = p->y();
+    qDebug() << mouseY;
     center();
 }
 
@@ -55,6 +56,7 @@ void Canvas::buildMap(int p[][39]){
 
 void Canvas::center() {
     if(my_player == nullptr) return;
+    qDebug() << my_player->getHorizontalPos() + (mouseX - this->width()/2)/2;
     this->centerOn(my_player->getHorizontalPos() + (mouseX - this->width()/2)/2, my_player->getVerticalPos() + (mouseY - this->height()/2)/2);
 }
 
@@ -94,6 +96,7 @@ void Canvas::keyReleaseEvent(QKeyEvent *ke)
     if(!ke->isAutoRepeat() && status.contains(ke->key()) && status[ke->key()]) {
         status[ke->key()] = false;
         emit statusChanged(status, 0, false);
+        center();
     }
 }
 
