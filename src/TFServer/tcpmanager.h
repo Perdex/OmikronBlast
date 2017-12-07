@@ -9,6 +9,7 @@ class QTcpSocket;
 class QHostAddress;
 class MainWindow;
 class stuff;
+class Message;
 
 class TCPManager: public QObject
 {
@@ -20,6 +21,7 @@ public:
     QString getPort();
     TCPManager &operator<<(stuff* obj);
     TCPManager &operator<<(QString* s);
+    TCPManager &operator<<(Message* msg);
     void flush();
     void gameStarted();
 private slots:

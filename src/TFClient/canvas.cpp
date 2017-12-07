@@ -4,7 +4,7 @@
 #include <QtDebug>
 
 Canvas::Canvas(QWidget* p) :
-    QGraphicsView(p), status(), mouseKey1Down(false)
+    QGraphicsView(p), status(), my_player(nullptr), mouseKey1Down(false), map()
 {   
     viewport()->installEventFilter(this);
 
@@ -27,12 +27,10 @@ Canvas::Canvas(QWidget* p) :
 
 void Canvas::setMyPlayer(player* p) {
     my_player = p;
-
-    //QObject::connect(p, &player::moved, this, &Canvas::center);
-
-    this->centerOn(p->x(), p->y());
     mouseX = p->x();
     mouseY = p->y();
+    qDebug() << mouseY;
+    center();
 }
 
 void Canvas::addPlayer(player *p) {
@@ -44,11 +42,48 @@ void Canvas::addItem(Item* item, int x, int y) {
     item->setPos(x, y);
 }
 
+void Canvas::buildMap(QString s) {
+    map = new QPixmap(scene->width(), scene->height());
+    map->fill(Qt::transparent);
+    QPixmap tile(":/images/Squarebox.png");
+    //tile = tile.scaled(30, 30);
+    QPainter painter(map);
+
+    //Tämäkin on testi
+    //Tähän pitäisi laittaa koko kartan piirtäminen
+    //merkkijonosta s.
+    QString s="1010100010101";   //random, korvataan oikealla
+    for(int i=0; i<40; i++){
+        for(int j=0; j<40; j++){
+            if(s[i+j]=='1'){
+                painter.drawPixmap(i*100, j*100, tile);
+            }
+        }
+    }
+
+    scene->addPixmap(*map);
+}
+
+void Canvas::buildMap(int p[][39]){
+    for(int i=0; i<40; i++){
+        for(int j=0; j<40; j++){
+            if(p[i][j]==1){
+                Item* it= new Item();
+                scene->addItem(it);
+                it->setPos(i*100, j*100);
+            }
+        }
+    }
+}
+
 void Canvas::center() {
+    if(my_player == nullptr) return;
+    qDebug() << my_player->getHorizontalPos() + (mouseX - this->width()/2)/2;
     this->centerOn(my_player->getHorizontalPos() + (mouseX - this->width()/2)/2, my_player->getVerticalPos() + (mouseY - this->height()/2)/2);
 }
 
 void Canvas::mouseMoveEvent(QMouseEvent *me) {
+    if(my_player == nullptr) return;
     mouseY = me->y();
     mouseX = me->x();
     center();
@@ -56,6 +91,7 @@ void Canvas::mouseMoveEvent(QMouseEvent *me) {
 }
 
 void Canvas::mousePressEvent(QMouseEvent *me) {
+    if(my_player == nullptr) return;
     if(!mouseKey1Down && me->button() == Qt::LeftButton) {
         mouseKey1Down = true;
         QPointF p = mapToScene(me->pos());
@@ -82,6 +118,7 @@ void Canvas::keyReleaseEvent(QKeyEvent *ke)
     if(!ke->isAutoRepeat() && status.contains(ke->key()) && status[ke->key()]) {
         status[ke->key()] = false;
         emit statusChanged(status, 0, false);
+        center();
     }
 }
 

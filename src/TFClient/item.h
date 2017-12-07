@@ -14,9 +14,10 @@ public:
     void read(TCPManager *manager);
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QRectF boundingRect() const;
+    //int* mapping();
 
 private:
-    int placement[25][20];
+    int placement[39][39];
 };
 
 #endif // ITEM_H

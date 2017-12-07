@@ -4,8 +4,9 @@
 
 #include <QObject>
 
-void Frame::switchView() {
-
+void Frame::showGame() {
+    QCursor::setPos(mapToGlobal(QPoint(width()/2, height()/2)));
+    ui->views->setCurrentIndex(1);
 }
 
 void Frame::dbg(const QMap<int, bool> &keys) {
@@ -37,9 +38,6 @@ void Frame::onConnectClicked() {
 
 void Frame::onConnected() {
     setStatus("Connected.");
-
-    QCursor::setPos(mapToGlobal(QPoint(width()/2, height()/2)));
-    ui->views->setCurrentIndex(1);
 }
 
 void Frame::setStatus(QString s) {

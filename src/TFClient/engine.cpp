@@ -3,14 +3,12 @@
 #include "tcpmanager.h"
 #include "stuff.h"
 #include "canvas.h"
+#include "message.h"
 
 #include <QtDebug>
 
 Engine::Engine(Canvas& c, TCPManager& t) : items(), tcp(t), canvas(c)
-{
-    QObject::connect(&tcp, &TCPManager::idReceived,
-                     this, &Engine::setPlayer);
-}
+{}
 
 Engine::~Engine() {
 
@@ -32,25 +30,9 @@ void Engine::setPlayer(qint16 id) {
     //TODO Jaakkooo!!!!!!
     //p->setPos(p->getHorizontalPos(), p->getVerticalPos());
     //DONED
-    int i=1800;
-    while(i<2800){
-        if(i==1800 || i==2700){
-            int j=1900;
-                    while(j<2900){
-                    Item* item= new Item();
-                    canvas.addItem(item, i, j);
-                    j=j+100;
-                    }
-             i=i+100;
-        }
-        else{
-            Item* item= new Item();
-            canvas.addItem(item, i, 1800);
-            Item* item2= new Item();
-            canvas.addItem(item2, i, 2700);
-            i=i+100;
-        }
-    }
+
+
+    //canvas.buildMap(p[39][39]);
 
     canvas.setMyPlayer(p);
     canvas.addPlayer(p);
@@ -58,16 +40,80 @@ void Engine::setPlayer(qint16 id) {
 
 
 void Engine::readData(QDataStream* data) {
-    //qDebug() << items.values();
     while(!data->atEnd()) {
         data->startTransaction();
 
-        qint16 id;
-        *data >> id;
+        Message *msg = Message::create(data);
 
-        *data >> items[id];
+        if(!data->commitTransaction()) break;
 
-        if(!data->commitTransaction()) return;
+        qDebug() << "Type" << (qint8)msg->type();
+
+        switch (msg->type()) {
+        case MessageType::STATUS: {
+            StatusMessage *sm = static_cast<StatusMessage*>(msg);
+            processStatus(sm);
+            break;
+        }
+        case MessageType::UPDATE: {
+            UpdateMessage *um = static_cast<UpdateMessage*>(msg);
+            processUpdate(um, data);
+            break;
+        }
+        default:
+            break;
+        }
+        delete msg;
     }
     canvas.center();
+}
+
+void Engine::processStatus(StatusMessage* msg)
+{
+    //qDebug() << "Status" << (qint8)msg->status();
+    switch (msg->status()) {
+    case GameStatus::HANDSHAKE: {
+        if(msg->data<QString>() != "TFGAME-SERVER") {
+            qDebug() << "Smthing is amiss.";
+            tcp.disconnect("Bad server type.");
+        }
+        break;
+    }
+    case GameStatus::ID_TRANSFER: {
+        qint16 id = msg->data<qint16>();
+        setPlayer(id);
+        break;
+    }
+    case GameStatus::MAP_TRANSFER: {
+        canvas.buildMap(msg->data<QString>());
+        break;
+    }
+    case GameStatus::COUNTDOWN: {
+        break;
+    }
+    case GameStatus::START: {
+        emit started();
+        canvas.center();
+        canvas.buildMap(""); //This is a test
+        break;
+    }
+    case GameStatus::PAUSED: {
+        break;
+    }
+    case GameStatus::END: {
+        break;
+    }
+    default:
+        break;
+    }
+}
+
+void Engine::processUpdate(UpdateMessage *msg, QDataStream *stream)
+{
+    //qDebug() << msg->id() << items;
+    stream->startTransaction();
+
+    *stream >> items[msg->id()];
+
+    stream->commitTransaction();
 }

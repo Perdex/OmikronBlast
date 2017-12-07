@@ -1,6 +1,7 @@
 #ifndef CANVAS_H
 #define CANVAS_H
 
+#include <QGraphicsPixmapItem>
 #include <QMouseEvent>
 #include <QGraphicsView>
 #include <QGraphicsScene>
@@ -19,6 +20,8 @@ public:
     void setMyPlayer(player*);
     void addPlayer(player*);
     void addItem(Item*, int, int);
+    void buildMap(int [][39]);
+    void buildMap(QString);
     void center();
 signals:
     void statusChanged(const QMap<int, bool>&, float ang, bool clicked);
@@ -39,6 +42,8 @@ protected:
     player *my_player;
 
     bool mouseKey1Down;
+
+    QPixmap *map;
 };
 
 #endif // CANVAS_H

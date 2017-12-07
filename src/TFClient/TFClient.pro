@@ -31,7 +31,8 @@ SOURCES += \
     item.cpp \
     player.cpp \
     stuff.cpp \
-    engine.cpp
+    engine.cpp \
+    message.cpp
 
 HEADERS += \
         frame.h \
@@ -40,7 +41,8 @@ HEADERS += \
     item.h \
     player.h \
     stuff.h \
-    engine.h
+    engine.h \
+    message.h
 
 FORMS += \
         frame.ui

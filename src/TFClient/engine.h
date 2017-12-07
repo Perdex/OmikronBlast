@@ -2,10 +2,13 @@
 #define ENGINE_H
 
 #include <QMap>
+#include <QObject>
 
-#include "tcpmanager.h"
-#include "canvas.h"
-#include "stuff.h"
+class TCPManager;
+class Canvas;
+class stuff;
+class UpdateMessage;
+class StatusMessage;
 
 class Engine : public QObject
 {
@@ -14,7 +17,14 @@ public:
     Engine(Canvas&, TCPManager&);
     ~Engine();
     void start();
+signals:
+    void started();
+    void pauseChanged(bool);
+    void ended();
 private:
+    void processUpdate(UpdateMessage*, QDataStream*);
+    void processStatus(StatusMessage*);
+
     QMap<qint16, stuff*> items;
     TCPManager& tcp;
     Canvas& canvas;

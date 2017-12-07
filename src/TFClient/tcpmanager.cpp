@@ -39,7 +39,6 @@ void TCPManager::onPushUpdate(const QMap<int, bool> &status, float ang, bool cli
     tmp.setVersion(QDataStream::Qt_5_9);
 
     tmp << status << clicked << ang;
-    qDebug() << status;
 
     sock.write(block);
     sock.flush();
@@ -61,39 +60,9 @@ void TCPManager::onConnected() {
     sock.write(block);
     sock.flush();
 
-    if(!sock.waitForReadyRead(3000)){
-        emit error(sock.errorString());
-        return;
-    }
-
-    QString msg;
-    do{
-        data->startTransaction();
-        *data >> msg;
-    }while(!data->commitTransaction());
-
-    if(msg != "TFGAME-SERVER") {
-        disconnect("Bad message from server.");
-        return;
-    }
-
-    //TODO Lue tässä jo olemassa olevat pelaajat.
-
-    qint16 id;
-    do{
-        data->startTransaction();
-        *data >> id;
-    }while(!data->commitTransaction());
-
-    emit idReceived(id);
-
-    // TODO: Read map
-
-    //emit mapReceived(map);
+    QObject::connect(&sock, &QTcpSocket::readyRead, this, &TCPManager::onReadyRead);
 
     emit connected();
-
-    QObject::connect(&sock, &QTcpSocket::readyRead, this, &TCPManager::onReadyRead);
 }
 
 /*

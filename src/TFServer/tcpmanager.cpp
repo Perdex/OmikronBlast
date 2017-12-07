@@ -8,7 +8,9 @@
 #include <QMessageBox>
 #include <QNetworkInterface>
 #include <QString>
+#include <QVariant>
 
+#include "message.h"
 #include "stuff.h"
 
 TCPManager::TCPManager(MainWindow* mainWindow)
@@ -88,9 +90,9 @@ void TCPManager::newClient(){
     }
 
     clients.push_back(socket);
-    QObject::connect(socket, &QTcpSocket::disconnected, this, &clientLost);
+    QObject::connect(socket, &QTcpSocket::disconnected, this, &TCPManager::clientLost);
 
-    qDebug() << "Client found!\n";
+    qDebug() << "Client found!";
 
     QDataStream *in = new QDataStream(socket);
     in->setVersion(QDataStream::Qt_5_9);
@@ -110,13 +112,22 @@ void TCPManager::newClient(){
     QDataStream stream(&msg, QIODevice::WriteOnly);
     stream.setVersion(QDataStream::Qt_5_9);
 
-    qint16 id = clients.size();
-    QString sver = "TFGAME-SERVER";
+    QVariant qhs("TFGAME-SERVER");
+    StatusMessage *sm_hs = new StatusMessage(GameStatus::HANDSHAKE, qhs);
 
-    stream << sver << id;
+    qint16 id = clients.size();
+    QVariant qid(id);
+    StatusMessage *sm_id = new StatusMessage(GameStatus::ID_TRANSFER, qid);
+
+    stream << sm_hs << sm_id;
+
+    qDebug() << msg;
 
     socket->write(msg);
     socket->flush();
+
+    delete sm_id;
+    delete sm_hs;
 
     mainWindow->addPlayer(id, in);
 }
@@ -157,6 +168,7 @@ void TCPManager::flush(){
 }
 
 TCPManager &TCPManager::operator<<(QString* s){
+    qDebug() << "Deprecation warning: TCPManager::operator<<(QString* s)";
     for(QTcpSocket* client: clients){
         client->write(s->toUtf8());
     }
@@ -165,10 +177,24 @@ TCPManager &TCPManager::operator<<(QString* s){
 }
 
 TCPManager &TCPManager::operator<<(stuff *s){
+    qDebug() << "Deprecation warning: TCPManager::operator<<(stuff* s)";
     QByteArray block;
     QDataStream stream(&block, QIODevice::WriteOnly);
     stream.setVersion(QDataStream::Qt_5_9);
     stream << *s;
+
+    for(QTcpSocket* client: clients){
+        client->write(block);
+    }
+
+    return *this;
+}
+
+TCPManager &TCPManager::operator<<(Message *msg) {
+    QByteArray block;
+    QDataStream stream(&block, QIODevice::WriteOnly);
+    stream.setVersion(QDataStream::Qt_5_9);
+    stream << msg;
 
     for(QTcpSocket* client: clients){
         client->write(block);

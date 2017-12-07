@@ -29,14 +29,16 @@ SOURCES += \
     tcpmanager.cpp \
     stuff.cpp \
     player.cpp\
-    map.cpp
+    map.cpp \
+    message.cpp
 
 HEADERS += \
         mainwindow.h \
     tcpmanager.h \
     stuff.h \
     player.h\
-    map.h
+    map.h \
+    message.h
 
 
 FORMS += \
