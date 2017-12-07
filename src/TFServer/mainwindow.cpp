@@ -4,6 +4,7 @@
 #include "player.h"
 #include "stuff.h"
 #include "map.h"
+#include "message.h"
 
 #include <QTimer>
 #include <QTime>
@@ -64,6 +65,12 @@ void MainWindow::startGame(){
     running = true;
 
     tcpmanager->gameStarted();
+
+    StatusMessage *start_msg = new StatusMessage(GameStatus::START);
+    qDebug() << start_msg;
+    qDebug() << (qint8)start_msg->status();
+    *tcpmanager << start_msg;
+    //delete start_msg;
 
     //Ei saa poistaa kommenteista ennen kuin client osaa
     //vastaanottaa kartan

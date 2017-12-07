@@ -121,6 +121,8 @@ void TCPManager::newClient(){
 
     stream << sm_hs << sm_id;
 
+    qDebug() << msg;
+
     socket->write(msg);
     socket->flush();
 
@@ -193,6 +195,8 @@ TCPManager &TCPManager::operator<<(Message *msg) {
     QDataStream stream(&block, QIODevice::WriteOnly);
     stream.setVersion(QDataStream::Qt_5_9);
     stream << msg;
+
+    qDebug() << block;
 
     for(QTcpSocket* client: clients){
         client->write(block);

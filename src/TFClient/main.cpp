@@ -15,6 +15,7 @@ int main(int argc, char *argv[])
     QObject::connect(&tcp, &TCPManager::connected, &eng, &Engine::start);
     QObject::connect(&w, &Frame::requestConnection, &tcp, &TCPManager::connectTo);
     QObject::connect(&tcp, &TCPManager::error, &w, &Frame::setStatus);
+    QObject::connect(&eng, &Engine::started, &w, &Frame::showGame);
 
     w.show();
 

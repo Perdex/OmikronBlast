@@ -47,6 +47,8 @@ void Engine::readData(QDataStream* data) {
 
         if(!data->commitTransaction()) break;
 
+        qDebug() << "Type" << (qint8)msg->type();
+
         switch (msg->type()) {
         case MessageType::STATUS: {
             StatusMessage *sm = static_cast<StatusMessage*>(msg);
@@ -67,10 +69,9 @@ void Engine::readData(QDataStream* data) {
 
 void Engine::processStatus(StatusMessage* msg)
 {
-    qDebug() << msg;
+    qDebug() << "Status" << (qint8)msg->status();
     switch (msg->status()) {
     case GameStatus::HANDSHAKE: {
-        qDebug() << msg->data<QString>();
         if(msg->data<QString>() != "TFGAME-SERVER") {
             qDebug() << "Smthing is amiss.";
             tcp.disconnect("Bad server type.");
@@ -90,6 +91,7 @@ void Engine::processStatus(StatusMessage* msg)
         break;
     }
     case GameStatus::START: {
+        emit started();
         break;
     }
     case GameStatus::PAUSED: {
@@ -105,6 +107,7 @@ void Engine::processStatus(StatusMessage* msg)
 
 void Engine::processUpdate(UpdateMessage *msg, QDataStream *stream)
 {
+    qDebug() << msg->id() << items;
     stream->startTransaction();
 
     *stream >> items[msg->id()];

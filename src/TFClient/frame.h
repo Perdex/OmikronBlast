@@ -18,7 +18,7 @@ public:
     Canvas& getCanvas() const;
 public slots:
     void onConnected();
-    void switchView();
+    void showGame();
     void setStatus(QString);
 private slots:
     void onQuit();

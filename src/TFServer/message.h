@@ -36,11 +36,15 @@ public:
     friend QDataStream& operator<<(QDataStream&, Message*);
 private:
     MessageType m_type;
+protected:
+    //virtual void toStream(QDataStream&) const = 0;
 };
 
 class StatusMessage : public Message
 {
 public:
+    StatusMessage(GameStatus s)
+        : Message(MessageType::STATUS), m_status(s), m_data() {}
     StatusMessage(GameStatus s, QVariant& d)
         : Message(MessageType::STATUS), m_status(s), m_data(d) {}
     const GameStatus status() const { return m_status; }

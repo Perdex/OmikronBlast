@@ -47,6 +47,8 @@ Message* Message::create(QDataStream *stream)
             return nullptr;
         }
 
+        qDebug() << id;
+
         msg = (Message*)
                 (new UpdateMessage(id));
         break;

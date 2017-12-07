@@ -4,7 +4,7 @@
 QDataStream& operator<<(QDataStream& stream, Message* msg)
 {
     //Not useful.
-    stream << (qint8)msg->type();
+    //stream << (qint8)msg->type();
     switch (msg->type()) {
     case MessageType::UPDATE: {
         UpdateMessage *um = static_cast<UpdateMessage*>(msg);
@@ -33,6 +33,7 @@ QDataStream& operator<<(QDataStream& stream, StatusMessage* msg)
 
 QDataStream& operator<<(QDataStream& stream, UpdateMessage* msg)
 {
-    stream << (qint8)msg->type() << *(msg->m_stuff);
+    const stuff *s = msg->data();
+    stream << (qint8)msg->type() << *s;
     return stream;
 }

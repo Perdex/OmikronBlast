@@ -17,6 +17,10 @@ public:
     Engine(Canvas&, TCPManager&);
     ~Engine();
     void start();
+signals:
+    void started();
+    void pauseChanged(bool);
+    void ended();
 private:
     void processUpdate(UpdateMessage*, QDataStream*);
     void processStatus(StatusMessage*);
