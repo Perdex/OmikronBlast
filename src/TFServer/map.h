@@ -8,6 +8,9 @@
 #include <QMessageBox>
 #include <QNetworkInterface>
 #include <QString>
+#include <utility>
+#include <string>
+#include <math.h>
 
 class TCPManager;
 
@@ -16,10 +19,11 @@ class Map
 
 public:
     Map();
-    ~Map();
+    ~Map(); //turha?
     QString streaming();
     bool isWall(int x, int y);
     void send(TCPManager* manager);
+    std::pair<int, int> newPoint(int, int, std::pair<int, int>);
 
 private:
     QString stream;
