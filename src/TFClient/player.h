@@ -12,6 +12,7 @@ public:
     player(QString name, qint16 id, double x, double y);
     ~player();
     void update(QDataStream*);
+    static player* create(qint16 id, QDataStream*);
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QRectF boundingRect() const;

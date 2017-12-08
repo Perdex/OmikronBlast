@@ -54,6 +54,7 @@ public:
     UpdateMessage(Stuff t, qint16 i)
         : Message(MessageType::UPDATE), m_id(i), m_type(t) {}
     const qint16 id() const { return m_id; }
+    const Stuff datatype() const { return m_type; }
 private:
     qint16 m_id;
     Stuff m_type;

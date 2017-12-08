@@ -25,12 +25,14 @@ private:
     void processUpdate(UpdateMessage*, QDataStream*);
     void processStatus(StatusMessage*);
 
+    void addStuff(stuff*);
+
     QMap<qint16, stuff*> items;
     TCPManager& tcp;
     Canvas& canvas;
     qint16 my_id;
 private slots:
-    void setPlayer(qint16 id);
+    //void setPlayer(qint16 id);
     void readData(QDataStream*);
 };
 

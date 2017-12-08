@@ -19,16 +19,11 @@ void Engine::start() {
     QObject::connect(&canvas, &Canvas::statusChanged, &tcp, &TCPManager::onPushUpdate);
 }
 
-void Engine::setPlayer(qint16 id) {
-    my_id = id;
-
-    //TODO jonnekkin muualle.
-    items[id] = new player("pertti", 'f', 2500, 2500);
-
-    player *p = static_cast<player*>(items[id]);
-
-    canvas.setMyPlayer(p);
-    canvas.addPlayer(p);
+void Engine::addStuff(stuff* s) {
+    items[s->getId()] = s;
+    if(s->getId() == my_id)
+        canvas.setMyPlayer(static_cast<player*>(s));
+    canvas.addStuff(s);
 }
 
 
@@ -74,7 +69,7 @@ void Engine::processStatus(StatusMessage* msg)
     }
     case GameStatus::ID_TRANSFER: {
         qint16 id = msg->data<qint16>();
-        setPlayer(id);
+        my_id = id;
         break;
     }
     case GameStatus::MAP_TRANSFER: {
@@ -103,7 +98,7 @@ void Engine::processStatus(StatusMessage* msg)
 void Engine::processUpdate(UpdateMessage *msg, QDataStream *stream)
 {
     if(!items.contains(msg->id())) {
-        //items[msg->id()] = stuff::create(stream);
+        addStuff(stuff::create(msg, stream));
     }else{
         items[msg->id()]->update(stream);
     }

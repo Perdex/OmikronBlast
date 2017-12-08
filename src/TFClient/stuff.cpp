@@ -1,4 +1,6 @@
 #include "stuff.h"
+#include "message.h"
+#include "player.h"
 #include <QString>
 #include <QtDebug>
 
@@ -56,4 +58,13 @@ QDataStream& operator>>(QDataStream &stream, stuff *s) {
     //TODO player(+projectile)-spesifiä juttua
 
     return stream;
+}
+
+stuff* stuff::create(UpdateMessage *msg, QDataStream *stream) {
+    switch(msg->datatype()) {
+    case Stuff::PLAYER:
+        return player::create(msg->id(), stream);
+    default:
+        return nullptr;
+    }
 }

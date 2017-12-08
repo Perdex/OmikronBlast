@@ -6,6 +6,8 @@
 #include <QGraphicsItem>
 #include <QVector>
 
+class UpdateMessage;
+
 enum class Stuff : qint8 {
     PLAYER, PROJECTILE
 };
@@ -20,12 +22,13 @@ public:
 //   virtual void draw() = 0;
     double getHorizontalPos();
     double getVerticalPos();
+    qint16 getId() const {return id;}
     void setHorizontalPos(double);
     void setVerticalPos(double);
     virtual void update(QDataStream*) = 0;
 
     friend QDataStream& operator>>(QDataStream&, stuff*);
-    static stuff* create(QDataStream*);
+    static stuff* create(UpdateMessage*, QDataStream*);
 private:
     qint16 id;
     double horizontalPos;

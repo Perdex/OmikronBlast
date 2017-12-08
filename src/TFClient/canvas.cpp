@@ -33,7 +33,7 @@ void Canvas::setMyPlayer(player* p) {
     center();
 }
 
-void Canvas::addPlayer(player *p) {
+void Canvas::addStuff(stuff *p) {
     scene->addItem(p);
 }
 

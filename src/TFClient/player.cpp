@@ -44,3 +44,17 @@ void player::update(QDataStream *s)
     this->setVerticalPos(vp);
     this->setHorizontalPos(hp);
 }
+
+player* player::create(qint16 id, QDataStream *stream) {
+
+    QString name = "";
+    double hp, vp;
+
+    stream->startTransaction();
+
+    *stream >> hp >> vp;
+
+    if(!stream->commitTransaction()) return nullptr;
+
+    return new player(name, id, hp, vp);
+}
