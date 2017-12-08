@@ -4,12 +4,13 @@
 
 stuff::stuff(qint16 id, double& x, double& y, double dx = 0 , double dy = 0) : id(id), horizontalPos(x), verticalPos(y),
              horizontalSpeed(dx), verticalSpeed(dy){}
-stuff::stuff(qint16 id, QDataStream *s) : id(id), stream(s) {
+stuff::stuff(Stuff t, qint16 id, QDataStream *s) : id(id), stream(s) {
     //TODO
     horizontalPos = 2500;
     verticalPos = 2500;
     horizontalSpeed = 0;
     verticalSpeed = 0;
+    type = t;
 }
 
 stuff::~stuff(){}
@@ -70,7 +71,7 @@ void stuff::setVerticalPos(double y)
 
 QDataStream& operator<<(QDataStream& stream, const stuff &s)
 {
-    stream << s.getId()
+    stream << (qint8)s.type << s.getId()
            << s.getHorizontalPos() << s.getVerticalPos();
     //TODO player(+projectile)-spesifiä juttua
     return stream;

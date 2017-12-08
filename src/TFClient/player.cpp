@@ -32,3 +32,15 @@ QRectF player::boundingRect() const
     return QRectF(-25,-50,50,100);
 }
 
+void player::update(QDataStream *s)
+{
+    double hp, vp;
+    s->startTransaction();
+
+    *s >> hp >> vp;
+
+    if(!s->commitTransaction()) return;
+
+    this->setVerticalPos(vp);
+    this->setHorizontalPos(hp);
+}

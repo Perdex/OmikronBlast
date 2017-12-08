@@ -27,13 +27,6 @@ void Engine::setPlayer(qint16 id) {
 
     player *p = static_cast<player*>(items[id]);
 
-    //TODO Jaakkooo!!!!!!
-    //p->setPos(p->getHorizontalPos(), p->getVerticalPos());
-    //DONED
-
-
-    //canvas.buildMap(p[39][39]);
-
     canvas.setMyPlayer(p);
     canvas.addPlayer(p);
 }
@@ -94,7 +87,6 @@ void Engine::processStatus(StatusMessage* msg)
     case GameStatus::START: {
         emit started();
         canvas.center();
-        canvas.buildMap(""); //This is a test
         break;
     }
     case GameStatus::PAUSED: {
@@ -110,10 +102,9 @@ void Engine::processStatus(StatusMessage* msg)
 
 void Engine::processUpdate(UpdateMessage *msg, QDataStream *stream)
 {
-    //qDebug() << msg->id() << items;
-    stream->startTransaction();
-
-    *stream >> items[msg->id()];
-
-    stream->commitTransaction();
+    if(!items.contains(msg->id())) {
+        //items[msg->id()] = stuff::create(stream);
+    }else{
+        items[msg->id()]->update(stream);
+    }
 }

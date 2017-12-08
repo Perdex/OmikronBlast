@@ -6,6 +6,10 @@
 #include <QGraphicsItem>
 #include <QVector>
 
+enum class Stuff : qint8 {
+    PLAYER, PROJECTILE
+};
+
 class stuff: public QGraphicsItem
 {
 
@@ -18,7 +22,10 @@ public:
     double getVerticalPos();
     void setHorizontalPos(double);
     void setVerticalPos(double);
+    virtual void update(QDataStream*) = 0;
+
     friend QDataStream& operator>>(QDataStream&, stuff*);
+    static stuff* create(QDataStream*);
 private:
     qint16 id;
     double horizontalPos;

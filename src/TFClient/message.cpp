@@ -39,18 +39,17 @@ Message* Message::create(QDataStream *stream)
     case MessageType::UPDATE: {
         stream->startTransaction();
 
+        qint8 t;
         qint16 id;
-        *stream >> id;
+        *stream >> t >> id;
 
         if(!stream->commitTransaction()) {
             delete msg;
             return nullptr;
         }
 
-        qDebug() << id;
-
         msg = (Message*)
-                (new UpdateMessage(id));
+                (new UpdateMessage((Stuff)t, id));
         break;
     }
     default:

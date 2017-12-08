@@ -11,6 +11,7 @@ class player :public stuff
 public:
     player(QString name, qint16 id, double x, double y);
     ~player();
+    void update(QDataStream*);
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QRectF boundingRect() const;

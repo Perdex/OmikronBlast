@@ -3,7 +3,7 @@
 
 #include <QVariant>
 #include <QDataStream>
-class stuff;
+#include "stuff.h"
 
 enum class MessageType : qint8 {
     UPDATE, STATUS
@@ -51,11 +51,12 @@ private:
 class UpdateMessage : public Message
 {
 public:
-    UpdateMessage(qint16 i)
-        : Message(MessageType::UPDATE), m_id(i) {}
+    UpdateMessage(Stuff t, qint16 i)
+        : Message(MessageType::UPDATE), m_id(i), m_type(t) {}
     const qint16 id() const { return m_id; }
 private:
     qint16 m_id;
+    Stuff m_type;
 };
 
 #endif // MESSAGE_H

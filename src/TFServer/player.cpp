@@ -33,7 +33,7 @@ player::player(QString name, qint16 id, double& x, double& y, bool dead = 0, int
 }
 
 player::player(qint16 id, QDataStream *stream)
-    : stuff(id, stream),
+    : stuff(Stuff::PLAYER, id, stream),
     name("NONAME_SUCKER"),
     isDead(false){
     setVerticalPos(2500);
