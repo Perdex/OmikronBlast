@@ -46,12 +46,9 @@ void Canvas::buildMap(QString s) {
     map = new QPixmap(scene->width(), scene->height());
     map->fill(Qt::transparent);
     QPixmap tile(":/images/Squarebox.png");
-    //tile = tile.scaled(30, 30);
+    tile = tile.scaled(100, 100);
     QPainter painter(map);
 
-    //Tämäkin on testi
-    //Tähän pitäisi laittaa koko kartan piirtäminen
-    //merkkijonosta s.
     for(int i=0; i<40; i++){
         for(int j=0; j<40; j++){
             if(s[40 * i + j]=='1'){

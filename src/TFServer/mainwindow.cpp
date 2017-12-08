@@ -92,7 +92,7 @@ void MainWindow::startGame(){
         }
 
         ui->startButton->setText("Pause game");
-        QTimer::singleShot(FRAME_TIME, this, &executeTurn);
+        QTimer::singleShot(FRAME_TIME, this, &MainWindow::executeTurn);
     }else{
         //pause
         ui->startButton->setText("Continue game");
@@ -178,6 +178,6 @@ void MainWindow::executeTurn(){
     updateText();
 
     tcpmanager->flush();
-    QTimer::singleShot(FRAME_TIME, this, &executeTurn);
+    QTimer::singleShot(FRAME_TIME, this, &MainWindow::executeTurn);
 }
 
