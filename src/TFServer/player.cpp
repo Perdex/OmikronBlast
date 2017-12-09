@@ -28,6 +28,7 @@ player::player(QString name, qint16 id, double& x, double& y, bool dead = 0, int
     lastMagazineFull = 0;
     lastJetpackUse = 0;
     isFalling = 0;
+    acceleration = 0.0;
 }
 
 player::player(qint16 id, QDataStream *stream)
@@ -66,6 +67,11 @@ void player::doStep(int dt)
 
         if(map[Qt::Key_Space]) jump(); // tähän vielä !isFalling kunha saadaan unit collision
 
+        if(isFalling && !jetpackStatus) acceleration = GRAVITY;
+        else if(!isFalling && jetpackStatus) acceleration = JETPACKPOWER;
+        else if(isFalling && jetpackStatus) acceleration = JETPACKPOWER + GRAVITY;
+        else acceleration = 0;
+
 
         if(map[Qt::Key_A] && !map[Qt::Key_D]) setHorizontalSpeed(-HORIZONTALMOVEMENT);
         else if(map[Qt::Key_D] && !map[Qt::Key_A]) setHorizontalSpeed(HORIZONTALMOVEMENT);
@@ -76,8 +82,7 @@ void player::doStep(int dt)
 
 void player::move(int dt, TCPManager &mgr)
 {
-    if(jetpackStatus) changeVerticalSpeed(dt * JETPACKPOWER);
-    if(isFalling) changeVerticalSpeed(dt * GRAVITY);
+    changeVerticalSpeed(dt * acceleration);
 
     setVerticalSpeed(qMin(getVerticalSpeed(),TERMINALSPEED));
 

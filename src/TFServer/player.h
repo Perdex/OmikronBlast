@@ -46,6 +46,7 @@ private:
     time_t lastJetpackUse;
     double weaponAngle;
     bool isFalling;
+    double acceleration;
 };
 
 #endif // PLAYER_H
