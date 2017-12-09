@@ -84,7 +84,7 @@ void player::move(int dt, TCPManager &mgr)
 {
     changeVerticalSpeed(dt * acceleration);
 
-    setVerticalSpeed(qMin(getVerticalSpeed(),TERMINALSPEED));
+    setVerticalSpeed(qBound(-TERMINALSPEED, getVerticalSpeed(), TERMINALSPEED));
 
     changeVerticalPos(getVerticalSpeed() * dt / 1000);
     changeHorizontalPos(getHorizontalSpeed() * dt / 1000);

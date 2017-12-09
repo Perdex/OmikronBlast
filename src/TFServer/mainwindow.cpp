@@ -131,7 +131,7 @@ void MainWindow::addPlayer(qint16 id, QDataStream *stream){
 void MainWindow::updateText(){
 
     //Set the info label text
-    QString s = QString("Game running! t: %1 s").arg(timeElapsed / 100);
+    QString s = QString("Game running! t: %1 s").arg(timeElapsed / 1000);
     ui->InfoLabel->setText(s);
 
     s = "Players:\n";

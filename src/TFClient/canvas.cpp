@@ -29,7 +29,6 @@ void Canvas::setMyPlayer(player* p) {
     my_player = p;
     mouseX = p->x();
     mouseY = p->y();
-    qDebug() << mouseY;
     center();
 }
 
@@ -74,7 +73,7 @@ void Canvas::buildMap(int p[][39]){
 
 void Canvas::center() {
     if(my_player == nullptr) return;
-    qDebug() << my_player->getHorizontalPos() + (mouseX - this->width()/2)/2;
+    //qDebug() << my_player->getHorizontalPos() + (mouseX - this->width()/2)/2;
     this->centerOn(my_player->getHorizontalPos() + (mouseX - this->width()/2)/2, my_player->getVerticalPos() + (mouseY - this->height()/2)/2);
 }
 
@@ -83,6 +82,7 @@ void Canvas::mouseMoveEvent(QMouseEvent *me) {
     mouseY = me->y();
     mouseX = me->x();
     center();
+    my_player->setAngle(atan2(mouseY - this->height()/2, mouseX - this->width()/2) * 180 / M_PI);
     //this->centerOn(my_player->getHorizontalPos() + (me->x() - this->width()/2)/2, my_player->getVerticalPos() + (me->y() - this->height()/2)/2);
 }
 

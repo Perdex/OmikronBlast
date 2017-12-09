@@ -13,6 +13,7 @@ public:
     ~player();
     void update(QDataStream*);
     static player* create(qint16 id, QDataStream*);
+    void setAngle(double angle);
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QRectF boundingRect() const;
@@ -25,6 +26,7 @@ private:
     QChar fuel;
     bool isMe;
     QChar mouseClicked;
+    QPixmap pixmaps[2];
 };
 
 #endif // PLAYER_H

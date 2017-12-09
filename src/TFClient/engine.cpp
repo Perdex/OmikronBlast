@@ -35,7 +35,7 @@ void Engine::readData(QDataStream* data) {
 
         if(!data->commitTransaction()) break;
 
-        qDebug() << "Type" << (qint8)msg->type();
+        //qDebug() << "Type" << (qint8)msg->type();
 
         switch (msg->type()) {
         case MessageType::STATUS: {

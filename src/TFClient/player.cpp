@@ -10,26 +10,43 @@ player::player(QString name, qint16 id, double x, double y): name(name), stuff(i
     mouseClicked = 0;
     isDead = 0;
     angle = 0.0;
+
+    pixmaps[0] = QPixmap(":/images/Images/Marinestance.png");
+    pixmaps[1] = QPixmap(":/images/Images/Marinestance_2.png");
 }
 player::~player(){}
 
 void player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    //unnecessary?
-    //painter->setBrush(Qt::blue);
+    double ang = angle;
+    if(ang < -90 || ang > 90){
+        //flip the image
+        QTransform transf = painter->transform();
+        transf.scale(-1, 1);
+        painter->setTransform(transf);
 
-    static QPixmap pic1a = QPixmap(":/images/Images/Marinestance.png");
-    static QPixmap pic2a = QPixmap(":/images/Images/Marinestance_2.png");
-    //make a flipping transformation. Or make the weapon as a separate image and rotate it to correct angle
-    //static QPixmap pic1b = pic1a.transformed(QTransform());
-    //static QPixmap pic2b = pic2a.transformed(QTransform());
+        //transform angle to right side
+        if(ang < -90)
+            ang = -180 - ang;
+        else
+            ang = 180 - ang;
+    }
 
-    //if angle points up, use pic2: if angle is to the left, use mirror images
-    painter->drawPixmap(-25,-50,50,100,pic1a);
+    int ind = 0;
+    if(ang < -30)
+        ind = 1;
+
+    painter->drawPixmap(-39,-50,78,100,pixmaps[ind]);
 }
 QRectF player::boundingRect() const
 {
-    return QRectF(-25,-50,50,100);
+    return QRectF(-39,-50,78,100);
+}
+
+void player::setAngle(double angle){
+    //qDebug() << angle;
+    //this is currently always between -180, 180
+    this->angle = angle;
 }
 
 void player::update(QDataStream *s)

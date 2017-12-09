@@ -135,6 +135,7 @@ void TCPManager::newClient(){
 void TCPManager::clientLost(){
     qDebug() << "A client was lost! Terminating";
     mainWindow->endGame();
+    qDebug() << "asdf";
     this->deleteLater();
 }
 
