@@ -9,11 +9,11 @@
 #define JETFUELMAX 100.0
 #define PLAYERWIDTH 20
 #define PLAYERHEIGHT 40
-#define GRAVITY 0.1
-#define JETPACKPOWER 0.2
-#define TERMINALSPEED 10.0
-#define HORIZONTALMOVEMENT 2.0
-#define JUMPSTRENGTH 3.0
+#define GRAVITY 0.8
+#define JETPACKPOWER -1.6
+#define TERMINALSPEED 1000.0
+#define HORIZONTALMOVEMENT 500.0
+#define JUMPSTRENGTH -800.0
 #define FUELCONSUMPTION 5.0
 
 player::player(QString name, qint16 id, double& x, double& y, bool dead = 0, int ammoMax = AMMOMAX, double fuelMax = JETFUELMAX,
@@ -23,13 +23,11 @@ player::player(QString name, qint16 id, double& x, double& y, bool dead = 0, int
     width = PLAYERWIDTH;
     height = PLAYERHEIGHT;
     ammoLeft = AMMOMAX;
-    jetpackStatus = 0;
+    jetpackStatus = false;
     fuelLeft = JETFUELMAX;
     lastMagazineFull = 0;
     lastJetpackUse = 0;
     isFalling = 0;
-    goingLeft = 0;
-    goingRight = 0;
 }
 
 player::player(qint16 id, QDataStream *stream)
@@ -40,15 +38,56 @@ player::player(qint16 id, QDataStream *stream)
     setHorizontalPos(2500);
 }
 
-player::~player(){}
+void player::doStep(int dt)
+{
+    QMap<int, bool> map;
+    bool clicked;
+    double angle;
 
-//QDataStream& player::operator<<(QDataStream& stream)
-//{
-//    QChar type = '0';
-//    QChar fuel = ((int)(getFuelLeft() + 0.5)) + '0';
-//    stream << getId() << type << getIsDead() << getHorizontalPos() << getVerticalPos() << getAmmoLeft() << fuel;
-//    return stream;
-//}
+     //qDebug() << stream->status();
+
+    stream->startTransaction();
+
+    *stream >> map >> clicked >> angle;
+
+    //qDebug() << map << clicked << angle;
+
+    if(stream->commitTransaction()) {
+        qDebug() << map;
+
+        if(map[Qt::Key_S]) isFalling = true; //tähän unit collision kunhan saadaan
+        else isFalling = false;
+
+        if(map[Qt::Key_W] && fuelLeft > 0)
+        {
+            jetpackStatus = true;
+        }
+        else jetpackStatus = false;
+
+        if(map[Qt::Key_Space]) jump(); // tähän vielä !isFalling kunha saadaan unit collision
+
+
+        if(map[Qt::Key_A] && !map[Qt::Key_D]) setHorizontalSpeed(-HORIZONTALMOVEMENT);
+        else if(map[Qt::Key_D] && !map[Qt::Key_A]) setHorizontalSpeed(HORIZONTALMOVEMENT);
+        else setHorizontalSpeed(0);
+
+    }
+}
+
+void player::move(int dt, TCPManager &mgr)
+{
+    if(jetpackStatus) changeVerticalSpeed(dt * JETPACKPOWER);
+    if(isFalling) changeVerticalSpeed(dt * GRAVITY);
+
+    setVerticalSpeed(qMin(getVerticalSpeed(),TERMINALSPEED));
+
+    changeVerticalPos(getVerticalSpeed() * dt / 1000);
+    changeHorizontalPos(getHorizontalSpeed() * dt / 1000);
+
+    mgr << (Message*)(new UpdateMessage((stuff*)this));
+}
+
+player::~player(){}
 
 bool player::getIsDead() const
 {
@@ -70,14 +109,6 @@ int player::getAmmoMax() const
 {
     return ammoMax;
 }
-bool player::getJetpackStatus() const
-{
-    return jetpackStatus;
-}
-double player::getFuelLeft() const
-{
-    return fuelLeft;
-}
 double player::getFuelMax() const
 {
     return fuelMax;
@@ -95,81 +126,9 @@ int player::getLastJetpackUse() const
 {
     return lastJetpackUse;
 }
-
-void player::decode(QString str)
-{
-
-}
-
-void player::startFall()
-{
-    isFalling = 1;
-}
-void player::stopFall()
-{
-    isFalling = 0;
-}
 void player::jump()
 {
-    if(!isFalling)
         setVerticalSpeed(JUMPSTRENGTH);
-}
-void player::doStep(int dt)
-{
-    QMap<int, bool> map;
-    bool clicked;
-    double angle;
-
-     //qDebug() << stream->status();
-
-    stream->startTransaction();
-
-    *stream >> map >> clicked >> angle;
-
-    //qDebug() << map << clicked << angle;
-
-    if(stream->commitTransaction()) {
-        //jetpackStatus = map[Qt::Key_W];
-        //isFalling = map[Qt::Key_S];
-        //if(map[Qt::Key_Space])
-        //    jump();
-        //goingLeft = map[Qt::Key_A];
-        //goingRight = map[Qt::Key_D];
-        //if(clicked)
-        //    shoot(angle);
-        qDebug() << map;
-
-        //Älkää käyttäkö taikanumeroita! noissa oli kaikissa vaan 80
-        int speed = 500;
-
-        if(map[Qt::Key_W] && !map[Qt::Key_S]) setVerticalSpeed(-speed);
-        else if(map[Qt::Key_S] && !map[Qt::Key_W]) setVerticalSpeed(speed);
-        else setVerticalSpeed(0);
-
-        if(map[Qt::Key_A] && !map[Qt::Key_D]) setHorizontalSpeed(-speed);
-        else if(map[Qt::Key_D] && !map[Qt::Key_A]) setHorizontalSpeed(speed);
-        else setHorizontalSpeed(0);
-
-    }
-
-    /*if(jetpackStatus)
-        changeVerticalSpeed(JETPACKPOWER * dt);
-    else if(isFalling)
-        changeVerticalSpeed(-GRAVITY * dt);
-
-    if(goingRight && !goingLeft)
-        setHorizontalSpeed(HORIZONTALMOVEMENT);
-    else if(!goingRight && goingLeft)
-        setHorizontalSpeed(-HORIZONTALMOVEMENT);
-    else
-        setHorizontalSpeed(0);*/
-}
-void player::move(int dt, TCPManager &mgr)
-{
-    changeVerticalPos(getVerticalSpeed() * dt / 1000);
-    changeHorizontalPos(getHorizontalSpeed() * dt / 1000);
-
-    mgr << (Message*)(new UpdateMessage((stuff*)this));
 }
 
 void player::shoot(double angle)

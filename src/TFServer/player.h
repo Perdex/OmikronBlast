@@ -22,15 +22,10 @@ public:
     int getHeight() const;
     int getAmmoLeft() const;
     int getAmmoMax() const;
-    bool getJetpackStatus() const;
-    double getFuelLeft() const;
     double getFuelMax() const;
     QString getName() const;
     int getLastMagazineFull() const;
     int getLastJetpackUse() const;
-    void decode(QString);
-    void startFall();
-    void stopFall();
     void jump();
     void doStep(int dt);
     void move(int dt, TCPManager &mgr);
@@ -51,8 +46,6 @@ private:
     time_t lastJetpackUse;
     double weaponAngle;
     bool isFalling;
-    bool goingLeft;
-    bool goingRight;
 };
 
 #endif // PLAYER_H
