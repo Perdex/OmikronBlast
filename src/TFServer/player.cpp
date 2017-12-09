@@ -62,10 +62,12 @@ void player::doStep(int dt)
         if(map[Qt::Key_W] && fuelLeft > 0)
         {
             jetpackStatus = true;
+            lastJetpackUse = 0;
         }
         else jetpackStatus = false;
 
-        if(map[Qt::Key_Space]) jump(); // tähän vielä !isFalling kunha saadaan unit collision
+
+        if(map[Qt::Key_Space]) jump(); // tähän vielä !isFalling kunhan saadaan unit collision
 
         if(isFalling && !jetpackStatus) acceleration = GRAVITY;
         else if(!isFalling && jetpackStatus) acceleration = JETPACKPOWER;
@@ -83,6 +85,9 @@ void player::doStep(int dt)
 void player::move(int dt, TCPManager &mgr)
 {
     changeVerticalSpeed(dt * acceleration);
+    if(!jetpackStatus) lastJetpackUse += dt;
+    if(lastJetpackUse > 3000) fuelLeft = qMin(JETFUELMAX, fuelLeft + (dt/10));
+    if(jetpackStatus) fuelLeft = qMax(fuelLeft - (dt/10), 0.0);
 
     setVerticalSpeed(qBound(-TERMINALSPEED, getVerticalSpeed(), TERMINALSPEED));
 
