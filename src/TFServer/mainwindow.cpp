@@ -103,6 +103,7 @@ void MainWindow::startGame(){
 void MainWindow::endGame(){
     qDebug() << "Ending the game!";
     running = false;
+    this->deleteLater();
     //gameLoopTimer->stop();
 }
 
