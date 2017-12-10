@@ -1,19 +1,20 @@
 #include "player.h"
-#include "stuff.h"
 #include "message.h"
+#include "map.h"
 #include "tcpmanager.h"
 #include <QDataStream>
 #include <QMap>
 #include <QtDebug>
+
 #define AMMOMAX 5
 #define JETFUELMAX 100.0
 #define PLAYERWIDTH 20
 #define PLAYERHEIGHT 40
 #define GRAVITY 0.8
 #define JETPACKPOWER -1.6
-#define TERMINALSPEED 1000.0
-#define HORIZONTALMOVEMENT 500.0
-#define JUMPSTRENGTH -800.0
+#define TERMINALSPEED 20.0
+#define HORIZONTALMOVEMENT 1.0
+#define JUMPSTRENGTH -10.0
 #define FUELCONSUMPTION 5.0
 
 player::player(QString name, qint16 id, double& x, double& y, bool dead = 0, int ammoMax = AMMOMAX, double fuelMax = JETFUELMAX,
@@ -28,15 +29,20 @@ player::player(QString name, qint16 id, double& x, double& y, bool dead = 0, int
     lastMagazineFull = 0;
     lastJetpackUse = 0;
     isFalling = 0;
-    acceleration = 0.0;
 }
 
-player::player(qint16 id, QDataStream *stream)
-    : stuff(Stuff::PLAYER, id, stream),
+player::player(qint16 id, QDataStream *stream, Map *map)
+    : stuff(Stuff::PLAYER, id, stream, map),
     name("NONAME_SUCKER"),
     isDead(false){
-    setVerticalPos(2500);
-    setHorizontalPos(2500);
+
+    int x, y;
+    do{
+        x = rand() % 40;
+        y = rand() % 40;
+    }while(map->isWall(x, y));
+    this->x = x * 100 + 50;
+    this->y = y * 100 + 50;
 }
 
 void player::doStep(int dt)
@@ -63,36 +69,42 @@ void player::doStep(int dt)
         {
             jetpackStatus = true;
             lastJetpackUse = 0;
-        }
-        else jetpackStatus = false;
+        }else
+            jetpackStatus = false;
 
 
         if(map[Qt::Key_Space]) jump(); // tähän vielä !isFalling kunhan saadaan unit collision
 
-        if(isFalling && !jetpackStatus) acceleration = GRAVITY;
-        else if(!isFalling && jetpackStatus) acceleration = JETPACKPOWER;
-        else if(isFalling && jetpackStatus) acceleration = JETPACKPOWER + GRAVITY;
-        else acceleration = 0;
+        if(isFalling)
+            vy += GRAVITY;
+
+        if(jetpackStatus && fuelLeft > 0)
+            vy += JETPACKPOWER;
 
 
-        if(map[Qt::Key_A] && !map[Qt::Key_D]) setHorizontalSpeed(-HORIZONTALMOVEMENT);
-        else if(map[Qt::Key_D] && !map[Qt::Key_A]) setHorizontalSpeed(HORIZONTALMOVEMENT);
-        else setHorizontalSpeed(0);
+        if(map[Qt::Key_A]) vx -= HORIZONTALMOVEMENT;
+        if(map[Qt::Key_D]) vx += HORIZONTALMOVEMENT;
 
     }
 }
 
 void player::move(int dt, TCPManager &mgr)
 {
-    changeVerticalSpeed(dt * acceleration);
+
     if(!jetpackStatus) lastJetpackUse += dt;
     if(lastJetpackUse > 3000) fuelLeft = qMin(JETFUELMAX, fuelLeft + (dt/10));
     if(jetpackStatus) fuelLeft = qMax(fuelLeft - (dt/10), 0.0);
 
-    setVerticalSpeed(qBound(-TERMINALSPEED, getVerticalSpeed(), TERMINALSPEED));
+    vx *= 0.9;
+    vy *= 0.9;
 
-    changeVerticalPos(getVerticalSpeed() * dt / 1000);
-    changeHorizontalPos(getHorizontalSpeed() * dt / 1000);
+    vy = qBound(-TERMINALSPEED, vy, TERMINALSPEED);
+
+    map->collide(&x, &y, &vx, &vy, dt);
+
+    x += dt * vx;
+    y += dt * vy;
+
 
     mgr << (Message*)(new UpdateMessage((stuff*)this));
 }
@@ -138,7 +150,7 @@ int player::getLastJetpackUse() const
 }
 void player::jump()
 {
-        setVerticalSpeed(JUMPSTRENGTH);
+    vy = JUMPSTRENGTH;
 }
 
 void player::shoot(double angle)

@@ -24,7 +24,8 @@ public:
     QString streaming();
     bool isWall(int x, int y);
     void send(TCPManager* manager);
-    std::pair<int, int> newPoint(int, int, std::pair<int, int>);
+    // if necessary, collides with a wall and updates the position and velocity
+    void collide(double *x, double *y, double *vx, double *vy, int dt);
 
 private:
     QString stream;

@@ -73,21 +73,20 @@ MainWindow::~MainWindow()
 void MainWindow::startGame(){
     if(!running){
         running = true;
+
+        StatusMessage *start_msg = new StatusMessage(GameStatus::START);
+        qDebug() << start_msg;
+        qDebug() << (qint8)start_msg->status();
+        *tcpmanager << start_msg;
+        //delete start_msg;
+
+        map->send(tcpmanager);
+
         if(!started){
             qDebug() << "Starting game";
 
             started = true;
             tcpmanager->gameStarted();
-
-            StatusMessage *start_msg = new StatusMessage(GameStatus::START);
-            qDebug() << start_msg;
-            qDebug() << (qint8)start_msg->status();
-            *tcpmanager << start_msg;
-            //delete start_msg;
-
-            //Ei saa poistaa kommenteista ennen kuin client osaa
-            //vastaanottaa kartan
-            map->send(tcpmanager);
 
             time = new QTime();
             time->start();
@@ -100,6 +99,10 @@ void MainWindow::startGame(){
         ui->startButton->setText("Pause game");
         QTimer::singleShot(FRAME_TIME, this, &MainWindow::executeTurn);
     }else{
+        StatusMessage *start_msg = new StatusMessage(GameStatus::PAUSED);
+        qDebug() << start_msg;
+        qDebug() << (qint8)start_msg->status();
+        *tcpmanager << start_msg;
         //pause
         ui->startButton->setText("Continue game");
         running = false;
@@ -119,7 +122,7 @@ void MainWindow::endGame(){
  * sock: the tcp socket for receiving data
  */
 void MainWindow::addPlayer(qint16 id, QDataStream *stream){
-    player* p = new player(id, stream);
+    player* p = new player(id, stream, map);
     objects += p;
     players += p;
 

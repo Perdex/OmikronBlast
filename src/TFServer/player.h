@@ -8,12 +8,14 @@
 #include <QTextStream>
 #include <QDataStream>
 
+class Map;
+
 class player : public stuff
 {
 public:
     player(QString name, qint16 id, double& x, double& y, bool dead, int ammoMax, double fuelMax,
            double angle);
-    player(qint16 id, QDataStream *stream);
+    player(qint16 id, QDataStream *stream, Map* map);
     ~player();
     //QDataStream& operator<<(QDataStream& stream);
 
@@ -46,7 +48,6 @@ private:
     time_t lastJetpackUse;
     double weaponAngle;
     bool isFalling;
-    double acceleration;
 };
 
 #endif // PLAYER_H

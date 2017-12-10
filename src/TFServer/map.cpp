@@ -160,7 +160,7 @@ Map::Map(MapPreview *mp)
 
     for(int i = 0; i < W; i++) {
         for(int j = 0; j < H; j++) {
-            stream += cave[i*H+j] ? "1" : "0";
+            stream += cave[i*H+j] ? '1' : '0';
             map[i][j] = cave[i*H+j];
         }
     }
@@ -190,90 +190,54 @@ bool Map::isWall(int x, int y){
     return this->map[x][y] == 1;
 }
 
-std::pair<int, int> Map::newPoint(int x, int y, std::pair<int, int> vector){
-    int true_x=x;
-    int true_y=y;
+int signum(int i){
+    return i > 0 ? 1 : i < 0 ? -1 : 0;
+}
+void Map::collide(double *x, double *y, double *vx, double *vy, int dt){
 
-    int x_move=vector.first;
-    int y_move=vector.second;
+    int prev_x = (int)*x / 100;
+    int prev_y = (int)*y / 100;
 
-    int new_x=true_x+x_move;
-    int new_y=true_y+y_move;
+    int next_x = (int)(*x + *vx * dt) / 100;
+    int next_y = (int)(*y + *vy * dt) / 100;
 
-    std::string coord_x=std::to_string(new_x);
-    std::string coord_y=std::to_string(new_y);
+    // The difference in position
+    int dx = next_x - prev_x;
+    int dy = next_y - prev_y;
 
-    int len_x=coord_x.length();
-    int len_y=coord_y.length();
+    // Stays within the same block: can return
+    // CHANGE IF CORNERS ROUNDED
+    if(dx == 0 && dy == 0)
+        return;
 
-    int i,j;
+    qDebug() << "changing a block!";
+    // If not colliding, or is for some reason in a block, return
+    if(map[next_x][next_y] == 0 || map[prev_x][prev_y] != 0)
+        return;
+    qDebug() << "second";
 
-    //seuraavat if elset tod.näk.turhia
-    if(coord_x[0]=='1'){
-        i=coord_x[0] - '0';
-    }
-    else if(coord_x[0]=='2'){
-        i=coord_x[0] - '0';
-    }
-    else if(coord_x[0]=='3'){
-        i=coord_x[0] - '0';
-    }
-    else if(coord_x[0]=='4'){
-        i=coord_x[0] - '0';
-    }
-    else if(coord_x[0]=='5'){
-        i=coord_x[0] - '0';
-    }
-    else if(coord_x[0]=='6'){
-        i=coord_x[0] - '0';
-    }
-    else if(coord_x[0]=='7'){
-        i=coord_x[0] - '0';
-    }
-    else if(coord_x[0]=='8'){
-        i=coord_x[0] - '0';
-    }
-    else if(coord_x[0]=='9'){
-        i=coord_x[0] - '0';
+    // Collision is happening: determine the direction
+    // and store the (anti-)normal direction to n_x, n_y
+    double n_x = 0;
+    double n_y = 0;
+
+    if(dx == 0)// Vertical movement
+        n_y = signum(dy);
+    else if(dy == 0)// Horizontal movement
+        n_x = signum(dx);
+    else{// Diagonal movement
+        double s = sqrt(2);
+        n_x = s * signum(dx);
+        n_y = s * signum(dy);
     }
 
-    if(coord_y[0]=='1'){
-        j=coord_y[0] - '0';
-    }
-    else if(coord_y[0]=='2'){
-        j=coord_y[0] - '0';
-    }
-    else if(coord_y[0]=='3'){
-        j=coord_y[0] - '0';
-    }
-    else if(coord_y[0]=='4'){
-        j=coord_y[0] - '0';
-    }
-    else if(coord_y[0]=='5'){
-        j=coord_y[0] - '0';
-    }
-    else if(coord_y[0]=='6'){
-        j=coord_y[0] - '0';
-    }
-    else if(coord_y[0]=='7'){
-        j=coord_y[0] - '0';
-    }
-    else if(coord_y[0]=='8'){
-        j=coord_y[0] - '0';
-    }
-    else if(coord_y[0]=='9'){
-        j=coord_y[0] - '0';
-    }
+    qDebug() << n_x << n_y;
+    // Dot product of the wall and velocity
+    // Is always negative
+    double dot_x = *vx * n_x;
+    double dot_y = *vy * n_y;
 
-    int left_x=(new_x - (new_x % 100))/100;
-    int left_y=(new_y - (new_y % 100))/100;
-
-    if(this->map[left_y][left_x]==1){
-        //pitäisi palauttaa osumakohta laattaan, miten?!
-    }
-    else{
-        return std::make_pair(new_x, new_y);
-    }
-
+    *vx -= 2 * dot_x * dx;
+    *vy -= 2 * dot_y * dy;
 }
 

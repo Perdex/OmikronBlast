@@ -7,6 +7,7 @@
 #include <QtGlobal>
 
 class TCPManager;
+class Map;
 
 enum class Stuff : qint8 {
     PLAYER, PROJECTILE
@@ -17,7 +18,7 @@ class stuff: public QObject
     Q_OBJECT
 public:
     stuff(qint16 id, double & x, double & y , double dx, double dy);
-    stuff(Stuff t, qint16 id, QDataStream *s);
+    stuff(Stuff t, qint16 id, QDataStream *s, Map *map);
     ~stuff();
     //virtual QDataStream& operator<<(QDataStream& stream) = 0;
     qint16 getId() const;
@@ -36,13 +37,14 @@ public:
     void setVerticalPos(double);
     void setHorizontalPos(double);
     friend QDataStream& operator<<(QDataStream& stream, const stuff &s);
-private:
+protected:
     qint16 id;
-    double horizontalPos;
-    double verticalPos;
-    double horizontalSpeed;
-    double verticalSpeed;
+    double x;
+    double y;
+    double vx;
+    double vy;
     Stuff type;
+    Map* map;
 protected:
     QDataStream *stream;
 };

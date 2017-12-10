@@ -66,7 +66,7 @@ TCPManager::~TCPManager()
  * Game is starting, stop accepting players (might be changed later)
  */
 void TCPManager::gameStarted(){
-    server->pauseAccepting();
+    //server->pauseAccepting();
 }
 
 QString TCPManager::getAddress(){
@@ -134,7 +134,7 @@ void TCPManager::newClient(){
 
 void TCPManager::clientLost(){
     qDebug() << "A client was lost! Terminating";
-    mainWindow->endGame();
+    //mainWindow->endGame();
 }
 
 /*

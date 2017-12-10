@@ -1,15 +1,17 @@
 #include "stuff.h"
+#include "map.h"
 #include <QDataStream>
 #include <QtDebug>
 
-stuff::stuff(qint16 id, double& x, double& y, double dx = 0 , double dy = 0) : id(id), horizontalPos(x), verticalPos(y),
-             horizontalSpeed(dx), verticalSpeed(dy){}
-stuff::stuff(Stuff t, qint16 id, QDataStream *s) : id(id), stream(s) {
+stuff::stuff(qint16 id, double& x, double& y, double dx = 0 , double dy = 0)
+    : id(id), x(x), y(y),
+             vx(dx), vy(dy){}
+stuff::stuff(Stuff t, qint16 id, QDataStream *s, Map *map) : id(id), stream(s), map(map) {
     //TODO
-    horizontalPos = 2500;
-    verticalPos = 2500;
-    horizontalSpeed = 0;
-    verticalSpeed = 0;
+    x = 2500;
+    y = 2500;
+    vx = 0;
+    vy = 0;
     type = t;
 }
 
@@ -22,51 +24,51 @@ qint16 stuff::getId() const
 
 double stuff::getVerticalPos() const
 {
-    return verticalPos;
+    return y;
 }
 double stuff::getHorizontalPos() const
 {
-    return horizontalPos;
+    return x;
 }
 double stuff::getVerticalSpeed() const
 {
-    return verticalSpeed;
+    return vy;
 }
 double stuff::getHorizontalSpeed() const
 {
-    return horizontalSpeed;
+    return vx;
 }
 void stuff::changeVerticalSpeed(double change)
 {
-    verticalSpeed += change;
+    vy += change;
 }
 void stuff::changeHorizontalSpeed(double change)
 {
-    horizontalSpeed += change;
+    vx += change;
 }
 void stuff::setVerticalSpeed(double speed)
 {
-    verticalSpeed = speed;
+    vy = speed;
 }
 void stuff::setHorizontalSpeed(double speed)
 {
-    horizontalSpeed = speed;
+    vx = speed;
 }
 void stuff::changeHorizontalPos(double change)
 {
-    horizontalPos += change;
+    x += change;
 }
 void stuff::changeVerticalPos(double change)
 {
-    verticalPos += change;
+    y += change;
 }
 void stuff::setHorizontalPos(double x)
 {
-    horizontalPos = x;
+    this->x = x;
 }
 void stuff::setVerticalPos(double y)
 {
-    verticalPos = y;
+    this->y = y;
 }
 
 QDataStream& operator<<(QDataStream& stream, const stuff &s)
