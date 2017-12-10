@@ -4,7 +4,7 @@
 #include <QtDebug>
 
 Canvas::Canvas(QWidget* p) :
-    QGraphicsView(p), status(), my_player(nullptr), mouseKey1Down(false), map()
+    QGraphicsView(p), status(), my_player(nullptr), mouseKey1Down(false), map(nullptr)
 {   
     viewport()->installEventFilter(this);
 
@@ -18,9 +18,9 @@ Canvas::Canvas(QWidget* p) :
     this->setScene(scene);
     QPixmap pm(":/images/Images/background.png");
     pm = pm.scaled(scene->width(), scene->height());
-    QGraphicsPixmapItem *item = new QGraphicsPixmapItem();
-    item->setPixmap(pm);
-    scene->addItem(item);
+    background = new QGraphicsPixmapItem();
+    background->setPixmap(pm);
+    scene->addItem(background);
 
     scene->invalidate();
 }
@@ -73,8 +73,18 @@ void Canvas::buildMap(int p[][39]){
 
 void Canvas::center() {
     if(my_player == nullptr) return;
-    //qDebug() << my_player->getHorizontalPos() + (mouseX - this->width()/2)/2;
-    this->centerOn(my_player->getHorizontalPos() + (mouseX - this->width()/2)/2, my_player->getVerticalPos() + (mouseY - this->height()/2)/2);
+
+    QPoint sceneCenter(scene->width()/2, scene->height()/2);
+    QPoint viewCenterCand(my_player->getHorizontalPos() + (mouseX - this->width()/2)/2,
+                      my_player->getVerticalPos() + (mouseY - this->height()/2)/2);
+
+    this->centerOn(viewCenterCand);
+
+    QPointF viewCenter = mapToScene(viewport()->rect().center());
+
+    QPointF shift = 0.5*(viewCenter - sceneCenter);
+
+    background->setPos(shift);
 }
 
 void Canvas::mouseMoveEvent(QMouseEvent *me) {

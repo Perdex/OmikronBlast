@@ -44,6 +44,7 @@ protected:
     bool mouseKey1Down;
 
     QPixmap *map;
+    QGraphicsPixmapItem *background;
 };
 
 #endif // CANVAS_H
