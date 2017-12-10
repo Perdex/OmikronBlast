@@ -69,7 +69,7 @@ Map::Map(MapPreview *mp)
     mp->setMap(cave);
 
     delete[] cave;
-
+    //testikommentti
     /*QString str;
     for(int i = 0; i < 40; i++){
         for(int j = 0; j < 40; j++){
