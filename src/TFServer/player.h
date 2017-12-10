@@ -44,8 +44,8 @@ private:
     bool jetpackStatus;
     double fuelLeft;
     double fuelMax;
-    time_t lastMagazineFull;
-    time_t lastJetpackUse;
+    int lastMagazineFull;
+    int lastJetpackUse;
     double weaponAngle;
     bool isFalling;
 };
