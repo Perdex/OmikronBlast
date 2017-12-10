@@ -8,7 +8,9 @@
 Map::Map()
 {   
     const int W = 40, H = 40;
-    //double threshold = 0.6;
+
+    time_t t; time(&t); srand((unsigned int) t);
+
     int initialWallPropability = 35;
 
     bool *cave = new bool[W*H];
@@ -24,7 +26,7 @@ Map::Map()
 
         for(int i = 0; i < W; i++) {
             ncave[i*H] = true;
-            ncave[(i+1)*H-1] = true;w
+            ncave[(i+1)*H-1] = true;
         }
 
         for(int i = 0; i < H; i++) {
