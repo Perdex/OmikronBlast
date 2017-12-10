@@ -175,6 +175,7 @@ void MainWindow::executeTurn(){
         return;
 
     int dt = time->elapsed();
+    dt = qMin(dt, 50);
     time->restart();
     timeElapsed += dt;
     //qDebug() << "Doing a turn! dt: " << dt;

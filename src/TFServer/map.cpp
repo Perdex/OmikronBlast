@@ -190,10 +190,14 @@ bool Map::isWall(int x, int y){
     return this->map[x][y] == 1;
 }
 
+bool Map::touches(double x, double y){
+    return this->map[(int)x / 100][(int)y / 100] == 1;
+}
+
 int signum(int i){
     return i > 0 ? 1 : i < 0 ? -1 : 0;
 }
-void Map::collide(double *x, double *y, double *vx, double *vy, int dt){
+void Map::collide(double *x, double *y, double *vx, double *vy, int dt, double bounce){
 
     int prev_x = (int)*x / 100;
     int prev_y = (int)*y / 100;
@@ -210,34 +214,41 @@ void Map::collide(double *x, double *y, double *vx, double *vy, int dt){
     if(dx == 0 && dy == 0)
         return;
 
-    qDebug() << "changing a block!";
     // If not colliding, or is for some reason in a block, return
     if(map[next_x][next_y] == 0 || map[prev_x][prev_y] != 0)
         return;
-    qDebug() << "second";
 
     // Collision is happening: determine the direction
     // and store the (anti-)normal direction to n_x, n_y
     double n_x = 0;
     double n_y = 0;
 
+    n_x = signum(dx);
+    n_y = signum(dy);
+
+    //Caused clitching through walls at intersections
+    /*
     if(dx == 0)// Vertical movement
         n_y = signum(dy);
     else if(dy == 0)// Horizontal movement
         n_x = signum(dx);
     else{// Diagonal movement
-        double s = sqrt(2);
+        double s = sqrt(0.5);
         n_x = s * signum(dx);
         n_y = s * signum(dy);
     }
-
-    qDebug() << n_x << n_y;
+*/
     // Dot product of the wall and velocity
     // Is always negative
     double dot_x = *vx * n_x;
     double dot_y = *vy * n_y;
 
-    *vx -= 2 * dot_x * dx;
-    *vy -= 2 * dot_y * dy;
+    bounce += 1;
+
+    //reflect the velocity
+    *vx -= bounce * dot_x * dx;
+    *vy -= bounce * dot_y * dy;
+
+    // TODO set the position to reflected
 }
 

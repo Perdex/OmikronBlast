@@ -13,8 +13,6 @@ class Map;
 class player : public stuff
 {
 public:
-    player(QString name, qint16 id, double& x, double& y, bool dead, int ammoMax, double fuelMax,
-           double angle);
     player(qint16 id, QDataStream *stream, Map* map);
     ~player();
     //QDataStream& operator<<(QDataStream& stream);
@@ -33,18 +31,16 @@ public:
 private:
     QString name;
     bool isDead;
-    int width;
-    int height;
     int ammoLeft;
-    int ammoMax;
     bool jetpackStatus;
     double fuelLeft;
-    double fuelMax;
     int lastMagazineFull;
     int lastJetpackUse;
     double weaponAngle;
     bool isFalling;
     int score;
+    bool aPressed;
+    bool dPressed;
 };
 
 #endif // PLAYER_H
