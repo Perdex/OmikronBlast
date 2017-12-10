@@ -2,9 +2,11 @@
 #include "tcpmanager.h"
 #include "message.h"
 #include "mappreview.h"
+
 #include <QString>
-
-
+#include <QQueue>
+#include <QSet>
+#include <QtMath>
 
 Map::Map(MapPreview *mp)
 {   
@@ -56,6 +58,94 @@ Map::Map(MapPreview *mp)
         }
         delete[] cave;
         cave = ncave;
+    }
+
+    QVector<QSet<int>> areas;
+    bool visited[W*H];
+
+    for(int i = 0; i < W*H; i++)
+        visited[i] = cave[i];
+
+    for(int i = 1; i < W-1; i++) {
+        for(int j = 1; j < H-1; j++) {
+            if(!visited[i*H+j]) {
+                QSet<int> newArea;
+
+                QQueue<int> queue;
+                queue.enqueue(i*H+j);
+                visited[i*H+j] = true;
+
+                while(!queue.empty()) {
+                    int pos = queue.dequeue();
+
+                    newArea.insert(pos);
+
+                    int npos[] = {
+                        pos + 1,
+                        pos - 1,
+                        pos + H,
+                        pos - H
+                    };
+
+                    for(int p: npos) {
+                        if(!visited[p]) {
+                            queue.enqueue(p);
+                            visited[p] = true;
+                        }
+                    }
+                }
+
+                areas.append(newArea);
+            }
+        }
+    }
+
+    qDebug() << areas.size();
+
+    if(areas.size() > 1) {
+        QSet<int> largest = areas[0];
+        int maxIdx = 0;
+        for(int i = 1; i < areas.size(); i++) {
+            if(areas[i].count() > largest.count()) {
+                largest = areas[i];
+                maxIdx = i;
+            }
+        }
+
+        for(int i = 0; i < areas.size(); i++) {
+            if(i == maxIdx) continue;
+
+            QSet<int> area = areas[i];
+
+            int pos = area.values()[rand() % area.size()];
+            int t = largest.values()[rand() % largest.size()];
+            QPoint target(t/H, t%H);
+
+            while(largest.find(pos) == largest.end()) {
+                QPoint ppos(pos/H, pos%H);
+
+                QPointF eps = 2*QPoint((qrand()%3) - 1, qrand()%3 - 1);
+                QPointF exp = target - ppos;
+                exp /= qSqrt(QPointF::dotProduct(exp,exp));
+
+                QPointF delta = exp + eps;
+
+
+                if(qAbs(delta.x()) < qAbs(delta.y())) {
+                    ppos += QPoint(0, delta.y()>0 ? 1:-1);
+                }else{
+                    ppos += QPoint(delta.x()>0 ? 1:-1, 0);
+                }
+
+                pos = qBound(1, ppos.x(), W-2)*H + qBound(1, ppos.y(), H-2);
+                cave[pos] = false;
+                area.insert(pos);
+            }
+
+            for(int p: area.values()) {
+                largest.insert(p);
+            }
+        }
     }
 
     stream = "";
