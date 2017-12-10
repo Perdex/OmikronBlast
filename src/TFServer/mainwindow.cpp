@@ -39,6 +39,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     //connect the start button to start game
     QObject::connect(ui->startButton, SIGNAL(clicked(bool)), this, SLOT(startGame()));
+    QObject::connect(ui->regenMapButton, &QPushButton::clicked, this, &MainWindow::generateMap);
+}
+
+void MainWindow::generateMap() {
+    map = new Map(ui->mapView);
 }
 
 MainWindow::~MainWindow()

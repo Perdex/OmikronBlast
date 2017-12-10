@@ -28,6 +28,7 @@ public:
 public slots:
     void startGame();
     void executeTurn();
+    void generateMap();
 
 private:
     Ui::MainWindow *ui;

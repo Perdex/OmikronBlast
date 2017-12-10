@@ -4,7 +4,7 @@
 #include <QtDebug>
 
 MapPreview::MapPreview(QWidget *parent)
-    : QGraphicsView(parent), scene(0, 0, 400, 400, this)
+    : QGraphicsView(parent), scene(0, 0, 240, 240, this)
 {
     this->setScene(&scene);
 }
@@ -28,19 +28,5 @@ void MapPreview::setMap(bool *map) {
             }
         }
     }
-    scene.addPixmap(
-
-
-
-
-
-
-
-
-
-
-
-
-
-                buffer);
+    scene.addPixmap(buffer);
 }
