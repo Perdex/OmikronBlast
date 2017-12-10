@@ -245,10 +245,14 @@ void Map::collide(double *x, double *y, double *vx, double *vy, int dt, double b
 
     bounce += 1;
 
-    //reflect the velocity
+    // reflect the velocity
     *vx -= bounce * dot_x * dx;
     *vy -= bounce * dot_y * dy;
 
-    // TODO set the position to reflected
+    // set the position to reflected
+    if(dx != 0)
+        *x = round((*x + *vx * dt * 0.5) / 100) * 100;
+    if(dy != 0)
+        *y = round((*y + *vy * dt * 0.5) / 100) * 100;
 }
 

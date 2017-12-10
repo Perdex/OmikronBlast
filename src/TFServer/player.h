@@ -22,6 +22,7 @@ public:
     int getHeight() const;
     int getAmmoLeft() const;
     QString getName() const;
+    bool getJetpackStatus() const;
     void jump();
     void doStep(int dt);
     void move(int dt, TCPManager &mgr);

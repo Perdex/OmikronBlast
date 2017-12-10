@@ -25,8 +25,10 @@ private:
     QChar ammo;
     QChar fuel;
     bool isMe;
+    bool jetpackActive;
     QChar mouseClicked;
     QPixmap pixmaps[3];
+    QPixmap flame;
 };
 
 #endif // PLAYER_H

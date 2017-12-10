@@ -55,8 +55,8 @@ void player::doStep(int dt)
 
     //qDebug() << map << clicked << angle;
 
-    isFalling = !this->map->touches(x - COLLWIDTH, y + 45)
-             && !this->map->touches(x + COLLWIDTH, y + 45);
+    isFalling = !this->map->touches(x - COLLWIDTH + 2, y + 41)
+             && !this->map->touches(x + COLLWIDTH - 2, y + 41);
     if(stream->commitTransaction()) {
         qDebug() << map;
 
@@ -136,6 +136,11 @@ int player::getAmmoLeft() const
 QString player::getName() const
 {
     return name;
+}
+
+bool player::getJetpackStatus() const
+{
+    return jetpackStatus;
 }
 void player::jump()
 {
