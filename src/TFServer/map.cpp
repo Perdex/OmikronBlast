@@ -16,6 +16,7 @@ Map::Map(MapPreview *mp)
 
     bool *cave = new bool[W*H];
 
+
     for(int i = 0; i < W; i++) {
         for(int j = 0; j < H; j++) {
             cave[i*H+j] = i == 0 || j == 0 || i == W-1 || j == H-1 || rand() % 100 < initialWallPropability;
