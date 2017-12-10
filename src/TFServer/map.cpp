@@ -18,12 +18,15 @@ Map::Map(MapPreview *mp)
 
     bool *cave = new bool[W*H];
 
+    // Generate initial state for cellular automaton
 
     for(int i = 0; i < W; i++) {
         for(int j = 0; j < H; j++) {
             cave[i*H+j] = i == 0 || j == 0 || i == W-1 || j == H-1 || rand() % 100 < initialWallPropability;
         }
     }
+
+    // Run cellular automaton 5 times
 
     for(int c = 0; c < 5; c++) {
         bool *ncave = new bool[W*H];
@@ -59,6 +62,8 @@ Map::Map(MapPreview *mp)
         delete[] cave;
         cave = ncave;
     }
+
+    // Simple flood fill connectivity test
 
     QVector<QSet<int>> areas;
     bool visited[W*H];
@@ -100,7 +105,8 @@ Map::Map(MapPreview *mp)
         }
     }
 
-    qDebug() << areas.size();
+    // Ensure connectivity by doing random walk from every area
+    // to the largest area.
 
     if(areas.size() > 1) {
         QSet<int> largest = areas[0];
@@ -117,14 +123,14 @@ Map::Map(MapPreview *mp)
 
             QSet<int> area = areas[i];
 
-            int pos = area.values()[rand() % area.size()];
-            int t = largest.values()[rand() % largest.size()];
+            int pos = area.values()[qrand() % area.size()];
+            int t = largest.values()[qrand() % largest.size()];
             QPoint target(t/H, t%H);
 
             while(largest.find(pos) == largest.end()) {
                 QPoint ppos(pos/H, pos%H);
 
-                QPointF eps = 2*QPoint((qrand()%3) - 1, qrand()%3 - 1);
+                QPointF eps = 3*QPoint((qrand()%5) - 2, (qrand()%5) - 2);
                 QPointF exp = target - ppos;
                 exp /= qSqrt(QPointF::dotProduct(exp,exp));
 
@@ -148,6 +154,8 @@ Map::Map(MapPreview *mp)
         }
     }
 
+    // Serialize the map
+
     stream = "";
 
     for(int i = 0; i < W; i++) {
@@ -157,30 +165,11 @@ Map::Map(MapPreview *mp)
         }
     }
 
+    // Set preview
+
     mp->setMap(cave);
 
     delete[] cave;
-    //testikommentti
-    /*QString str;
-    for(int i = 0; i < 40; i++){
-        for(int j = 0; j < 40; j++){
-            if(i==0 || i==39 || j==0 || j==39){  //outlines of the cave
-                map[i][j]=1;
-                str.append('1');
-            }else{
-                //generates random map: 0(=no box) or 1(=box)
-                if(rand() % 4 == 0){
-                    map[i][j] = 1;
-                    str.append('1');
-                }else{
-                    map[i][j] = 0;
-                    str.append('0');
-                }
-                //needs some sort of id to be set apart from all data(?)
-            }
-        }
-    }
-    stream=str;*/
 }
 
 Map::~Map(){
