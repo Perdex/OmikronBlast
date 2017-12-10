@@ -6,8 +6,66 @@
 
 
 Map::Map()
-{
-    QString str;
+{   
+    const int W = 40, H = 40;
+    //double threshold = 0.6;
+    int initialWallPropability = 35;
+
+    bool *cave = new bool[W*H];
+
+    for(int i = 0; i < W; i++) {
+        for(int j = 0; j < H; j++) {
+            cave[i*H+j] = i == 0 || j == 0 || i == W-1 || j == H-1 || rand() % 100 < initialWallPropability;
+        }
+    }
+
+    for(int c = 0; c < 5; c++) {
+        bool *ncave = new bool[W*H];
+
+        for(int i = 0; i < W; i++) {
+            ncave[i*H] = true;
+            ncave[(i+1)*H-1] = true;w
+        }
+
+        for(int i = 0; i < H; i++) {
+            ncave[i] = true;
+            ncave[H*(W-1)+i] = true;
+        }
+
+        for(int i =1; i < W-1; i++) {
+            for(int j = 1; j < H-1; j++) {
+                int count1 = 0, count2 = 0;
+                for(int dx = -1; dx <= 1; dx++) {
+                    for(int dy = -1; dy <= 1; dy++) {
+                        count1 += cave[(i+dx)*H+(j+dy)];
+                    }
+                }
+
+                for(int dx = -2; dx <= 2; dx++) {
+                    for(int dy = -2; dy <= 2; dy++) {
+                        count2 += cave[(i+dx)*H+(j+dy)];
+                    }
+                }
+
+                ncave[i*H+j] = count1 >= 5 || count2 <= 2;
+            }
+        }
+        delete[] cave;
+        cave = ncave;
+    }
+
+    stream = "";
+
+    for(int i = 0; i < W; i++) {
+        for(int j = 0; j < H; j++) {
+            stream += cave[i*H+j] ? "1" : "0";
+            map[i][j] = cave[i*H+j];
+        }
+    }
+
+    delete[] cave;
+
+    /*QString str;
     for(int i = 0; i < 40; i++){
         for(int j = 0; j < 40; j++){
             if(i==0 || i==39 || j==0 || j==39){  //outlines of the cave
@@ -26,7 +84,7 @@ Map::Map()
             }
         }
     }
-    stream=str;
+    stream=str;*/
 }
 
 Map::~Map(){
