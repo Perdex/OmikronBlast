@@ -5,5 +5,6 @@
         <file alias="Squarebox.png">Images/squarebox.png</file>
         <file>Images/Marinestance.png</file>
         <file>Images/Marinestance_2.png</file>
+        <file>Images/Marinestance_3.png</file>
     </qresource>
 </RCC>

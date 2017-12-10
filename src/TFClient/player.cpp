@@ -13,7 +13,9 @@ player::player(QString name, qint16 id, double x, double y): name(name), stuff(i
 
     pixmaps[0] = QPixmap(":/images/Images/Marinestance.png");
     pixmaps[1] = QPixmap(":/images/Images/Marinestance_2.png");
+    pixmaps[2] = QPixmap(":/images/Images/Marinestance_3.png");
 }
+
 player::~player(){}
 
 void player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -26,7 +28,7 @@ void player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
         painter->setTransform(transf);
 
         //transform angle to right side
-        if(ang < -90)
+        if(ang < 0)
             ang = -180 - ang;
         else
             ang = 180 - ang;
@@ -35,6 +37,8 @@ void player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     int ind = 0;
     if(ang < -30)
         ind = 1;
+    if(ang > 30)
+        ind = 2;
 
     painter->drawPixmap(-39,-50,78,100,pixmaps[ind]);
 }

@@ -26,7 +26,7 @@ private:
     QChar fuel;
     bool isMe;
     QChar mouseClicked;
-    QPixmap pixmaps[2];
+    QPixmap pixmaps[3];
 };
 
 #endif // PLAYER_H
