@@ -13,12 +13,13 @@
 #include <math.h>
 
 class TCPManager;
+class MapPreview;
 
 class Map
 {
 
 public:
-    Map();
+    Map(MapPreview*);
     ~Map(); //turha?
     QString streaming();
     bool isWall(int x, int y);

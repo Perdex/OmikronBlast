@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>300</width>
-    <height>200</height>
+    <height>363</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -75,10 +75,20 @@
       </property>
      </widget>
     </item>
+    <item>
+     <widget class="MapPreview" name="mapView"/>
+    </item>
    </layout>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>MapPreview</class>
+   <extends>QGraphicsView</extends>
+   <header>mappreview.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

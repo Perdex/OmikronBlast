@@ -31,6 +31,8 @@ MainWindow::MainWindow(QWidget *parent) :
     s += tcpmanager->getPort();
     ui->InfoLabel->setText(s);
 
+    map = new Map(ui->mapView);
+
     //initialize and connect the main loop timer: will not run yet
     //gameLoopTimer = new QTimer(this);
     //QObject::connect(gameLoopTimer, SIGNAL(timeout()), this, SLOT(executeTurn()));
@@ -80,7 +82,6 @@ void MainWindow::startGame(){
 
             //Ei saa poistaa kommenteista ennen kuin client osaa
             //vastaanottaa kartan
-            map = new Map();
             map->send(tcpmanager);
 
             time = new QTime();

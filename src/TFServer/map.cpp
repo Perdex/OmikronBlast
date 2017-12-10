@@ -1,11 +1,12 @@
 #include "map.h"
 #include "tcpmanager.h"
 #include "message.h"
+#include "mappreview.h"
 #include <QString>
 
 
 
-Map::Map()
+Map::Map(MapPreview *mp)
 {   
     const int W = 40, H = 40;
 
@@ -64,6 +65,8 @@ Map::Map()
             map[i][j] = cave[i*H+j];
         }
     }
+
+    mp->setMap(cave);
 
     delete[] cave;
 
