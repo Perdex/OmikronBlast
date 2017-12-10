@@ -29,6 +29,7 @@ player::player(QString name, qint16 id, double& x, double& y, bool dead = 0, int
     lastMagazineFull = 0;
     lastJetpackUse = 0;
     isFalling = 0;
+    score = 0;
 }
 
 player::player(qint16 id, QDataStream *stream, Map *map)
@@ -127,26 +128,9 @@ int player::getAmmoLeft() const
 {
     return ammoLeft;
 }
-int player::getAmmoMax() const
-{
-    return ammoMax;
-}
-double player::getFuelMax() const
-{
-    return fuelMax;
-}
 QString player::getName() const
 {
     return name;
-}
-
-int player::getLastMagazineFull() const
-{
-    return lastMagazineFull;
-}
-int player::getLastJetpackUse() const
-{
-    return lastJetpackUse;
 }
 void player::jump()
 {

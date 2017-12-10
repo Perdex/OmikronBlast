@@ -23,11 +23,7 @@ public:
     int getWidth() const;
     int getHeight() const;
     int getAmmoLeft() const;
-    int getAmmoMax() const;
-    double getFuelMax() const;
     QString getName() const;
-    int getLastMagazineFull() const;
-    int getLastJetpackUse() const;
     void jump();
     void doStep(int dt);
     void move(int dt, TCPManager &mgr);
@@ -48,6 +44,7 @@ private:
     int lastJetpackUse;
     double weaponAngle;
     bool isFalling;
+    int score;
 };
 
 #endif // PLAYER_H
