@@ -75,11 +75,10 @@ void MainWindow::startGame(){
     if(!running){
         running = true;
 
-        StatusMessage *start_msg = new StatusMessage(GameStatus::START);
-        qDebug() << start_msg;
-        qDebug() << (qint8)start_msg->status();
-        *tcpmanager << start_msg;
-        //delete start_msg;
+        StatusMessage start_msg = StatusMessage(GameStatus::START);
+        qDebug() << &start_msg;
+        qDebug() << (qint8)start_msg.status();
+        *tcpmanager << &start_msg;
 
         map->send(tcpmanager);
 
@@ -100,10 +99,10 @@ void MainWindow::startGame(){
         ui->startButton->setText("Pause game");
         QTimer::singleShot(FRAME_TIME, this, &MainWindow::executeTurn);
     }else{
-        StatusMessage *start_msg = new StatusMessage(GameStatus::PAUSED);
-        qDebug() << start_msg;
-        qDebug() << (qint8)start_msg->status();
-        *tcpmanager << start_msg;
+        StatusMessage msg = StatusMessage(GameStatus::PAUSED);
+        qDebug() << &msg;
+        qDebug() << (qint8)msg.status();
+        *tcpmanager << &msg;
         //pause
         ui->startButton->setText("Continue game");
         running = false;

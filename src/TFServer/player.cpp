@@ -112,7 +112,8 @@ void player::move(int dt, TCPManager &mgr)
     x += dt * vx;
     y += dt * vy;
 
-    mgr << (Message*)(new UpdateMessage((stuff*)this));
+    Message msg = UpdateMessage((stuff*)this);
+    mgr << &msg;
 }
 
 player::~player(){}
