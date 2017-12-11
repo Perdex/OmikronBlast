@@ -122,7 +122,7 @@ void MainWindow::endGame(){
  * sock: the tcp socket for receiving data
  */
 void MainWindow::addPlayer(qint16 id, QDataStream *stream){
-    player* p = new player(id, stream, map);
+    player* p = new player(id, stream, map, this);
     objects += p;
     players += p;
 
@@ -135,7 +135,11 @@ void MainWindow::addPlayer(qint16 id, QDataStream *stream){
 }
 
 void MainWindow::addProjectile(projectile *p){
+    qDebug() << "Adding a projectile!!";
     objects += p;
+}
+qint16 MainWindow::getNextId(){
+    return objects.size();
 }
 
 /*

@@ -11,15 +11,17 @@
 class projectile : public stuff
 {
 public:
-    projectile(qint16 id, double& x, double& y, player& owner,  double angle);
+    projectile(qint16 id, double x, double y, player *owner, double angle,
+                           Map *map, MainWindow *main);
     ~projectile();
 
-    void move();
+    void doStep(int dt);
+    void move(int dt, TCPManager &mgr);
     void hitPlayer(player& victim);
 
 private:
     int bounceCount;
-    player& owner;
+    player *owner;
 };
 
 #endif // PROJECTILE_H

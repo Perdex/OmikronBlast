@@ -4,19 +4,17 @@
 #include <QDataStream>
 #include <QtDebug>
 
-//INITIALISOI stream = nullptr projectiilille!!!
-stuff::stuff(qint16 id, double& x, double& y, double dx = 0 , double dy = 0)
-    : id(id), x(x), y(y),
-             vx(dx), vy(dy){}
-stuff::stuff(Stuff t, qint16 id, QDataStream *s, Map *map)
+stuff::stuff(Stuff t, qint16 id, Map *map, MainWindow *main, QDataStream *s,
+             int x, int y)
     : id(id),
-      x(2500),
-      y(2500),
+      x(x),
+      y(y),
       vx(0),
       vy(0),
       stream(s),
       type(t),
-      map(map)
+      map(map),
+      mainWindow(main)
 {}
 
 stuff::~stuff(){

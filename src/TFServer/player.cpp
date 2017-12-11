@@ -2,6 +2,8 @@
 #include "message.h"
 #include "map.h"
 #include "tcpmanager.h"
+#include "projectile.h"
+#include "mainwindow.h"
 #include <QDataStream>
 #include <QMap>
 #include <QtDebug>
@@ -18,8 +20,8 @@
 #define FUELCONSUMPTION 5.0
 #define COLLWIDTH 15
 
-player::player(qint16 id, QDataStream *stream, Map *map)
-    : stuff(Stuff::PLAYER, id, stream, map),
+player::player(qint16 id, QDataStream *stream, Map *map, MainWindow *main)
+    : stuff(Stuff::PLAYER, id, map, main, stream),
     name("NONAME_SUCKER"),
     isDead(false),
     ammoLeft(3),
@@ -47,18 +49,15 @@ void player::doStep(int dt)
     bool clicked;
     double angle;
 
-     //qDebug() << stream->status();
 
     stream->startTransaction();
 
     *stream >> map >> clicked >> angle;
 
-    //qDebug() << map << clicked << angle;
-
     isFalling = !this->map->touches(x - COLLWIDTH + 2, y + 41)
              && !this->map->touches(x + COLLWIDTH - 2, y + 41);
     if(stream->commitTransaction()) {
-        qDebug() << map;
+        //qDebug() << map;
 
         if(map[Qt::Key_W] && fuelLeft > 0)
         {
@@ -73,6 +72,9 @@ void player::doStep(int dt)
 
         aPressed = map[Qt::Key_A];
         dPressed = map[Qt::Key_D];
+
+        //if(clicked)
+        //    shoot();
     }
 }
 
@@ -112,8 +114,9 @@ void player::move(int dt, TCPManager &mgr)
     x += dt * vx;
     y += dt * vy;
 
-    Message msg = UpdateMessage((stuff*)this);
-    mgr << &msg;
+    Message *msg = new UpdateMessage((stuff*)this);
+    mgr << msg;
+    //TODO needs to be deleted, but deleting here crashes ht server...
 }
 
 player::~player(){}
@@ -143,14 +146,20 @@ bool player::getJetpackStatus() const
 {
     return jetpackStatus;
 }
+
+int player::getScore() const{
+    return score;
+}
 void player::jump()
 {
     vy = JUMPSTRENGTH;
 }
 
-void player::shoot(double angle)
+void player::shoot()
 {
-
+    projectile *p = new projectile(this->mainWindow->getNextId(), this->x, this->y, this,
+                                   weaponAngle, map, mainWindow);
+    mainWindow->addProjectile(p);
 }
 void player::die()
 {

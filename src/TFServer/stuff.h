@@ -8,6 +8,7 @@
 
 class TCPManager;
 class Map;
+class MainWindow;
 
 enum class Stuff : qint8 {
     PLAYER, PROJECTILE
@@ -17,8 +18,8 @@ class stuff: public QObject
 {
     Q_OBJECT
 public:
-    stuff(qint16 id, double & x, double & y , double dx, double dy);
-    stuff(Stuff t, qint16 id, QDataStream *s, Map *map);
+    stuff(Stuff t, qint16 id, Map *map, MainWindow *main, QDataStream *s,
+          int x = 2500, int y = 2500);
     ~stuff();
     //virtual QDataStream& operator<<(QDataStream& stream) = 0;
     qint16 getId() const;
@@ -45,6 +46,7 @@ protected:
     double vy;
     Stuff type;
     Map* map;
+    MainWindow *mainWindow;
 protected:
     QDataStream *stream;
 };

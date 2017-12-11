@@ -27,6 +27,7 @@ public:
     void addPlayer(qint16 id, QDataStream *stream);
     void addProjectile(projectile *p);
     void endGame();
+    qint16 getNextId();
 public slots:
     void startGame();
     void executeTurn();

@@ -12,7 +12,7 @@ class Map;
 class player : public stuff
 {
 public:
-    player(qint16 id, QDataStream *stream, Map* map);
+    player(qint16 id, QDataStream *stream, Map* map, MainWindow *main);
     ~player();
     //QDataStream& operator<<(QDataStream& stream);
 
@@ -22,10 +22,11 @@ public:
     int getAmmoLeft() const;
     QString getName() const;
     bool getJetpackStatus() const;
+    int getScore() const;
     void jump();
     void doStep(int dt);
     void move(int dt, TCPManager &mgr);
-    void shoot(double angle);
+    void shoot();
     void die();
     void getPoint();
 

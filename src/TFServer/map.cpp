@@ -181,9 +181,9 @@ QString Map::streaming(){
 }
 
 void Map::send(TCPManager* manager){
-
-    StatusMessage msg = StatusMessage(GameStatus::MAP_TRANSFER, stream);
-    *manager << &msg;
+    Message *msg = new StatusMessage(GameStatus::MAP_TRANSFER, stream);
+    *manager << msg;
+    delete msg;
 }
 
 bool Map::isWall(int x, int y){
