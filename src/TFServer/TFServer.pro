@@ -31,7 +31,8 @@ SOURCES += \
     player.cpp\
     map.cpp \
     message.cpp \
-    mappreview.cpp
+    mappreview.cpp \
+    projectile.cpp
 
 HEADERS += \
         mainwindow.h \
@@ -40,7 +41,8 @@ HEADERS += \
     player.h\
     map.h \
     message.h \
-    mappreview.h
+    mappreview.h \
+    projectile.h
 
 
 FORMS += \

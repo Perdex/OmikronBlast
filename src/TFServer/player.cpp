@@ -155,3 +155,7 @@ void player::die()
 {
     isDead = true;
 }
+void player::getPoint()
+{
+    score += 1;
+}

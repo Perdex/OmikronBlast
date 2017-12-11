@@ -1,6 +1,5 @@
 #ifndef PLAYER_H
 #define PLAYER_H
-#include <ctime>
 #include <iostream>
 #include "stuff.h"
 #include <QString>
@@ -28,6 +27,7 @@ public:
     void move(int dt, TCPManager &mgr);
     void shoot(double angle);
     void die();
+    void getPoint();
 
 private:
     QString name;
