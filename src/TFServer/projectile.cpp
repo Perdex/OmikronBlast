@@ -2,6 +2,7 @@
 #include <cmath>
 
 #define SPEED 20
+#define RADIUS 10
 
 
 projectile::projectile(qint16 id, double& x, double& y, player& owner, double angle)

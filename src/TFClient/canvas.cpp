@@ -1,5 +1,6 @@
 #include "canvas.h"
 #include "player.h"
+#include "projectile.h"
 #include "item.h"
 #include <QtDebug>
 
