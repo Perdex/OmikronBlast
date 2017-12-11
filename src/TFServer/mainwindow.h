@@ -15,6 +15,7 @@ class stuff;
 class player;
 class Map;
 class QTime;
+class projectile;
 
 class MainWindow : public QMainWindow
 {
@@ -24,6 +25,7 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void addPlayer(qint16 id, QDataStream *stream);
+    void addProjectile(projectile *p);
     void endGame();
 public slots:
     void startGame();

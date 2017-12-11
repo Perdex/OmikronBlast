@@ -5,6 +5,7 @@
 #include "stuff.h"
 #include "map.h"
 #include "message.h"
+#include "projectile.h"
 
 #include <QTimer>
 #include <QTime>
@@ -132,6 +133,10 @@ void MainWindow::addPlayer(qint16 id, QDataStream *stream){
         s += '\n';
     }
     ui->PlayersLabel->setText(s);
+}
+
+void MainWindow::addProjectile(projectile *p){
+    objects += p;
 }
 
 /*
