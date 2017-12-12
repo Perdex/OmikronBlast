@@ -73,8 +73,8 @@ void player::doStep(int dt)
         aPressed = map[Qt::Key_A];
         dPressed = map[Qt::Key_D];
 
-        //if(clicked)
-        //    shoot();
+        if(clicked)
+            shoot();
     }
 }
 

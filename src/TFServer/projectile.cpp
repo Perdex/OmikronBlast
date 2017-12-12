@@ -1,8 +1,10 @@
 #include "projectile.h"
 #include "map.h"
+#include "message.h"
+#include "tcpmanager.h"
 #include <cmath>
 
-#define SPEED 20
+#define SPEED 2
 #define RADIUS 10
 
 
@@ -23,6 +25,8 @@ void projectile::move(int dt, TCPManager &mgr){
     map->collide(&x, &y, &vx, &vy, dt, 1);
     x += dt * vx;
     y += dt * vy;
+
+    mgr << new UpdateMessage(this);
 }
 
 void projectile::hitPlayer(player& victim)

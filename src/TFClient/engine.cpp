@@ -20,7 +20,7 @@ void Engine::start() {
 }
 
 void Engine::addStuff(stuff* s) {
-    items[s->getId()] = s;
+    items.insert(s->getId(), s);
     if(s->getId() == my_id)
         canvas.setMyPlayer(static_cast<player*>(s));
     canvas.addStuff(s);
@@ -33,7 +33,7 @@ void Engine::readData(QDataStream* data) {
 
         Message *msg = Message::create(data);
 
-        if(!data->commitTransaction()) break;
+        if(!data->commitTransaction() || msg == nullptr) break;
 
         //qDebug() << "Type" << (qint8)msg->type();
 
