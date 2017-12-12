@@ -18,13 +18,14 @@ public:
     bool doStep(int dt);
     void move(int dt, TCPManager &mgr);
     void hitPlayer(player& victim);
+    double getAngle();
 private slots:
     void activate() { isActive = true; }
 private:
     int bounceCount;
     player *owner;
     bool isActive = false;
-    double getAngle();
+    double angle;
 };
 
 #endif // PROJECTILE_H

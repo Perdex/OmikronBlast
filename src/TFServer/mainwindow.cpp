@@ -225,9 +225,9 @@ void MainWindow::executeTurn(){
 
 
 void MainWindow::remove(stuff *s) {
-    objects.removeOne(s);
+    objects.remove(s->getId());
     if(s->getType() == Stuff::PLAYER)
-        players.removeOne((player*)s);
+        players.remove(s->getId());
     else
         delete s;
     // TODO Fix memory leak

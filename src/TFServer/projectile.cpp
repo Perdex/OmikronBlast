@@ -25,7 +25,7 @@ projectile::~projectile(){}
 
 bool projectile::doStep(int dt){
     if(!isActive) return false;
-    for(player *p: mainWindow->getPlayers()) {
+    for(player *p: mainWindow->getPlayers().values()) {
         QRectF self(x - RADIUS, y - RADIUS, 2*RADIUS, 2*RADIUS);
         QRectF pl(p->getHorizontalPos(), p->getVerticalPos(), 40, 80);
 
