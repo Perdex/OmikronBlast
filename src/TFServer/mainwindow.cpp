@@ -78,7 +78,7 @@ void MainWindow::startGame(){
         StatusMessage start_msg = StatusMessage(GameStatus::START);
         qDebug() << &start_msg;
         qDebug() << (qint8)start_msg.status();
-        *tcpmanager << &start_msg;
+        *tcpmanager << new StatusMessage(GameStatus::START);
 
         map->send(tcpmanager);
 
@@ -139,6 +139,7 @@ void MainWindow::addProjectile(projectile *p){
     objects += p;
 }
 qint16 MainWindow::getNextId(){
+    //Tää ei oo hyvä, jos poistetaan objekteja
     return objects.size();
 }
 
