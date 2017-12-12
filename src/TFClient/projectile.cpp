@@ -27,7 +27,6 @@ void projectile::update(QDataStream *s) {
     s->startTransaction();
 
     *s >> hp >> vp;
-    qDebug() << getHorizontalPos();
 
     if(!s->commitTransaction()) return;
 

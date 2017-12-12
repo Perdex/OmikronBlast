@@ -97,7 +97,7 @@ void player::move(int dt, TCPManager &mgr)
 
     if(jetpackStatus && fuelLeft > 0){
         vy += JETPACKPOWER;
-        fuelLeft = qMax(fuelLeft - (dt/30), 0.0);
+        fuelLeft = qMax(fuelLeft - (dt/10), 0.0);
     }
 
     if(aPressed) vx -= HORIZONTALMOVEMENT;

@@ -15,6 +15,7 @@ projectile::projectile(qint16 id, double x, double y, player *owner, double angl
     qDebug() << angle;
     setVerticalSpeed(sin(angle) * SPEED);
     setHorizontalSpeed(cos(angle) * SPEED);
+    bounceCount = 0;
 }
 projectile::~projectile(){}
 
@@ -23,10 +24,14 @@ void projectile::doStep(int dt){
 }
 void projectile::move(int dt, TCPManager &mgr){
 
-    map->collide(&x, &y, &vx, &vy, dt, 1);
+    bool test;
+
+    test = map->collide(&x, &y, &vx, &vy, dt, 1);
     x += dt * vx;
     y += dt * vy;
 
+    if(test)
+        bounceCount += 1;
     mgr << new UpdateMessage(this);
 }
 
