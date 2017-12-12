@@ -6,15 +6,16 @@
 projectile::projectile(qint16 id, double &x, double &y):stuff(id,x,y){
     ball = QPixmap(RADIUS *2, RADIUS*2);
     ball.fill(QColor("red"));
+    ukko = QPixmap(":/images/Images/square.png");
 }
 projectile::~projectile(){}
 
 void projectile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 
-    path.addEllipse(getHorizontalPos(),getVerticalPos(),RADIUS*2,RADIUS*2);
+    path.addEllipse(-RADIUS,-RADIUS,RADIUS*2,RADIUS*2);
     painter->setClipPath(path);
-    painter->drawPixmap(getHorizontalPos(),getVerticalPos(),RADIUS*2,RADIUS*2, ball);
+    painter->drawPixmap(-RADIUS,-RADIUS,RADIUS*2,RADIUS*2, ball);
 }
 QRectF projectile::boundingRect() const
 {
@@ -26,9 +27,9 @@ void projectile::update(QDataStream *s) {
     s->startTransaction();
 
     *s >> hp >> vp;
+    qDebug() << getHorizontalPos();
 
     if(!s->commitTransaction()) return;
-
 
     this->setVerticalPos(vp);
     this->setHorizontalPos(hp);
