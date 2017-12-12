@@ -131,7 +131,7 @@ void TCPManager::newClient(){
     QVariant qhs("TFGAME-SERVER");
     StatusMessage sm_hs = StatusMessage(GameStatus::HANDSHAKE, qhs);
 
-    qint16 id = clients.size();
+    qint16 id = mainWindow->getNextId();
     QVariant qid(id);
     StatusMessage sm_id = StatusMessage(GameStatus::ID_TRANSFER, qid);
 
@@ -142,7 +142,7 @@ void TCPManager::newClient(){
     socket->write(msg);
     socket->flush();
 
-    mainWindow->addPlayer(in);
+    mainWindow->addPlayer(in, id);
 }
 
 void TCPManager::clientLost(){

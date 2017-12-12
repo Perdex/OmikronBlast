@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMap>
 
 #define FRAME_TIME 20
 
@@ -24,8 +25,10 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void addPlayer(QDataStream *stream);
+    void addPlayer(QDataStream *stream, qint16 id);
     void addProjectile(projectile *p);
+    void remove(projectile *p);
+    void remove(player *p);
     void endGame();
     qint16 getNextId();
     QVector<player*> &getPlayers() { return players; }
@@ -46,9 +49,9 @@ private:
     bool started;
 
     //objects includes also players
-    QVector<stuff*> objects;
+    QMap<qint16, stuff*> objects;
     //players, sorted by points
-    QVector<player*> players;
+    QMap<qint16, player*> players;
 
     qint16 nextId;
 

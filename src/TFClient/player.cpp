@@ -32,16 +32,18 @@ void player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
             ang = 180 - ang;
     }
 
-    if(jetpackActive){
+    if(jetpackActive)
         painter->drawPixmap(-39,0,78,50, flame);
-    }
+
 
     painter->drawPixmap(-39,-50,78,100, marine);
 
+    //draw the gun
     QTransform transf = painter->transform();
+    transf.translate(-18, 3);
     transf.rotate(ang);
     painter->setTransform(transf);
-    painter->drawPixmap(-25,-11,49,22, gun);
+    painter->drawPixmap(-10,-15,60,36, gun);
 }
 QRectF player::boundingRect() const
 {
@@ -49,7 +51,7 @@ QRectF player::boundingRect() const
 }
 
 void player::setAngle(double angle){
-    //qDebug() << angle;
+    qDebug() << angle;
     //this is currently always between -180, 180
     this->angle = angle;
 }

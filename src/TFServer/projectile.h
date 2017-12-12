@@ -24,6 +24,7 @@ private:
     int bounceCount;
     player *owner;
     bool isActive = false;
+    double getAngle();
 };
 
 #endif // PROJECTILE_H
