@@ -20,7 +20,8 @@ MainWindow::MainWindow(QWidget *parent) :
     timeElapsed(0),
     map(nullptr),
     running(false),
-    started(false)
+    started(false),
+    nextId(0)
 {
     ui->setupUi(this);
 
@@ -121,8 +122,8 @@ void MainWindow::endGame(){
  * Adds a player to the game once connected
  * sock: the tcp socket for receiving data
  */
-void MainWindow::addPlayer(qint16 id, QDataStream *stream){
-    player* p = new player(id, stream, map, this);
+void MainWindow::addPlayer(QDataStream *stream){
+    player* p = new player(getNextId(), stream, map, this);
     objects += p;
     players += p;
 
@@ -139,8 +140,8 @@ void MainWindow::addProjectile(projectile *p){
     objects += p;
 }
 qint16 MainWindow::getNextId(){
-    //Tää ei oo hyvä, jos poistetaan objekteja
-    return objects.size();
+    nextId++;
+    return nextId;
 }
 
 /*

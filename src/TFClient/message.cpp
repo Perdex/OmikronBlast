@@ -48,6 +48,8 @@ Message* Message::create(QDataStream *stream)
             return nullptr;
         }
 
+        qDebug() << t << id;
+
         msg = (Message*)
                 (new UpdateMessage((Stuff)t, id));
         break;

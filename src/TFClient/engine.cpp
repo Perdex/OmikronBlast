@@ -33,7 +33,7 @@ void Engine::readData(QDataStream* data) {
 
         Message *msg = Message::create(data);
 
-        if(!data->commitTransaction() || msg == nullptr) break;
+        if(!data->commitTransaction()) break;
 
         //qDebug() << "Type" << (qint8)msg->type();
 
