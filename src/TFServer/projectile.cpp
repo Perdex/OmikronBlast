@@ -26,7 +26,7 @@ void projectile::move(int dt, TCPManager &mgr){
 
     bool test;
 
-    test = map->collide(&x, &y, &vx, &vy, dt, 1);
+    test = map->collide(&x, &y, &vx, &vy, dt, 0.9);
     x += dt * vx;
     y += dt * vy;
 

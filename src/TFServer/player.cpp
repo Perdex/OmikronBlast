@@ -31,13 +31,7 @@ player::player(qint16 id, QDataStream *stream, Map *map, MainWindow *main)
     aPressed(false),
     dPressed(false){
 
-    int x, y;
-    do{
-        x = rand() % 40;
-        y = rand() % 40;
-    }while(map->isWall(x, y));
-    this->x = x * 100 + 50;
-    this->y = y * 100 + 50;
+    resetPosition();
 }
 
 void player::doStep(int dt)
@@ -76,6 +70,17 @@ void player::doStep(int dt)
             shoot();
         }
     }
+}
+
+void player::resetPosition()
+{
+    int x, y;
+    do{
+        x = rand() % 40;
+        y = rand() % 40;
+    }while(map->isWall(x, y));
+    this->x = x * 100 + 50;
+    this->y = y * 100 + 50;
 }
 
 void player::move(int dt, TCPManager &mgr)

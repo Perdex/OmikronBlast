@@ -4,7 +4,7 @@
 #define RADIUS 10
 
 projectile::projectile(qint16 id, double &x, double &y):stuff(id,x,y){
-    ball = QPixmap(RADIUS *2, RADIUS*2);
+    ball = QPixmap(":/images/Images/flame.png");
     ball.fill(QColor("red"));
 }
 projectile::~projectile(){}
@@ -12,8 +12,8 @@ projectile::~projectile(){}
 void projectile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 
-    path.addEllipse(-RADIUS,-RADIUS,RADIUS*2,RADIUS*2);
-    painter->setClipPath(path);
+    //path.addEllipse(-RADIUS,-RADIUS,RADIUS*2,RADIUS*2);
+    //painter->setClipPath(path);
     painter->drawPixmap(-RADIUS,-RADIUS,RADIUS*2,RADIUS*2, ball);
 }
 QRectF projectile::boundingRect() const

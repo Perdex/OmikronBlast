@@ -6,9 +6,8 @@ player::player(QString name, qint16 id, double x, double y): name(name), stuff(i
 {
     isDead = 0;
 
-    pixmaps[0] = QPixmap(":/images/Images/Marinestance.png");
-    pixmaps[1] = QPixmap(":/images/Images/Marinestance_2.png");
-    pixmaps[2] = QPixmap(":/images/Images/Marinestance_3.png");
+    marine = QPixmap(":/images/Images/Marinestance_nogun.png");
+    gun = QPixmap(":/images/Images/Marine_gun.png");
     flame = QPixmap(":/images/Images/flame.png");
 }
 
@@ -34,15 +33,15 @@ void player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     }
 
     if(jetpackActive){
-        painter->drawPixmap(-39,-50,78,100,flame);
+        painter->drawPixmap(-39,0,78,50, flame);
     }
-    int ind = 0;
-    if(ang < -30)
-        ind = 1;
-    if(ang > 30)
-        ind = 2;
 
-    painter->drawPixmap(-39,-50,78,100,pixmaps[ind]);
+    painter->drawPixmap(-39,-50,78,100, marine);
+
+    QTransform transf = painter->transform();
+    transf.rotate(ang);
+    painter->setTransform(transf);
+    painter->drawPixmap(-25,-11,49,22, gun);
 }
 QRectF player::boundingRect() const
 {

@@ -27,7 +27,8 @@ private:
     int ammo;
     int fuel;
     bool jetpackActive;
-    QPixmap pixmaps[3];
+    QPixmap marine;
+    QPixmap gun;
     QPixmap flame;
 };
 

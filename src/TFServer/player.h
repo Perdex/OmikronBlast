@@ -30,6 +30,7 @@ public:
     void shoot();
     void die();
     void getPoint();
+    void resetPosition();
 
 private:
     QString name;

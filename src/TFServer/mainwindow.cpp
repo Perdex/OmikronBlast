@@ -43,7 +43,11 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 void MainWindow::generateMap() {
+    //TODO needs to be changed to map->regenerate etc to not mess up pointers
     map = new Map(ui->mapView);
+    for(player *p: players){
+        p->resetPosition();
+    }
 }
 
 MainWindow::~MainWindow()
