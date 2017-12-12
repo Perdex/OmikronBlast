@@ -18,10 +18,12 @@ public:
     void doStep(int dt);
     void move(int dt, TCPManager &mgr);
     void hitPlayer(player& victim);
+    double getAngle();
 
 private:
     int bounceCount;
     player *owner;
+    double angle;
 };
 
 #endif // PROJECTILE_H

@@ -90,6 +90,7 @@ QDataStream& operator<<(QDataStream& stream, const stuff &s)
         break;
     }
     case Stuff::PROJECTILE: {
+        stream << ((projectile*)&s)->getAngle();
         break;
     }
     default:

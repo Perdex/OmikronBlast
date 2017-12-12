@@ -21,6 +21,8 @@ MainWindow::MainWindow(QWidget *parent) :
     map(nullptr),
     running(false),
     started(false),
+    objects(),
+    players(),
     nextId(0)
 {
     ui->setupUi(this);
@@ -125,8 +127,8 @@ void MainWindow::endGame(){
  */
 void MainWindow::addPlayer(QDataStream *stream, qint16 id){
     player* p = new player(id, stream, map, this);
-    objects += p;
-    players += p;
+    objects[id] = p;
+    players[id] = p;
 
     QString s = "Connected players:\n";
     for(auto p: players){
@@ -138,7 +140,17 @@ void MainWindow::addPlayer(QDataStream *stream, qint16 id){
 
 void MainWindow::addProjectile(projectile *p){
     qDebug() << "Adding a projectile!!";
-    objects += p;
+    objects[p->getId()] = p;
+}
+
+void MainWindow::remove(projectile *p){
+    objects.remove(p->getId());
+    p->deleteLater();
+}
+void MainWindow::remove(player *p){
+    objects.remove(p->getId());
+    players.remove(p->getId());
+    p->deleteLater();
 }
 
 qint16 MainWindow::getNextId(){
@@ -158,13 +170,16 @@ void MainWindow::updateText(){
 
     s = "Players:\n";
 
+    QVector<player*> pVec;
+    for(player* p: players)
+        pVec += p;
     //sort players by points, in descending order
-    std::sort(players.begin(), players.end(), [](const player* p1, const player* p2) {
+    std::sort(pVec.begin(), pVec.end(), [](const player* p1, const player* p2) {
         return p1->getScore() > p2->getScore();
     });
 
     //add all players' info to the text
-    for(player *p: players){
+    for(player *p: pVec){
         s += p->getName() + ": ";
 
         if(p->getIsDead())

@@ -11,7 +11,7 @@ class UpdateMessage;
 class projectile : public stuff
 {
 public:
-    projectile(qint16 id, double &x, double &y);
+    projectile(qint16 id, double &x, double &y, double angle);
     ~projectile();
     static stuff* create(qint16, QDataStream *);
     void update(QDataStream *);

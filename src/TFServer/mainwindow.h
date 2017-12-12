@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QMap>
 
 #define FRAME_TIME 20
 
@@ -26,6 +27,8 @@ public:
     ~MainWindow();
     void addPlayer(QDataStream *stream, qint16 id);
     void addProjectile(projectile *p);
+    void remove(projectile *p);
+    void remove(player *p);
     void endGame();
     qint16 getNextId();
 public slots:
@@ -44,9 +47,9 @@ private:
     bool started;
 
     //objects includes also players
-    QVector<stuff*> objects;
+    QMap<qint16, stuff*> objects;
     //players, sorted by points
-    QVector<player*> players;
+    QMap<qint16, player*> players;
 
     qint16 nextId;
 

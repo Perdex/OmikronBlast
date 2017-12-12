@@ -3,9 +3,9 @@
 #include "stuff.h"
 #define RADIUS 10
 
-projectile::projectile(qint16 id, double &x, double &y)
+projectile::projectile(qint16 id, double &x, double &y, double angle)
     : stuff(id,x,y),
-    angle(0){
+    angle(angle){
 
     pixmap = QPixmap(":/images/Images/projectile.png");
 }
@@ -18,7 +18,7 @@ void projectile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
     //painter->drawEllipse(-RADIUS,-RADIUS,RADIUS*2,RADIUS*2);
 
     QTransform transf = painter->transform();
-    transf.rotate(angle);
+    transf.rotate(180 + angle);
     painter->setTransform(transf);
 
     painter->drawPixmap(-20, -7, 40, 14, pixmap);
@@ -29,32 +29,27 @@ QRectF projectile::boundingRect() const
 }
 
 void projectile::update(QDataStream *s) {
-    double hp, vp;
+    double hp, vp, ang;
     s->startTransaction();
 
-    double last_x = getHorizontalPos();
-    double last_y = getVerticalPos();
-
-    *s >> hp >> vp;
+    *s >> hp >> vp >> ang;
 
     if(!s->commitTransaction()) return;
 
     this->setVerticalPos(vp);
     this->setHorizontalPos(hp);
 
-    double dx = hp - last_x;
-    double dy = vp - last_y;
-    angle = 180 + atan2(dy, dx) * 180. / M_PI;
+    angle = ang;
 }
 
 stuff* projectile::create(qint16 id, QDataStream *str) {
-    double x, y;
+    double x, y, angle;
 
     str->startTransaction();
 
-    *str >> x >> y;
+    *str >> x >> y >> angle;
 
     if(!str->commitTransaction()) return nullptr;
 
-    return new projectile(id, x, y);
+    return new projectile(id, x, y, angle);
 }

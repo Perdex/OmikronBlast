@@ -42,9 +42,8 @@ void player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     QTransform transf = painter->transform();
     transf.translate(-18, 3);
     transf.rotate(ang);
-    transf.translate(18, -3);
     painter->setTransform(transf);
-    painter->drawPixmap(-30,-18,60,36, gun);
+    painter->drawPixmap(-10,-15,60,36, gun);
 }
 QRectF player::boundingRect() const
 {
