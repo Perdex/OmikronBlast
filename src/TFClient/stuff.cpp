@@ -11,18 +11,7 @@ stuff::stuff(qint16 id, double& x, double& y)
     setPos(horizontalPos, verticalPos);
 }
 
-void stuff::decodeType(QString i)
-{
-//    char checker = i[0];
-//    if(checker == '0')
-//        player.decode(i);
-//    else if(checker =='1')
-//      projectile.decode(i);
-}
-
 stuff::~stuff(){}
-
-
 
 double stuff::getHorizontalPos()
 {
