@@ -16,7 +16,7 @@ class stuff: public QGraphicsItem
 {
 
 public:
-    stuff(qint16 id, double &x, double &y);
+    stuff(Stuff t, qint16 id, double &x, double &y);
     ~stuff();
     double getHorizontalPos();
     double getVerticalPos();
@@ -27,7 +27,9 @@ public:
 
     friend QDataStream& operator>>(QDataStream&, stuff*);
     static stuff* create(UpdateMessage*, QDataStream*);
+    Stuff getType() const { return type; }
 private:
+    Stuff type;
     qint16 id;
     double horizontalPos;
     double verticalPos;

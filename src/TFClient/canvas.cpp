@@ -129,6 +129,10 @@ void Canvas::keyReleaseEvent(QKeyEvent *ke)
     }
 }
 
+void Canvas::remove(stuff *s) {
+    scene->removeItem(s);
+}
+
 bool Canvas::eventFilter(QObject *obj, QEvent *ev)
 {
     if(obj == viewport() && ev->type() == QEvent::Wheel) {

@@ -5,8 +5,8 @@
 #include <QString>
 #include <QtDebug>
 
-stuff::stuff(qint16 id, double& x, double& y)
-    : id(id), horizontalPos(x), verticalPos(y)
+stuff::stuff(Stuff t, qint16 id, double& x, double& y)
+    : type(t), id(id), horizontalPos(x), verticalPos(y)
 {
     setPos(horizontalPos, verticalPos);
 }

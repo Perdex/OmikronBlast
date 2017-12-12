@@ -3,7 +3,7 @@
 #include "stuff.h"
 #define RADIUS 10
 
-projectile::projectile(qint16 id, double &x, double &y):stuff(id,x,y){
+projectile::projectile(qint16 id, double &x, double &y):stuff(Stuff::PROJECTILE,id,x,y){
     ball = QPixmap(":/images/Images/flame.png");
     ball.fill(QColor("red"));
 }

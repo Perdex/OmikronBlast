@@ -190,11 +190,17 @@ void MainWindow::executeTurn(){
     timeElapsed += dt;
     //qDebug() << "Doing a turn! dt: " << dt;
 
+    QVector<stuff*> toBeRemoved;
+
     for(auto object: objects)
-        object->doStep(dt);
+        if(object->doStep(dt))
+            toBeRemoved += object;
 
     for(auto object: objects)
         object->move(dt, *tcpmanager);
+
+    for(auto object: toBeRemoved)
+        remove(object);
 
     updateText();
 
@@ -202,3 +208,12 @@ void MainWindow::executeTurn(){
     QTimer::singleShot(FRAME_TIME, this, &MainWindow::executeTurn);
 }
 
+
+void MainWindow::remove(stuff *s) {
+    objects.removeOne(s);
+    if(s->getType() == Stuff::PLAYER)
+        players.removeOne((player*)s);
+    else
+        delete s;
+    // TODO Fix memory leak
+}

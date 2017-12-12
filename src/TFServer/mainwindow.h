@@ -28,6 +28,8 @@ public:
     void addProjectile(projectile *p);
     void endGame();
     qint16 getNextId();
+    QVector<player*> &getPlayers() { return players; }
+    void remove(stuff*);
 public slots:
     void startGame();
     void executeTurn();
