@@ -97,7 +97,7 @@ void player::move(int dt, TCPManager &mgr)
 
     if(jetpackStatus && fuelLeft > 0){
         vy += JETPACKPOWER;
-        fuelLeft = qMax(fuelLeft - (dt/10), 0.0);
+        fuelLeft = qMax(fuelLeft - (dt/20), 0.0);
     }
 
     if(aPressed) vx -= HORIZONTALMOVEMENT;
@@ -140,6 +140,10 @@ bool player::getIsDead() const
 int player::getAmmoLeft() const
 {
     return ammoLeft;
+}
+double player::getFuelLeft() const
+{
+    return fuelLeft;
 }
 QString player::getName() const
 {

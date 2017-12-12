@@ -86,7 +86,7 @@ QDataStream& operator<<(QDataStream& stream, const stuff &s)
 
     switch (s.type) {
     case Stuff::PLAYER: {
-        stream << ((player*)&s)->getJetpackStatus();
+        stream << ((player*)&s)->getJetpackStatus() << ((player*)&s)->getAmmoLeft() << (int)((((player*)&s)->getFuelLeft())+0.5);
         break;
     }
     case Stuff::PROJECTILE: {

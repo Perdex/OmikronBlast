@@ -4,13 +4,8 @@
 
 player::player(QString name, qint16 id, double x, double y): name(name), stuff(id,x,y)
 {
-    ammo = 0;
-    fuel = 0;
     isMe = false;
-    jetpackActive = false;
-    mouseClicked = 0;
     isDead = 0;
-    angle = 0.0;
 
     pixmaps[0] = QPixmap(":/images/Images/Marinestance.png");
     pixmaps[1] = QPixmap(":/images/Images/Marinestance_2.png");
@@ -61,14 +56,18 @@ void player::setAngle(double angle){
 void player::update(QDataStream *s)
 {
     double hp, vp;
+
     s->startTransaction();
 
+    int a,f;
     bool jp;
-    *s >> hp >> vp >> jp;
+    *s >> hp >> vp >> jp >> a >> f;
 
     if(!s->commitTransaction()) return;
 
     jetpackActive = jp;
+    ammo = a;
+    fuel = f;
 
     this->setVerticalPos(vp);
     this->setHorizontalPos(hp);
@@ -81,8 +80,9 @@ player* player::create(qint16 id, QDataStream *stream) {
 
     stream->startTransaction();
 
+    int a,f;
     bool jp;
-    *stream >> hp >> vp >> jp;
+    *stream >> hp >> vp >> jp >> a >> f;
 
     if(!stream->commitTransaction()) return nullptr;
 

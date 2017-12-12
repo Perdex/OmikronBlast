@@ -22,11 +22,10 @@ private:
     QString name;
     bool isDead;
     double angle;
-    QChar ammo;
-    QChar fuel;
+    int ammo;
+    int fuel;
     bool isMe;
     bool jetpackActive;
-    QChar mouseClicked;
     QPixmap pixmaps[3];
     QPixmap flame;
 };
