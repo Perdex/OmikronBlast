@@ -19,6 +19,10 @@ protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QRectF boundingRect() const;
 
+private:
+    QPixmap ball;
+    QPainterPath path;
+
 };
 
 #endif // PROJECTILE_H

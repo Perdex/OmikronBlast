@@ -18,8 +18,6 @@ class stuff: public QGraphicsItem
 public:
     stuff(qint16 id, double &x, double &y);
     ~stuff();
-    void decodeType(QString);
-//   virtual void draw() = 0;
     double getHorizontalPos();
     double getVerticalPos();
     qint16 getId() const {return id;}

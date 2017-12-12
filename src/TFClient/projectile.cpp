@@ -3,13 +3,18 @@
 #include "stuff.h"
 #define RADIUS 10
 
-projectile::projectile(qint16 id, double &x, double &y):stuff(id,x,y){}
+projectile::projectile(qint16 id, double &x, double &y):stuff(id,x,y){
+    ball = QPixmap(RADIUS *2, RADIUS*2);
+    ball.fill(QColor("red"));
+}
 projectile::~projectile(){}
 
 void projectile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    painter->setBrush(Qt::red);
-    painter->drawEllipse(getHorizontalPos(),getVerticalPos(),RADIUS/2,RADIUS/2);
+
+    path.addEllipse(getHorizontalPos(),getVerticalPos(),RADIUS/2,RADIUS/2);
+    painter->setClipPath(path);
+    painter->drawPixmap(getHorizontalPos(),getVerticalPos(),RADIUS/2,RADIUS/2, ball);
 }
 QRectF projectile::boundingRect() const
 {
