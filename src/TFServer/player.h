@@ -20,6 +20,7 @@ public:
     int getWidth() const;
     int getHeight() const;
     int getAmmoLeft() const;
+    double getFuelLeft() const;
     QString getName() const;
     bool getJetpackStatus() const;
     int getScore() const;

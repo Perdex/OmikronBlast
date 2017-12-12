@@ -127,7 +127,7 @@ void TCPManager::newClient(){
     socket->write(msg);
     socket->flush();
 
-    mainWindow->addPlayer(id, in);
+    mainWindow->addPlayer(in);
 }
 
 void TCPManager::clientLost(){

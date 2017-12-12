@@ -20,8 +20,8 @@ protected:
     QRectF boundingRect() const;
 
 private:
-    QPixmap ball;
     QPainterPath path;
+    QPixmap ball;
 
 };
 

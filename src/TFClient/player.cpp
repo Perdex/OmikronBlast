@@ -4,13 +4,7 @@
 
 player::player(QString name, qint16 id, double x, double y): name(name), stuff(id,x,y)
 {
-    ammo = 0;
-    fuel = 0;
-    isMe = false;
-    jetpackActive = false;
-    mouseClicked = 0;
     isDead = 0;
-    angle = 0.0;
 
     pixmaps[0] = QPixmap(":/images/Images/Marinestance.png");
     pixmaps[1] = QPixmap(":/images/Images/Marinestance_2.png");
@@ -19,6 +13,9 @@ player::player(QString name, qint16 id, double x, double y): name(name), stuff(i
 }
 
 player::~player(){}
+
+int player::getAmmo() {return ammo;}
+int player::getFuel() {return fuel;}
 
 void player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
@@ -61,14 +58,20 @@ void player::setAngle(double angle){
 void player::update(QDataStream *s)
 {
     double hp, vp;
+
     s->startTransaction();
 
-    bool jp;
-    *s >> hp >> vp >> jp;
+    int a,f;
+    bool jp, d;
+    *s >> hp >> vp >> jp >> a >> f >> d;
 
     if(!s->commitTransaction()) return;
 
     jetpackActive = jp;
+    ammo = a;
+    fuel = f;
+    isDead = d;
+    qDebug() << isDead;
 
     this->setVerticalPos(vp);
     this->setHorizontalPos(hp);
@@ -81,8 +84,9 @@ player* player::create(qint16 id, QDataStream *stream) {
 
     stream->startTransaction();
 
-    bool jp;
-    *stream >> hp >> vp >> jp;
+    int a,f;
+    bool jp, d;
+    *stream >> hp >> vp >> jp >> a >> f >> d;
 
     if(!stream->commitTransaction()) return nullptr;
 

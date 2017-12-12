@@ -195,7 +195,7 @@ bool Map::touches(double x, double y){
 int signum(int i){
     return i > 0 ? 1 : i < 0 ? -1 : 0;
 }
-void Map::collide(double *x, double *y, double *vx, double *vy, int dt, double bounce){
+bool Map::collide(double *x, double *y, double *vx, double *vy, int dt, double bounce){
 
     int prev_x = (int)*x / 100;
     int prev_y = (int)*y / 100;
@@ -210,11 +210,11 @@ void Map::collide(double *x, double *y, double *vx, double *vy, int dt, double b
     // Stays within the same block: can return
     // CHANGE IF CORNERS ROUNDED
     if(dx == 0 && dy == 0)
-        return;
+        return false;
 
     // If not colliding, or is for some reason in a block, return
     if(map[next_x][next_y] == 0 || map[prev_x][prev_y] != 0)
-        return;
+        return false;
 
     // Collision is happening: determine the direction
     // and store the (anti-)normal direction to n_x, n_y
@@ -252,5 +252,7 @@ void Map::collide(double *x, double *y, double *vx, double *vy, int dt, double b
         *x = round((*x + *vx * dt * 0.5) / 100) * 100;
     if(dy != 0)
         *y = round((*y + *vy * dt * 0.5) / 100) * 100;
+
+    return true;
 }
 

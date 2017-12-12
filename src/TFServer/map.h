@@ -25,7 +25,7 @@ public:
     bool isWall(int x, int y);
     void send(TCPManager* manager);
     // if necessary, collides with a wall and updates the position and velocity
-    void collide(double *x, double *y, double *vx, double *vy, int dt, double bounce);
+    bool collide(double *x, double *y, double *vx, double *vy, int dt, double bounce);
     bool touches(double x, double y);
 private:
     QString stream;

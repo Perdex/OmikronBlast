@@ -6,10 +6,10 @@
 #include <QtDebug>
 
 stuff::stuff(Stuff t, qint16 id, Map *map, MainWindow *main, QDataStream *s,
-             int x, int y)
+             int m_x, int m_y)
     : id(id),
-      x(x),
-      y(y),
+      x(m_x),
+      y(m_y),
       vx(0),
       vy(0),
       stream(s),
@@ -86,7 +86,7 @@ QDataStream& operator<<(QDataStream& stream, const stuff &s)
 
     switch (s.type) {
     case Stuff::PLAYER: {
-        stream << ((player*)&s)->getJetpackStatus();
+        stream << ((player*)&s)->getJetpackStatus() << ((player*)&s)->getAmmoLeft() << (int)((((player*)&s)->getFuelLeft())+0.5) << ((player*)&s)->getIsDead();
         break;
     }
     case Stuff::PROJECTILE: {

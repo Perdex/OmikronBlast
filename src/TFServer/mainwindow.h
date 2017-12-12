@@ -24,7 +24,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void addPlayer(qint16 id, QDataStream *stream);
+    void addPlayer(QDataStream *stream);
     void addProjectile(projectile *p);
     void endGame();
     qint16 getNextId();
@@ -47,6 +47,8 @@ private:
     QVector<stuff*> objects;
     //players, sorted by points
     QVector<player*> players;
+
+    qint16 nextId;
 
     void updateText();
 };
