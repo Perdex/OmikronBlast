@@ -10,21 +10,18 @@
 
 #define AMMOMAX 5
 #define JETFUELMAX 100.0
-#define PLAYERWIDTH 20
-#define PLAYERHEIGHT 40
 #define GRAVITY 0.1
 #define JETPACKPOWER -0.15
 #define TERMINALSPEED 3.0
 #define HORIZONTALMOVEMENT 0.2
 #define JUMPSTRENGTH -2.0
-#define FUELCONSUMPTION 5.0
 #define COLLWIDTH 15
 
 player::player(qint16 id, QDataStream *stream, Map *map, MainWindow *main)
     : stuff(Stuff::PLAYER, id, map, main, stream),
     name("NONAME_SUCKER"),
     isDead(false),
-    ammoLeft(3),
+    ammoLeft(AMMOMAX),
     jetpackStatus(false),
     fuelLeft(JETFUELMAX),
     lastMagazineFull(0),
@@ -67,14 +64,15 @@ void player::doStep(int dt)
             jetpackStatus = false;
 
 
-        if(map[Qt::Key_Space] && !isFalling) jump(); // tähän vielä !isFalling kunhan saadaan unit collision
+        if(map[Qt::Key_Space] && !isFalling) jump();
 
 
         aPressed = map[Qt::Key_A];
         dPressed = map[Qt::Key_D];
 
-        if(clicked) {
+        if(clicked && ammoLeft > 0) {
             weaponAngle = angle;
+            ammoLeft -= 1;
             shoot();
         }
     }
@@ -82,13 +80,24 @@ void player::doStep(int dt)
 
 void player::move(int dt, TCPManager &mgr)
 {
+    //Ammoregen
+    if(ammoLeft == 5)
+        lastMagazineFull = 0;
+    else if(lastMagazineFull >= 2000)
+    {
+        ammoLeft += 1;
+        lastMagazineFull = 0;
+    }
+    else
+        lastMagazineFull += dt;
+
 
     if(!jetpackStatus) lastJetpackUse += dt;
     if(lastJetpackUse > 3000) fuelLeft = qMin(JETFUELMAX, fuelLeft + (dt/10));
 
     if(jetpackStatus && fuelLeft > 0){
         vy += JETPACKPOWER;
-        fuelLeft = qMax(fuelLeft - (dt/10), 0.0);
+        fuelLeft = qMax(fuelLeft - (dt/30), 0.0);
     }
 
     if(aPressed) vx -= HORIZONTALMOVEMENT;
@@ -103,6 +112,7 @@ void player::move(int dt, TCPManager &mgr)
     // Limit the velocity to values that make sense
     vx = qBound(-TERMINALSPEED, vx, TERMINALSPEED);
     vy = qBound(-TERMINALSPEED, vy, TERMINALSPEED);
+
 
     // Collide with map
     double x_new = x - COLLWIDTH;
@@ -126,14 +136,6 @@ player::~player(){}
 bool player::getIsDead() const
 {
     return isDead;
-}
-int player::getWidth() const
-{
-    return PLAYERWIDTH;
-}
-int player::getHeight() const
-{
-    return PLAYERHEIGHT;
 }
 int player::getAmmoLeft() const
 {
