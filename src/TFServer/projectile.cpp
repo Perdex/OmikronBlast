@@ -12,6 +12,7 @@ projectile::projectile(qint16 id, double x, double y, player *owner, double angl
                        Map *map, MainWindow *main)
     : stuff(Stuff::PROJECTILE, id, map, main, nullptr, x,y), owner(owner)
 {
+    qDebug() << angle;
     setVerticalSpeed(sin(angle) * SPEED);
     setHorizontalSpeed(cos(angle) * SPEED);
 }
