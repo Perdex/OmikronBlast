@@ -4,7 +4,7 @@
 #include "tcpmanager.h"
 #include <cmath>
 
-#define SPEED 2
+#define SPEED 1
 #define RADIUS 10
 
 
