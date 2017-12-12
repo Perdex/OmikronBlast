@@ -126,9 +126,8 @@ void player::move(int dt, TCPManager &mgr)
     x += dt * vx;
     y += dt * vy;
 
-    Message *msg = new UpdateMessage((stuff*)this);
-    mgr << msg;
-    //TODO needs to be deleted, but deleting here crashes ht server...
+    UpdateMessage msg = UpdateMessage((stuff*)this);
+    mgr << &msg;
 }
 
 player::~player(){}

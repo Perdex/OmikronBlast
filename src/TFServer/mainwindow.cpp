@@ -35,12 +35,10 @@ MainWindow::MainWindow(QWidget *parent) :
 
     map = new Map(ui->mapView);
 
-    //initialize and connect the main loop timer: will not run yet
-    //gameLoopTimer = new QTimer(this);
-    //QObject::connect(gameLoopTimer, SIGNAL(timeout()), this, SLOT(executeTurn()));
-
-    //connect the start button to start game
+    // Connect the start button to start game
     QObject::connect(ui->startButton, SIGNAL(clicked(bool)), this, SLOT(startGame()));
+
+    // Connect the map regenerate button
     QObject::connect(ui->regenMapButton, &QPushButton::clicked, this, &MainWindow::generateMap);
 }
 
@@ -79,7 +77,7 @@ void MainWindow::startGame(){
         StatusMessage start_msg = StatusMessage(GameStatus::START);
         qDebug() << &start_msg;
         qDebug() << (qint8)start_msg.status();
-        *tcpmanager << new StatusMessage(GameStatus::START);
+        *tcpmanager << &start_msg;
 
         map->send(tcpmanager);
 
@@ -114,7 +112,6 @@ void MainWindow::endGame(){
     qDebug() << "Ending the game!";
     running = false;
     this->deleteLater();
-    //gameLoopTimer->stop();
 }
 
 
@@ -139,6 +136,7 @@ void MainWindow::addProjectile(projectile *p){
     qDebug() << "Adding a projectile!!";
     objects += p;
 }
+
 qint16 MainWindow::getNextId(){
     nextId++;
     return nextId;
@@ -158,19 +156,17 @@ void MainWindow::updateText(){
 
     //sort players by points, in descending order
     std::sort(players.begin(), players.end(), [](const player* p1, const player* p2) {
-        //TODO change to points
-        return p1->getId() > p2->getId();
+        return p1->getScore() > p2->getScore();
     });
 
     //add all players' info to the text
-    for(auto p: players){
+    for(player *p: players){
         s += p->getName() + ": ";
 
         if(p->getIsDead())
             s += "DEAD";
 
-        //TODO change to points
-        s += QString("%1 points\n").arg(p->getId());
+        s += QString("%1 points\n").arg(p->getScore());
 
     }
     ui->PlayersLabel->setText(s);

@@ -32,7 +32,8 @@ void projectile::move(int dt, TCPManager &mgr){
 
     if(test)
         bounceCount += 1;
-    mgr << new UpdateMessage(this);
+    UpdateMessage msg(this);
+    mgr << &msg;
 }
 
 void projectile::hitPlayer(player& victim)

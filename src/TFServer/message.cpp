@@ -3,19 +3,15 @@
 
 QDataStream& operator<<(QDataStream& stream, Message* msg)
 {
-    //Not useful.
-    //stream << (qint8)msg->type();
     switch (msg->type()) {
     case MessageType::UPDATE: {
         UpdateMessage *um = static_cast<UpdateMessage*>(msg);
         stream << um;
-        delete um;
         break;
     }
     case MessageType::STATUS: {
         StatusMessage *sm = static_cast<StatusMessage*>(msg);
         stream << sm;
-        delete sm;
         break;
     }
     default:
