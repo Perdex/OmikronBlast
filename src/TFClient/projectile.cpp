@@ -12,9 +12,9 @@ projectile::~projectile(){}
 void projectile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 
-    path.addEllipse(getHorizontalPos(),getVerticalPos(),RADIUS/2,RADIUS/2);
+    path.addEllipse(getHorizontalPos(),getVerticalPos(),RADIUS*2,RADIUS*2);
     painter->setClipPath(path);
-    painter->drawPixmap(getHorizontalPos(),getVerticalPos(),RADIUS/2,RADIUS/2, ball);
+    painter->drawPixmap(getHorizontalPos(),getVerticalPos(),RADIUS*2,RADIUS*2, ball);
 }
 QRectF projectile::boundingRect() const
 {
