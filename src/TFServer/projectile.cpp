@@ -27,7 +27,7 @@ bool projectile::doStep(int dt){
     if(!isActive) return false;
     for(player *p: mainWindow->getPlayers().values()) {
         QRectF self(x - RADIUS, y - RADIUS, 2*RADIUS, 2*RADIUS);
-        QRectF pl(p->getHorizontalPos(), p->getVerticalPos(), 40, 80);
+        QRectF pl(p->getHorizontalPos()-20, p->getVerticalPos()-40, 40, 80);
 
         if(self.intersects(pl)) {
             hitPlayer(*p);

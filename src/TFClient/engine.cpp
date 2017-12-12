@@ -103,7 +103,8 @@ void Engine::processUpdate(UpdateMessage *msg, QDataStream *stream)
         stuff *s = items[msg->id()];
         s->update(stream);
 
-        if(s->getType() == Stuff::PLAYER && ((player*)s)->dead()) {
+        if(s->getType() == Stuff::PLAYER && ((player*)s)->dead()
+                && msg->id() != my_id) {
             items.remove(msg->id());
             canvas.remove(s);
         }

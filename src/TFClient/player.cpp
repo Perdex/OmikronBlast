@@ -9,6 +9,7 @@ player::player(QString name, qint16 id, double x, double y): name(name), stuff(S
     marine = QPixmap(":/images/Images/Marinestance_nogun.png");
     gun = QPixmap(":/images/Images/Marine_gun.png");
     flame = QPixmap(":/images/Images/flame.png");
+    tomb = QPixmap(":/images/Squarebox.png");
 }
 
 player::~player(){}
@@ -18,6 +19,12 @@ int player::getFuel() {return fuel;}
 
 void player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    if(isDead){
+        qDebug() << "Dead.";
+        painter->drawPixmap(-20,0,40,40, tomb);
+        return;
+    }
+
     double ang = angle;
     if(ang < -90 || ang > 90){
         //flip the image
@@ -40,7 +47,7 @@ void player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 
     //draw the gun
     QTransform transf = painter->transform();
-    transf.translate(-18, 3);
+    transf.translate(-18, 8);
     transf.rotate(ang);
     painter->setTransform(transf);
     painter->drawPixmap(-10,-15,60,36, gun);
@@ -51,7 +58,6 @@ QRectF player::boundingRect() const
 }
 
 void player::setAngle(double angle){
-    qDebug() << angle;
     //this is currently always between -180, 180
     this->angle = angle;
 }
