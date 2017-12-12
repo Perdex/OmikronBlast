@@ -25,7 +25,7 @@ public:
     bool getJetpackStatus() const;
     int getScore() const;
     void jump();
-    void doStep(int dt);
+    bool doStep(int dt);
     void move(int dt, TCPManager &mgr);
     void shoot();
     void die();

@@ -2,7 +2,7 @@
 #include <QString>
 #include <QtDebug>
 
-player::player(QString name, qint16 id, double x, double y): name(name), stuff(id,x,y)
+player::player(QString name, qint16 id, double x, double y): name(name), stuff(Stuff::PLAYER,id,x,y)
 {
     isDead = 0;
 

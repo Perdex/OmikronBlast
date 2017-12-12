@@ -15,14 +15,16 @@ public:
                            Map *map, MainWindow *main);
     ~projectile();
 
-    void doStep(int dt);
+    bool doStep(int dt);
     void move(int dt, TCPManager &mgr);
     void hitPlayer(player& victim);
     double getAngle();
-
+private slots:
+    void activate() { isActive = true; }
 private:
     int bounceCount;
     player *owner;
+    bool isActive = false;
     double angle;
 };
 

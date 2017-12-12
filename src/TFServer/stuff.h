@@ -27,7 +27,7 @@ public:
     double getHorizontalPos() const;
     double getVerticalSpeed() const;
     double getHorizontalSpeed() const;
-    virtual void doStep(int dt) = 0;
+    virtual bool doStep(int dt) = 0;
     virtual void move(int dt, TCPManager& mgr) = 0;
     void changeVerticalSpeed(double);
     void changeHorizontalSpeed(double);
@@ -37,6 +37,7 @@ public:
     void changeHorizontalPos(double);
     void setVerticalPos(double);
     void setHorizontalPos(double);
+    Stuff getType() const { return type; }
     friend QDataStream& operator<<(QDataStream& stream, const stuff &s);
 protected:
     qint16 id;

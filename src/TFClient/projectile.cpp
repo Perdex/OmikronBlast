@@ -4,9 +4,7 @@
 #define RADIUS 10
 
 projectile::projectile(qint16 id, double &x, double &y, double angle)
-    : stuff(id,x,y),
-    angle(angle){
-
+    : stuff(Stuff::PROJECTILE, id,x,y),angle(angle){
     pixmap = QPixmap(":/images/Images/projectile.png");
 }
 

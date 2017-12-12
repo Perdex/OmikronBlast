@@ -31,6 +31,8 @@ public:
     void remove(player *p);
     void endGame();
     qint16 getNextId();
+    QMap<qint16, player*> &getPlayers() { return players; }
+    void remove(stuff*);
 public slots:
     void startGame();
     void executeTurn();

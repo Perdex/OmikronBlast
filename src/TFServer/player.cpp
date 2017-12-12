@@ -34,7 +34,7 @@ player::player(qint16 id, QDataStream *stream, Map *map, MainWindow *main)
     resetPosition();
 }
 
-void player::doStep(int dt)
+bool player::doStep(int dt)
 {
     QMap<int, bool> map;
     bool clicked;
@@ -70,6 +70,7 @@ void player::doStep(int dt)
             shoot();
         }
     }
+    return isDead;
 }
 
 void player::resetPosition()
