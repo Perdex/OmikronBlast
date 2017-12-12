@@ -119,14 +119,17 @@ void player::move(int dt, TCPManager &mgr)
     vy = qBound(-TERMINALSPEED, vy, TERMINALSPEED);
 
 
-    // Collide with map
+    // Collide with map, use three collision points
     double x_new = x - COLLWIDTH;
     double y_new = y + 40;
     map->collide(&x_new, &y_new, &vx, &vy, dt, 0.1);
     x_new += COLLWIDTH * 2;
     map->collide(&x_new, &y_new, &vx, &vy, dt, 0.1);
-    x = x_new - COLLWIDTH;
-    y = y_new - 40;
+    y_new -= 80;
+    x_new -= COLLWIDTH;
+    map->collide(&x_new, &y_new, &vx, &vy, dt, 0.1);
+    x = x_new;
+    y = y_new + 40;
 
     x += dt * vx;
     y += dt * vy;
@@ -169,12 +172,9 @@ void player::jump()
 
 void player::shoot()
 {
-    if(ammoLeft > 0){
-        ammoLeft--;
-        projectile *p = new projectile(this->mainWindow->getNextId(), this->x, this->y, this,
-                                       weaponAngle, map, mainWindow);
-        mainWindow->addProjectile(p);
-    }
+    projectile *p = new projectile(this->mainWindow->getNextId(), this->x, this->y, this,
+                                   weaponAngle, map, mainWindow);
+    mainWindow->addProjectile(p);
 }
 void player::die()
 {

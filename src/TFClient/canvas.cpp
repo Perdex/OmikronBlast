@@ -86,6 +86,7 @@ void Canvas::center() {
     QPointF shift = 0.5*(viewCenter - sceneCenter);
 
     background->setPos(shift);
+
 }
 
 void Canvas::mouseMoveEvent(QMouseEvent *me) {
@@ -93,7 +94,8 @@ void Canvas::mouseMoveEvent(QMouseEvent *me) {
     mouseY = me->y();
     mouseX = me->x();
     center();
-    my_player->setAngle(atan2(mouseY - this->height()/2, mouseX - this->width()/2) * 180 / M_PI);
+    QPointF p = mapToScene(me->x(), me->y());
+    my_player->setAngle(atan2(p.y() - my_player->getVerticalPos(), p.x() - my_player->getHorizontalPos()) * 180 / M_PI);
     //this->centerOn(my_player->getHorizontalPos() + (me->x() - this->width()/2)/2, my_player->getVerticalPos() + (me->y() - this->height()/2)/2);
 }
 
