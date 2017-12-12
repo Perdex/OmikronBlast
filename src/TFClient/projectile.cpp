@@ -16,6 +16,10 @@ QRectF projectile::boundingRect() const
     return QRectF(-RADIUS,-RADIUS,RADIUS*2,RADIUS*2);
 }
 
+void projectile::update(QDataStream *str) {
+
+}
+
 stuff* projectile::create(qint16 id, QDataStream *str) {
     double x, y;
 
