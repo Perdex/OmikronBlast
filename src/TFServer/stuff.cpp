@@ -1,5 +1,6 @@
 #include "stuff.h"
 #include "map.h"
+#include "projectile.h"
 #include "player.h"
 #include <QDataStream>
 #include <QtDebug>
@@ -83,8 +84,17 @@ QDataStream& operator<<(QDataStream& stream, const stuff &s)
     stream << (qint8)s.type << s.getId()
            << s.getHorizontalPos() << s.getVerticalPos();
 
-    if(s.type == Stuff::PLAYER){
+    switch (s.type) {
+    case Stuff::PLAYER: {
         stream << ((player*)&s)->getJetpackStatus();
+        break;
     }
+    case Stuff::PROJECTILE: {
+        break;
+    }
+    default:
+        break;
+    }
+
     return stream;
 }
