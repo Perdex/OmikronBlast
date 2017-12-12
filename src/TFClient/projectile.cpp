@@ -6,7 +6,6 @@
 projectile::projectile(qint16 id, double &x, double &y):stuff(id,x,y){
     ball = QPixmap(RADIUS *2, RADIUS*2);
     ball.fill(QColor("red"));
-    ukko = QPixmap(":/images/Images/square.png");
 }
 projectile::~projectile(){}
 

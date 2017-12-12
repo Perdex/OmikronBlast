@@ -2,6 +2,7 @@
 #define CANVAS_H
 
 #include <QGraphicsPixmapItem>
+#include <QGraphicsTextItem>
 #include <QMouseEvent>
 #include <QGraphicsView>
 #include <QGraphicsScene>
