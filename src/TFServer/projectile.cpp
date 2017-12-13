@@ -54,9 +54,7 @@ void projectile::move(int dt, TCPManager &mgr){
         UpdateMessage msg(this);
         mgr << &msg;
     }
-}
-double projectile::getAngle(){
-    return angle;
+    //return angle;
 }
 
 void projectile::hitPlayer(player& victim)

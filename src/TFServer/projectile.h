@@ -1,18 +1,6 @@
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
-<<<<<<< HEAD
 
-
-class projectile:public stuff   //onko stuff??
-{
-public:
-    projectile();
-    ~projectile();
-    int bounceNumber();
-
-private:
-    int bounces;
-=======
 #include <iostream>
 #include "stuff.h"
 #include <QString>
@@ -31,7 +19,7 @@ public:
     bool doStep(int dt);
     void move(int dt, TCPManager &mgr);
     void hitPlayer(player& victim);
-    double getAngle();
+    double getAngle() { return angle; };
 private slots:
     void activate() { isActive = true; }
 private:
@@ -39,7 +27,6 @@ private:
     player *owner;
     bool isActive = false;
     double angle;
->>>>>>> 2e2e86e5e33e6d28ead92caff7782e68fa8b08a3
 };
 
 #endif // PROJECTILE_H
