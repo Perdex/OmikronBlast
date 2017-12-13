@@ -1,22 +1,29 @@
 #include "stuff.h"
 #include "map.h"
+#include "projectile.h"
 #include "player.h"
 #include <QDataStream>
 #include <QtDebug>
 
-stuff::stuff(qint16 id, double& x, double& y, double dx = 0 , double dy = 0)
-    : id(id), x(x), y(y),
-             vx(dx), vy(dy){}
-stuff::stuff(Stuff t, qint16 id, QDataStream *s, Map *map) : id(id), stream(s), map(map) {
-    //TODO
-    x = 2500;
-    y = 2500;
-    vx = 0;
-    vy = 0;
-    type = t;
-}
+stuff::stuff(Stuff t, qint16 id, Map *map, MainWindow *main, QDataStream *s,
+             int m_x, int m_y)
+    : id(id),
+      x(m_x),
+      y(m_y),
+      vx(0),
+      vy(0),
+      stream(s),
+      type(t),
+      map(map),
+      mainWindow(main)
+{}
 
-stuff::~stuff(){}
+stuff::~stuff(){
+    if(stream){
+        delete stream;
+        stream = nullptr;
+    }
+}
 
 qint16 stuff::getId() const
 {
@@ -77,8 +84,18 @@ QDataStream& operator<<(QDataStream& stream, const stuff &s)
     stream << (qint8)s.type << s.getId()
            << s.getHorizontalPos() << s.getVerticalPos();
 
-    if(s.type == Stuff::PLAYER){
-        stream << ((player*)&s)->getJetpackStatus();
+    switch (s.type) {
+    case Stuff::PLAYER: {
+        stream << ((player*)&s)->getJetpackStatus() << ((player*)&s)->getAmmoLeft() << (int)((((player*)&s)->getFuelLeft())+0.5) << ((player*)&s)->getIsDead();
+        break;
     }
+    case Stuff::PROJECTILE: {
+        stream << ((projectile*)&s)->getAngle();
+        break;
+    }
+    default:
+        break;
+    }
+
     return stream;
 }

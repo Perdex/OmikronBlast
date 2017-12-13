@@ -2,6 +2,7 @@
 #define CANVAS_H
 
 #include <QGraphicsPixmapItem>
+#include <QGraphicsTextItem>
 #include <QMouseEvent>
 #include <QGraphicsView>
 #include <QGraphicsScene>
@@ -23,6 +24,7 @@ public:
     void buildMap(int [][39]);
     void buildMap(QString);
     void center();
+    void remove(stuff*);
 signals:
     void statusChanged(const QMap<int, bool>&, float ang, bool clicked);
 protected:

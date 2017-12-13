@@ -7,5 +7,8 @@
         <file>Images/Marinestance_2.png</file>
         <file>Images/Marinestance_3.png</file>
         <file>Images/flame.png</file>
+        <file>Images/Marine_gun.png</file>
+        <file>Images/Marinestance_nogun.png</file>
+        <file>Images/projectile.png</file>
     </qresource>
 </RCC>

@@ -1,6 +1,5 @@
 #ifndef PLAYER_H
 #define PLAYER_H
-#include <ctime>
 #include <iostream>
 #include "stuff.h"
 #include <QString>
@@ -13,7 +12,7 @@ class Map;
 class player : public stuff
 {
 public:
-    player(qint16 id, QDataStream *stream, Map* map);
+    player(qint16 id, QDataStream *stream, Map* map, MainWindow *main);
     ~player();
     //QDataStream& operator<<(QDataStream& stream);
 
@@ -21,13 +20,17 @@ public:
     int getWidth() const;
     int getHeight() const;
     int getAmmoLeft() const;
+    double getFuelLeft() const;
     QString getName() const;
     bool getJetpackStatus() const;
+    int getScore() const;
     void jump();
-    void doStep(int dt);
+    bool doStep(int dt);
     void move(int dt, TCPManager &mgr);
-    void shoot(double angle);
+    void shoot();
     void die();
+    void getPoint();
+    void resetPosition();
 
 private:
     QString name;

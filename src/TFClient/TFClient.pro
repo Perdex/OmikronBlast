@@ -32,7 +32,8 @@ SOURCES += \
     player.cpp \
     stuff.cpp \
     engine.cpp \
-    message.cpp
+    message.cpp \
+    projectile.cpp
 
 HEADERS += \
         frame.h \
@@ -42,7 +43,8 @@ HEADERS += \
     player.h \
     stuff.h \
     engine.h \
-    message.h
+    message.h \
+    projectile.h
 
 FORMS += \
         frame.ui

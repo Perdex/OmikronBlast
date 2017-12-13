@@ -16,10 +16,8 @@ class stuff: public QGraphicsItem
 {
 
 public:
-    stuff(qint16 id, double &x, double &y);
+    stuff(Stuff t, qint16 id, double &x, double &y);
     ~stuff();
-    void decodeType(QString);
-//   virtual void draw() = 0;
     double getHorizontalPos();
     double getVerticalPos();
     qint16 getId() const {return id;}
@@ -29,7 +27,9 @@ public:
 
     friend QDataStream& operator>>(QDataStream&, stuff*);
     static stuff* create(UpdateMessage*, QDataStream*);
+    Stuff getType() const { return type; }
 private:
+    Stuff type;
     qint16 id;
     double horizontalPos;
     double verticalPos;

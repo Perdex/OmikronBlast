@@ -2,23 +2,19 @@
 #include <QString>
 #include <QtDebug>
 
-player::player(QString name, qint16 id, double x, double y): name(name), stuff(id,x,y)
+player::player(QString name, qint16 id, double x, double y): name(name), stuff(Stuff::PLAYER,id,x,y)
 {
-    ammo = 0;
-    fuel = 0;
-    isMe = false;
-    jetpackActive = false;
-    mouseClicked = 0;
     isDead = 0;
-    angle = 0.0;
 
-    pixmaps[0] = QPixmap(":/images/Images/Marinestance.png");
-    pixmaps[1] = QPixmap(":/images/Images/Marinestance_2.png");
-    pixmaps[2] = QPixmap(":/images/Images/Marinestance_3.png");
+    marine = QPixmap(":/images/Images/Marinestance_nogun.png");
+    gun = QPixmap(":/images/Images/Marine_gun.png");
     flame = QPixmap(":/images/Images/flame.png");
 }
 
 player::~player(){}
+
+int player::getAmmo() {return ammo;}
+int player::getFuel() {return fuel;}
 
 void player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
@@ -36,16 +32,18 @@ void player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
             ang = 180 - ang;
     }
 
-    if(jetpackActive){
-        painter->drawPixmap(-39,-50,78,100,flame);
-    }
-    int ind = 0;
-    if(ang < -30)
-        ind = 1;
-    if(ang > 30)
-        ind = 2;
+    if(jetpackActive)
+        painter->drawPixmap(-39,0,78,50, flame);
 
-    painter->drawPixmap(-39,-50,78,100,pixmaps[ind]);
+
+    painter->drawPixmap(-39,-50,78,100, marine);
+
+    //draw the gun
+    QTransform transf = painter->transform();
+    transf.translate(-18, 3);
+    transf.rotate(ang);
+    painter->setTransform(transf);
+    painter->drawPixmap(-10,-15,60,36, gun);
 }
 QRectF player::boundingRect() const
 {
@@ -53,7 +51,7 @@ QRectF player::boundingRect() const
 }
 
 void player::setAngle(double angle){
-    //qDebug() << angle;
+    qDebug() << angle;
     //this is currently always between -180, 180
     this->angle = angle;
 }
@@ -61,14 +59,20 @@ void player::setAngle(double angle){
 void player::update(QDataStream *s)
 {
     double hp, vp;
+
     s->startTransaction();
 
-    bool jp;
-    *s >> hp >> vp >> jp;
+    int a,f;
+    bool jp, d;
+    *s >> hp >> vp >> jp >> a >> f >> d;
 
     if(!s->commitTransaction()) return;
 
     jetpackActive = jp;
+    ammo = a;
+    fuel = f;
+    isDead = d;
+    qDebug() << isDead;
 
     this->setVerticalPos(vp);
     this->setHorizontalPos(hp);
@@ -81,8 +85,9 @@ player* player::create(qint16 id, QDataStream *stream) {
 
     stream->startTransaction();
 
-    bool jp;
-    *stream >> hp >> vp >> jp;
+    int a,f;
+    bool jp, d;
+    *stream >> hp >> vp >> jp >> a >> f >> d;
 
     if(!stream->commitTransaction()) return nullptr;
 

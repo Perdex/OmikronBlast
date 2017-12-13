@@ -20,7 +20,7 @@ void Engine::start() {
 }
 
 void Engine::addStuff(stuff* s) {
-    items[s->getId()] = s;
+    items.insert(s->getId(), s);
     if(s->getId() == my_id)
         canvas.setMyPlayer(static_cast<player*>(s));
     canvas.addStuff(s);
@@ -100,6 +100,12 @@ void Engine::processUpdate(UpdateMessage *msg, QDataStream *stream)
     if(!items.contains(msg->id())) {
         addStuff(stuff::create(msg, stream));
     }else{
-        items[msg->id()]->update(stream);
+        stuff *s = items[msg->id()];
+        s->update(stream);
+
+        if(s->getType() == Stuff::PLAYER && ((player*)s)->dead()) {
+            items.remove(msg->id());
+            canvas.remove(s);
+        }
     }
 }

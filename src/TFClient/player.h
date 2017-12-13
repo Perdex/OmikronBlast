@@ -14,6 +14,9 @@ public:
     void update(QDataStream*);
     static player* create(qint16 id, QDataStream*);
     void setAngle(double angle);
+    int getAmmo();
+    int getFuel();
+    bool dead() const { return isDead; }
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QRectF boundingRect() const;
@@ -22,12 +25,11 @@ private:
     QString name;
     bool isDead;
     double angle;
-    QChar ammo;
-    QChar fuel;
-    bool isMe;
+    int ammo;
+    int fuel;
     bool jetpackActive;
-    QChar mouseClicked;
-    QPixmap pixmaps[3];
+    QPixmap marine;
+    QPixmap gun;
     QPixmap flame;
 };
 

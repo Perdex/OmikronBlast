@@ -70,9 +70,24 @@ void TCPManager::gameStarted(){
 }
 
 QString TCPManager::getAddress(){
-    if(server != nullptr)
-        return server->serverAddress().toString();
-    return QString();
+    if(!server)
+        return QString();
+
+    QString ipAddress;
+    QList<QHostAddress> ipAddressesList = QNetworkInterface::allAddresses();
+    // use the first non-localhost IPv4 address
+    for (int i = 0; i < ipAddressesList.size(); ++i) {
+        if (ipAddressesList.at(i) != QHostAddress::LocalHost &&
+            ipAddressesList.at(i).toIPv4Address()) {
+            ipAddress = ipAddressesList.at(i).toString();
+            break;
+        }
+    }
+    // if we did not find one, use IPv4 localhost
+    if (ipAddress.isEmpty())
+        ipAddress = QHostAddress(QHostAddress::LocalHost).toString();
+
+    return ipAddress;
 }
 QString TCPManager::getPort(){
     if(server != nullptr)
@@ -94,6 +109,7 @@ void TCPManager::newClient(){
 
     qDebug() << "Client found!";
 
+    //This is deleted in destructor of stuff
     QDataStream *in = new QDataStream(socket);
     in->setVersion(QDataStream::Qt_5_9);
 
@@ -113,23 +129,20 @@ void TCPManager::newClient(){
     stream.setVersion(QDataStream::Qt_5_9);
 
     QVariant qhs("TFGAME-SERVER");
-    StatusMessage *sm_hs = new StatusMessage(GameStatus::HANDSHAKE, qhs);
+    StatusMessage sm_hs = StatusMessage(GameStatus::HANDSHAKE, qhs);
 
-    qint16 id = clients.size();
+    qint16 id = mainWindow->getNextId();
     QVariant qid(id);
-    StatusMessage *sm_id = new StatusMessage(GameStatus::ID_TRANSFER, qid);
+    StatusMessage sm_id = StatusMessage(GameStatus::ID_TRANSFER, qid);
 
-    stream << sm_hs << sm_id;
+    stream << &sm_hs << &sm_id;
 
     qDebug() << msg;
 
     socket->write(msg);
     socket->flush();
 
-    delete sm_id;
-    delete sm_hs;
-
-    mainWindow->addPlayer(id, in);
+    mainWindow->addPlayer(in, id);
 }
 
 void TCPManager::clientLost(){

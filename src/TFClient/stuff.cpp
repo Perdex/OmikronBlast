@@ -1,27 +1,17 @@
 #include "stuff.h"
 #include "message.h"
 #include "player.h"
+#include "projectile.h"
 #include <QString>
 #include <QtDebug>
 
-stuff::stuff(qint16 id, double& x, double& y)
-    : id(id), horizontalPos(x), verticalPos(y)
+stuff::stuff(Stuff t, qint16 id, double& x, double& y)
+    : type(t), id(id), horizontalPos(x), verticalPos(y)
 {
     setPos(horizontalPos, verticalPos);
 }
 
-void stuff::decodeType(QString i)
-{
-//    char checker = i[0];
-//    if(checker == '0')
-//        player.decode(i);
-//    else if(checker =='1')
-//      projectile.decode(i);
-}
-
 stuff::~stuff(){}
-
-
 
 double stuff::getHorizontalPos()
 {
@@ -64,6 +54,9 @@ stuff* stuff::create(UpdateMessage *msg, QDataStream *stream) {
     switch(msg->datatype()) {
     case Stuff::PLAYER:
         return player::create(msg->id(), stream);
+    case Stuff::PROJECTILE: {
+        return projectile::create(msg->id(), stream);
+    }
     default:
         return nullptr;
     }
