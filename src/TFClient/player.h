@@ -31,6 +31,7 @@ private:
     QPixmap marine;
     QPixmap gun;
     QPixmap flame;
+    QPixmap stone;
 };
 
 #endif // PLAYER_H

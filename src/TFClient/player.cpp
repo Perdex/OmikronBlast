@@ -9,6 +9,7 @@ player::player(QString name, qint16 id, double x, double y): name(name), stuff(S
     marine = QPixmap(":/images/Images/Marinestance_nogun.png");
     gun = QPixmap(":/images/Images/Marine_gun.png");
     flame = QPixmap(":/images/Images/flame.png");
+    stone = QPixmap(":/images/Images/stone.png");
 }
 
 player::~player(){}
@@ -44,6 +45,7 @@ void player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     transf.rotate(ang);
     painter->setTransform(transf);
     painter->drawPixmap(-10,-15,60,36, gun);
+
 }
 QRectF player::boundingRect() const
 {
