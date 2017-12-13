@@ -19,6 +19,10 @@ int player::getFuel() {return fuel;}
 
 void player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
+    if(isDead) {
+        painter->drawPixmap(-39, -50, 78, 100, stone);
+        return;
+    }
     double ang = angle;
     if(ang < -90 || ang > 90){
         //flip the image
@@ -68,7 +72,7 @@ void player::update(QDataStream *s)
     bool jp, d;
     *s >> hp >> vp >> jp >> a >> f >> d;
 
-    if(!s->commitTransaction()) return;
+    if(!s->commitTransaction() || isDead) return;
 
     jetpackActive = jp;
     ammo = a;
