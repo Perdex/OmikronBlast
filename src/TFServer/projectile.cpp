@@ -50,7 +50,8 @@ void projectile::move(int dt, TCPManager &mgr){
     if(test)
         bounceCount += 1;
     if(bounceCount > MAX_BOUNCES)
-        mainWindow->remove(this);
+        ;
+        //mainWindow->remove(this);
     else{
         UpdateMessage msg(this);
         mgr << &msg;
