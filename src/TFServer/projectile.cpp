@@ -44,11 +44,25 @@ void projectile::move(int dt, TCPManager &mgr){
 
     if(!isDead)
     {
-        test = map->collide(&x, &y, &vx, &vy, dt, 0.9);
-        x += dt * vx;
-        y += dt * vy;
+        if(bounceCount == 0)
+        {
+            double vx2 = vx*2;
+            double vy2 = vy*2;
+            test = map->collide(&x, &y, &vx2, &vy2, dt, 0.9);
+            x += dt * vx2;
+            y += dt * vy2;
 
-        angle = 180. / M_PI * atan2(vy, vx);
+            angle = 180. / M_PI * atan2(vy, vx);
+        }
+        else
+        {
+            test = map->collide(&x, &y, &vx, &vy, dt, 0.9);
+            x += dt * vx;
+            y += dt * vy;
+
+            angle = 180. / M_PI * atan2(vy, vx);
+        }
+
 
         if(test)
             bounceCount += 1;
