@@ -58,6 +58,7 @@ void Engine::readData(QDataStream* data) {
         delete msg;
     }
     canvas.center();
+    infobox.update();
 }
 
 void Engine::processStatus(StatusMessage* msg)

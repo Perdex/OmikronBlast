@@ -8,6 +8,7 @@
 #include <QGraphicsView>
 #include <QGraphicsScene>
 #include <QFont>
+#include <QPointF>
 
 #include "stuff.h"
 #include "player.h"
@@ -20,6 +21,7 @@ class Infobox : public QGraphicsView
 public:
     Infobox(QWidget* p = 0);
     void setMyPlayer(player*);
+    void update();
 protected:
     QGraphicsScene* scene;
     QGraphicsPixmapItem *background;

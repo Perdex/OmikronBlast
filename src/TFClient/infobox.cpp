@@ -10,6 +10,22 @@ Infobox::Infobox(QWidget* p) : QGraphicsView(p), my_player(nullptr)
     background->setPixmap(pm);
     scene->addItem(background);
 
+    QFont fontti("AR DESTINE", 14);
+
+    ammo = new QGraphicsTextItem();
+    fuel = new QGraphicsTextItem();
+
+    ammo->setPos(95.0,43.0);
+    ammo->setDefaultTextColor(Qt::red);
+    ammo->setFont(fontti);
+
+    fuel->setPos(95.0,86.0);
+    fuel->setDefaultTextColor(Qt::red);
+    fuel->setFont(fontti);
+
+
+    scene->addItem(ammo);
+    scene->addItem(fuel);
 
     scene->invalidate();
 }
@@ -18,24 +34,15 @@ void Infobox::setMyPlayer(player *p)
 {
     my_player = p;
 
-    QFont fontti("AR DESTINE", 14);
-
-    QGraphicsTextItem *ammo = new QGraphicsTextItem;
-    QGraphicsTextItem *fuel = new QGraphicsTextItem;
-
-    ammo->setPos(95,43);
-    ammo->setDefaultTextColor(Qt::red);
-    ammo->setFont(fontti);
-
-    fuel->setPos(95,86);
-    fuel->setDefaultTextColor(Qt::red);
-    fuel->setFont(fontti);
-
     ammo->setPlainText(QString::number(my_player->getAmmo()));
     fuel->setPlainText(QString::number(my_player->getFuel()));
 
-    scene->addItem(ammo);
-    scene->addItem(fuel);
 }
 
+void Infobox::update()
+{
+    if(my_player == nullptr) return;
 
+    ammo->setPlainText(QString::number(my_player->getAmmo()));
+    fuel->setPlainText(QString::number(my_player->getFuel()));
+}
