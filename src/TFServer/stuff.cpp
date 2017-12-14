@@ -12,6 +12,7 @@ stuff::stuff(Stuff t, qint16 id, Map *map, MainWindow *main, QDataStream *s,
       y(m_y),
       vx(0),
       vy(0),
+      isDead(false),
       stream(s),
       type(t),
       map(map),
@@ -28,6 +29,10 @@ stuff::~stuff(){
 qint16 stuff::getId() const
 {
     return id;
+}
+bool stuff::getIsDead() const
+{
+    return isDead;
 }
 
 double stuff::getVerticalPos() const
@@ -82,11 +87,11 @@ void stuff::setVerticalPos(double y)
 QDataStream& operator<<(QDataStream& stream, const stuff &s)
 {
     stream << (qint8)s.type << s.getId()
-           << s.getHorizontalPos() << s.getVerticalPos();
+           << s.getHorizontalPos() << s.getVerticalPos() << s.getIsDead();
 
     switch (s.type) {
     case Stuff::PLAYER: {
-        stream << ((player*)&s)->getJetpackStatus() << ((player*)&s)->getAmmoLeft() << (int)((((player*)&s)->getFuelLeft())+0.5) << ((player*)&s)->getIsDead();
+        stream << ((player*)&s)->getJetpackStatus() << ((player*)&s)->getAmmoLeft() << (int)((((player*)&s)->getFuelLeft())+0.5);
         break;
     }
     case Stuff::PROJECTILE: {

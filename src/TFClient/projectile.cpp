@@ -12,14 +12,14 @@ projectile::~projectile(){}
 
 void projectile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    //painter->setBrush(Qt::red);
-    //painter->drawEllipse(-RADIUS,-RADIUS,RADIUS*2,RADIUS*2);
-
+    if(!isDead)
+    {
     QTransform transf = painter->transform();
     transf.rotate(180 + angle);
     painter->setTransform(transf);
 
     painter->drawPixmap(-20, -7, 40, 14, pixmap);
+    }
 }
 QRectF projectile::boundingRect() const
 {
@@ -28,26 +28,30 @@ QRectF projectile::boundingRect() const
 
 void projectile::update(QDataStream *s) {
     double hp, vp, ang;
+    bool d;
+
     s->startTransaction();
 
-    *s >> hp >> vp >> ang;
+    *s >> hp >> vp >> d >> ang;
 
-    if(!s->commitTransaction()) return;
+    if(!s->commitTransaction() || isDead) return;
 
     this->setVerticalPos(vp);
     this->setHorizontalPos(hp);
+    this->setIsDead(d);
 
     angle = ang;
 }
 
 stuff* projectile::create(qint16 id, QDataStream *str) {
     double x, y, angle;
+    bool d;
 
     str->startTransaction();
 
-    *str >> x >> y >> angle;
+    *str >> x >> y >> d >> angle;
 
-    if(!str->commitTransaction()) return nullptr;
+    if(!str->commitTransaction() || d) return nullptr;
 
     return new projectile(id, x, y, angle);
 }

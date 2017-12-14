@@ -23,6 +23,7 @@ public:
     ~stuff();
     //virtual QDataStream& operator<<(QDataStream& stream) = 0;
     qint16 getId() const;
+    bool getIsDead() const;
     double getVerticalPos() const;
     double getHorizontalPos() const;
     double getVerticalSpeed() const;
@@ -45,6 +46,7 @@ protected:
     double y;
     double vx;
     double vy;
+    bool isDead;
     Stuff type;
     Map* map;
     MainWindow *mainWindow;

@@ -27,11 +27,15 @@ public:
 
     friend QDataStream& operator>>(QDataStream&, stuff*);
     static stuff* create(UpdateMessage*, QDataStream*);
+    bool getIsDead();
+    void setIsDead(bool s);
+
     Stuff getType() const { return type; }
-private:
+protected:
     Stuff type;
     qint16 id;
     double horizontalPos;
     double verticalPos;
+    bool isDead;
 };
 #endif // STUFF_H

@@ -4,7 +4,6 @@
 
 player::player(QString name, qint16 id, double x, double y): name(name), stuff(Stuff::PLAYER,id,x,y)
 {
-    isDead = 0;
 
     marine = QPixmap(":/images/Images/Marinestance_nogun.png");
     gun = QPixmap(":/images/Images/Marine_gun.png");
@@ -70,18 +69,17 @@ void player::update(QDataStream *s)
 
     int a,f;
     bool jp, d;
-    *s >> hp >> vp >> jp >> a >> f >> d;
+    *s >> hp >> vp >> d >> jp >> a >> f;
 
     if(!s->commitTransaction() || isDead) return;
 
     jetpackActive = jp;
     ammo = a;
     fuel = f;
-    isDead = d;
-    qDebug() << isDead;
 
     this->setVerticalPos(vp);
     this->setHorizontalPos(hp);
+    this->setIsDead(d);
 }
 
 player* player::create(qint16 id, QDataStream *stream) {
@@ -93,9 +91,9 @@ player* player::create(qint16 id, QDataStream *stream) {
 
     int a,f;
     bool jp, d;
-    *stream >> hp >> vp >> jp >> a >> f >> d;
+    *stream >> hp >> vp >> d >> jp >> a >> f;
 
-    if(!stream->commitTransaction()) return nullptr;
+    if(!stream->commitTransaction() || d) return nullptr;
 
     return new player(name, id, hp, vp);
 }

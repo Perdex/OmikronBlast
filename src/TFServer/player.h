@@ -16,7 +16,6 @@ public:
     ~player();
     //QDataStream& operator<<(QDataStream& stream);
 
-    bool getIsDead()const;
     int getWidth() const;
     int getHeight() const;
     int getAmmoLeft() const;
@@ -34,7 +33,6 @@ public:
 
 private:
     QString name;
-    bool isDead;
     int ammoLeft;
     bool jetpackStatus;
     double fuelLeft;

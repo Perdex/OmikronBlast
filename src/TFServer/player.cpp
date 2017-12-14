@@ -20,7 +20,6 @@
 player::player(qint16 id, QDataStream *stream, Map *map, MainWindow *main)
     : stuff(Stuff::PLAYER, id, map, main, stream),
     name("NONAME_SUCKER"),
-    isDead(false),
     ammoLeft(AMMOMAX),
     jetpackStatus(false),
     fuelLeft(JETFUELMAX),
@@ -141,10 +140,6 @@ void player::move(int dt, TCPManager &mgr)
 
 player::~player(){}
 
-bool player::getIsDead() const
-{
-    return isDead;
-}
 int player::getAmmoLeft() const
 {
     return ammoLeft;

@@ -32,9 +32,10 @@ bool projectile::doStep(int dt){
 
         if(self.intersects(pl)) {
             hitPlayer(*p);
-            return true;
+            return isDead = true;
         }
     }
+
     return false;
 }
 void projectile::move(int dt, TCPManager &mgr){
@@ -50,7 +51,7 @@ void projectile::move(int dt, TCPManager &mgr){
     if(test)
         bounceCount += 1;
     if(bounceCount > MAX_BOUNCES)
-        ;
+        isDead = true;
         //mainWindow->remove(this);
     else{
         UpdateMessage msg(this);
