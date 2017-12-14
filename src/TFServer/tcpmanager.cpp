@@ -71,22 +71,21 @@ void TCPManager::gameStarted(){
 
 QString TCPManager::getAddress(){
     if(!server)
-        return QString();
+        return QString("Error when setting up server");
 
     QString ipAddress;
-    QList<QHostAddress> ipAddressesList = QNetworkInterface::allAddresses();
-    // use the first non-localhost IPv4 address
-    for (int i = 0; i < ipAddressesList.size(); ++i) {
-        if (ipAddressesList.at(i) != QHostAddress::LocalHost &&
-            ipAddressesList.at(i).toIPv4Address()) {
-            ipAddress = ipAddressesList.at(i).toString();
-            break;
-        }
-    }
-    // if we did not find one, use IPv4 localhost
-    if (ipAddress.isEmpty())
-        ipAddress = QHostAddress(QHostAddress::LocalHost).toString();
 
+    //Use a dns lookup for determining IP address
+    QTcpSocket socket;
+    socket.connectToHost("8.8.8.8", 53); // google DNS
+    if (socket.waitForConnected()) {
+        ipAddress = socket.localAddress().toString();
+    } else {
+        qWarning()
+            << "could not determine local IPv4 address:"
+            << socket.errorString();
+    }
+    socket.close();
     return ipAddress;
 }
 QString TCPManager::getPort(){
@@ -151,30 +150,6 @@ void TCPManager::clientLost(){
     //mainWindow->endGame();
 }
 
-/*
-QVector<QString> TCPManager::readData(){
-    QVector<QString> receivedData;
-    for(auto client: clients){
-        QByteArray ba = client->readAll();
-        if(!ba.isEmpty())
-            receivedData += QString(ba);
-
-    }
-    return receivedData;
-}
-
-void TCPManager::sendData(){
-
-    for(auto client: clients){
-        for(QString s: data){
-            if(client->write(s.toUtf8()) == -1){
-                qDebug() << "writing to client failed!!\n";
-            }
-        }
-    }
-    data.clear();
-}
-*/
 void TCPManager::flush(){
     for(QTcpSocket* client: clients)
         client->flush();
