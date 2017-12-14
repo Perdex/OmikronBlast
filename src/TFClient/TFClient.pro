@@ -28,7 +28,6 @@ SOURCES += \
         frame.cpp \
     tcpmanager.cpp \
     canvas.cpp \
-    item.cpp \
     player.cpp \
     stuff.cpp \
     engine.cpp \
@@ -39,7 +38,6 @@ HEADERS += \
         frame.h \
     tcpmanager.h \
     canvas.h \
-    item.h \
     player.h \
     stuff.h \
     engine.h \
