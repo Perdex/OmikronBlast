@@ -1,5 +1,6 @@
 #include "frame.h"
 #include "ui_frame.h"
+#include <QMdiSubWindow>
 #include <QtDebug>
 
 #include <QObject>
@@ -33,7 +34,10 @@ Canvas& Frame::getCanvas() const {
 
 void Frame::onConnectClicked() {
     ui->status->setText("Trying to connect...");
-    emit requestConnection(ui->s_address->text(), ui->s_port->text().toInt());
+    QString name = ui->s_name->text();
+    if(name.isEmpty())
+        name = "NONAME_SUCKER";
+    emit requestConnection(ui->s_address->text(), ui->s_port->text().toInt(), name);
 }
 
 void Frame::onConnected() {

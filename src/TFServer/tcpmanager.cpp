@@ -114,9 +114,10 @@ void TCPManager::newClient(){
     in->setVersion(QDataStream::Qt_5_9);
 
     QString cver;
+    QString name;
     do{
         in->startTransaction();
-        *in >> cver;
+        *in >> cver >> name;
     }while(!in->commitTransaction());
 
     if(cver != "TFGAME-CLIENT") {
@@ -142,7 +143,7 @@ void TCPManager::newClient(){
     socket->write(msg);
     socket->flush();
 
-    mainWindow->addPlayer(in, id);
+    mainWindow->addPlayer(in, id, name);
 }
 
 void TCPManager::clientLost(){

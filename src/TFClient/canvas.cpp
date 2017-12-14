@@ -1,7 +1,6 @@
 #include "canvas.h"
 #include "player.h"
 #include "projectile.h"
-#include "item.h"
 #include <QtDebug>
 
 Canvas::Canvas(QWidget* p) :
@@ -17,7 +16,7 @@ Canvas::Canvas(QWidget* p) :
 
     scene = new QGraphicsScene(0,0,4000,4000, this);
     this->setScene(scene);
-    QPixmap pm(":/images/Images/background.png");
+    QPixmap pm(":/images/Images/background_GMaps.png");
     pm = pm.scaled(scene->width(), scene->height());
     background = new QGraphicsPixmapItem();
     background->setPixmap(pm);
@@ -37,11 +36,6 @@ void Canvas::addStuff(stuff *p) {
     scene->addItem(p);
 }
 
-void Canvas::addItem(Item* item, int x, int y) {
-    scene->addItem(item);
-    item->setPos(x, y);
-}
-
 void Canvas::buildMap(QString s) {
     map = new QPixmap(scene->width(), scene->height());
     map->fill(Qt::transparent);
@@ -58,18 +52,6 @@ void Canvas::buildMap(QString s) {
     }
 
     scene->addPixmap(*map);
-}
-
-void Canvas::buildMap(int p[][39]){
-    for(int i=0; i<40; i++){
-        for(int j=0; j<40; j++){
-            if(p[i][j]==1){
-                Item* it= new Item();
-                scene->addItem(it);
-                it->setPos(i*100, j*100);
-            }
-        }
-    }
 }
 
 void Canvas::center() {

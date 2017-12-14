@@ -17,7 +17,6 @@ void projectile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option
         QTransform transf = painter->transform();
         transf.rotate(180 + angle);
         painter->setTransform(transf);
-
         painter->drawPixmap(-20, -7, 40, 14, pixmap);
     }
 }

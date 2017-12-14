@@ -42,14 +42,18 @@ void projectile::move(int dt, TCPManager &mgr){
 
     bool test;
 
-    test = map->collide(&x, &y, &vx, &vy, dt, 0.9);
-    x += dt * vx;
-    y += dt * vy;
+    if(!isDead)
+    {
+        test = map->collide(&x, &y, &vx, &vy, dt, 0.9);
+        x += dt * vx;
+        y += dt * vy;
 
-    angle = 180. / M_PI * atan2(vy, vx);
+        angle = 180. / M_PI * atan2(vy, vx);
 
-    if(test)
-        bounceCount += 1;
+        if(test)
+            bounceCount += 1;
+    }
+
     if(bounceCount > MAX_BOUNCES)
         isDead = true;
     else{
@@ -66,5 +70,6 @@ void projectile::hitPlayer(player& victim)
     {
         owner->getPoint();
     }
+
 }
 

@@ -17,9 +17,9 @@
 #define JUMPSTRENGTH -2.0
 #define COLLWIDTH 15
 
-player::player(qint16 id, QDataStream *stream, Map *map, MainWindow *main)
+player::player(qint16 id, QString name, QDataStream *stream, Map *map, MainWindow *main)
     : stuff(Stuff::PLAYER, id, map, main, stream),
-    name("NONAME_SUCKER"),
+    name(name),
     ammoLeft(AMMOMAX),
     jetpackStatus(false),
     fuelLeft(JETFUELMAX),
@@ -44,8 +44,8 @@ bool player::doStep(int dt)
 
     *stream >> map >> clicked >> angle;
 
-    isFalling = !this->map->touches(x - COLLWIDTH + 2, y + 41)
-             && !this->map->touches(x + COLLWIDTH - 2, y + 41);
+    isFalling = !this->map->touches(x - COLLWIDTH + 1, y + 42)
+             && !this->map->touches(x + COLLWIDTH - 1, y + 42);
     if(stream->commitTransaction()) {
         //qDebug() << map;
 
@@ -120,16 +120,17 @@ void player::move(int dt, TCPManager &mgr)
 
 
     // Collide with map, use three collision points
-    double x_new = x - COLLWIDTH;
-    double y_new = y + 40;
-    map->collide(&x_new, &y_new, &vx, &vy, dt, 0.1);
-    x_new += COLLWIDTH * 2;
-    map->collide(&x_new, &y_new, &vx, &vy, dt, 0.1);
-    y_new -= 80;
-    x_new -= COLLWIDTH;
-    map->collide(&x_new, &y_new, &vx, &vy, dt, 0.1);
-    x = x_new;
-    y = y_new + 40;
+    // Could be done better but whatever
+    QPoint collPoints[] = {QPoint(-COLLWIDTH, 41), QPoint(COLLWIDTH, 41), QPoint(0, -40)};
+
+    for(QPoint p: collPoints){
+        // First, offset the points, the collide, then undo the offset
+        double x_temp = x + p.x();
+        double y_temp = y + p.y();
+        map->collide(&x_temp, &y_temp, &vx, &vy, dt, 0.1);
+        x = x_temp - p.x();
+        y = y_temp - p.y();
+    }
 
     x += dt * vx;
     y += dt * vy;
