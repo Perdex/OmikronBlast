@@ -6,6 +6,7 @@
 
 class TCPManager;
 class Canvas;
+class Infobox;
 class stuff;
 class UpdateMessage;
 class StatusMessage;
@@ -14,7 +15,7 @@ class Engine : public QObject
 {
     Q_OBJECT
 public:
-    Engine(Canvas&, TCPManager&);
+    Engine(Canvas&, Infobox&, TCPManager&);
     ~Engine();
     void start();
 signals:
@@ -30,6 +31,7 @@ private:
     QMap<qint16, stuff*> items;
     TCPManager& tcp;
     Canvas& canvas;
+    Infobox& infobox;
     qint16 my_id;
 private slots:
     //void setPlayer(qint16 id);

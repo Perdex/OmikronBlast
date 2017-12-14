@@ -9,7 +9,7 @@ int main(int argc, char *argv[])
 
     Frame w;
     TCPManager tcp;
-    Engine eng(w.getCanvas(), tcp);
+    Engine eng(w.getCanvas(), w.getBox(), tcp);
 
     QObject::connect(&tcp, &TCPManager::connected, &w, &Frame::onConnected);
     QObject::connect(&tcp, &TCPManager::connected, &eng, &Engine::start);

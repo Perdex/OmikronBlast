@@ -32,7 +32,8 @@ SOURCES += \
     stuff.cpp \
     engine.cpp \
     message.cpp \
-    projectile.cpp
+    projectile.cpp \
+    infobox.cpp
 
 HEADERS += \
         frame.h \
@@ -42,7 +43,8 @@ HEADERS += \
     stuff.h \
     engine.h \
     message.h \
-    projectile.h
+    projectile.h \
+    infobox.h
 
 FORMS += \
         frame.ui
