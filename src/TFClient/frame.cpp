@@ -1,5 +1,6 @@
 #include "frame.h"
 #include "ui_frame.h"
+#include <QMdiSubWindow>
 #include <QtDebug>
 
 #include <QObject>
