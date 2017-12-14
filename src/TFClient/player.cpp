@@ -3,7 +3,7 @@
 #include <QtDebug>
 
 player::player(QString name, qint16 id, double x, double y)
-    : stuff(Stuff::PLAYER,id,x,y), name(name)
+    : stuff(Stuff::PLAYER,id,x,y), name(name), ammo(5), fuel(100)
 {
 
     marine = QPixmap(":/images/Images/Marinestance_nogun.png");

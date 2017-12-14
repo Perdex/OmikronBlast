@@ -16,7 +16,7 @@ public:
     void setAngle(double angle);
     int getAmmo();
     int getFuel();
-    bool getDead() {return isDead;};
+    bool getDead() {return isDead;}
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QRectF boundingRect() const;

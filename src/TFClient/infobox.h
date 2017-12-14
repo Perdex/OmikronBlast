@@ -7,6 +7,7 @@
 #include <QMouseEvent>
 #include <QGraphicsView>
 #include <QGraphicsScene>
+#include <QFont>
 
 #include "stuff.h"
 #include "player.h"
@@ -18,8 +19,12 @@ class Infobox : public QGraphicsView
     Q_OBJECT
 public:
     Infobox(QWidget* p = 0);
+    void setMyPlayer(player*);
 protected:
     QGraphicsScene* scene;
     QGraphicsPixmapItem *background;
+    QGraphicsTextItem *ammo;
+    QGraphicsTextItem *fuel;
+    player *my_player;
 };
 #endif // INFOBOX_H

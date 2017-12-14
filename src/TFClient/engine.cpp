@@ -3,6 +3,7 @@
 #include "tcpmanager.h"
 #include "stuff.h"
 #include "canvas.h"
+#include "infobox.h"
 #include "message.h"
 
 #include <QtDebug>
@@ -22,7 +23,10 @@ void Engine::start() {
 void Engine::addStuff(stuff* s) {
     items.insert(s->getId(), s);
     if(s->getId() == my_id)
+    {
         canvas.setMyPlayer(static_cast<player*>(s));
+        infobox.setMyPlayer(static_cast<player*>(s));
+    }
     canvas.addStuff(s);
 }
 
