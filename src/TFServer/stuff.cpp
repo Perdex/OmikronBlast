@@ -13,10 +13,10 @@ stuff::stuff(Stuff t, qint16 id, Map *map, MainWindow *main, QDataStream *s,
       vx(0),
       vy(0),
       isDead(false),
-      stream(s),
       type(t),
       map(map),
-      mainWindow(main)
+      mainWindow(main),
+      stream(s)
 {}
 
 stuff::~stuff(){
