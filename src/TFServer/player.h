@@ -28,6 +28,7 @@ public:
     void move(int dt, TCPManager &mgr);
     void shoot();
     void die();
+    void undie();
     void getPoint();
     void resetPosition(Map*);
 

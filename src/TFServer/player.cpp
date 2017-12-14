@@ -180,6 +180,10 @@ void player::die()
 {
     isDead = true;
 }
+void player::undie()
+{
+    isDead = false;
+}
 void player::getPoint()
 {
     score += 1;
