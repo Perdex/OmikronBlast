@@ -41,7 +41,7 @@ class StatusMessage : public Message
 public:
     StatusMessage(GameStatus s, QVariant d)
         : Message(MessageType::STATUS), m_status(s), m_data(d) {}
-    const GameStatus status() const { return m_status; }
+    GameStatus status() const { return m_status; }
     template <typename T> const T data() const { return m_data.value<T>(); }
 private:
     GameStatus m_status;
@@ -53,8 +53,8 @@ class UpdateMessage : public Message
 public:
     UpdateMessage(Stuff t, qint16 i)
         : Message(MessageType::UPDATE), m_id(i), m_type(t) {}
-    const qint16 id() const { return m_id; }
-    const Stuff datatype() const { return m_type; }
+    qint16 id() const { return m_id; }
+    Stuff datatype() const { return m_type; }
 private:
     qint16 m_id;
     Stuff m_type;

@@ -2,12 +2,13 @@
 #include <QString>
 #include <QtDebug>
 
-player::player(QString name, qint16 id, double x, double y): name(name), stuff(Stuff::PLAYER,id,x,y)
+player::player(QString name, qint16 id, double x, double y)
+    : stuff(Stuff::PLAYER,id,x,y), name(name)
 {
 
     marine = QPixmap(":/images/Images/Marinestance_nogun.png");
     gun = QPixmap(":/images/Images/Marine_gun.png");
-    flame = QPixmap(":/images/Images/flame.png");
+    flame = QPixmap(":/images/Images/flame2.png");
     stone = QPixmap(":/images/Images/stone.png");
 }
 
@@ -37,14 +38,14 @@ void player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     }
 
     if(jetpackActive)
-        painter->drawPixmap(-39,0,78,50, flame);
+        painter->drawPixmap(-22,25,26,34, flame);
 
 
     painter->drawPixmap(-39,-50,78,100, marine);
 
     //draw the gun
     QTransform transf = painter->transform();
-    transf.translate(-18, 8);
+    transf.translate(-18, 10);
     transf.rotate(ang);
     painter->setTransform(transf);
     painter->drawPixmap(-10,-15,60,36, gun);
@@ -52,7 +53,7 @@ void player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
 }
 QRectF player::boundingRect() const
 {
-    return QRectF(-39,-50,78,100);
+    return QRectF(-39,-50,78,110);
 }
 
 void player::setAngle(double angle){
