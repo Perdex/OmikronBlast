@@ -22,7 +22,7 @@ Canvas::Canvas(QWidget* p) :
     background->setPixmap(pm);
     scene->addItem(background);
 
-    scene->invalidate();
+    this->scale(0.5, 0.5);
 }
 
 void Canvas::setMyPlayer(player* p) {

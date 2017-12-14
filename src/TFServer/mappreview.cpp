@@ -1,12 +1,41 @@
 #include "mappreview.h"
+#include "player.h"
 
 #include <QGraphicsScene>
-#include <QtDebug>
+#include <QGraphicsEllipseItem>
+#include <QDebug>
 
 MapPreview::MapPreview(QWidget *parent)
-    : QGraphicsView(parent), scene(0, 0, 240, 240, this)
+    : QGraphicsView(parent),
+      scene(0, 0, 240, 240, this),
+      playerItems()
 {
     this->setScene(&scene);
+}
+
+MapPreview::~MapPreview(){
+    for(QGraphicsItem *i: playerItems){
+        delete i;
+    }
+    playerItems.clear();
+}
+
+
+void MapPreview::addPlayer(player *p){
+    auto item = new QGraphicsEllipseItem(0, 0, 6, 6);
+    item->setBrush(Qt::red);
+    scene.addItem(item);
+    playerItems[p->getId()] = item;
+}
+
+void MapPreview::updatePlayers(QVector<player*> &v){
+    for(player *p: v){
+        auto i = playerItems[p->getId()];
+        double x = p->getHorizontalPos() * scene.width() / 4000;
+        double y = p->getVerticalPos() * scene.height() / 4000;
+        i->setX(x-3);
+        i->setY(y-3);
+    }
 }
 
 void MapPreview::setMap(bool *map) {

@@ -129,6 +129,7 @@ void MainWindow::addPlayer(QDataStream *stream, qint16 id, QString name){
     player* p = new player(id, name, stream, map, this);
     objects[id] = p;
     players[id] = p;
+    ui->mapView->addPlayer(p);
 
     QString s = "Connected players:\n";
     for(auto p: players){
@@ -173,6 +174,8 @@ void MainWindow::updateText(){
     QVector<player*> pVec;
     for(player* p: players)
         pVec += p;
+
+    ui->mapView->updatePlayers(pVec);
     //sort players by points, in descending order
     std::sort(pVec.begin(), pVec.end(), [](const player* p1, const player* p2) {
         return p1->getScore() > p2->getScore();
@@ -218,6 +221,7 @@ void MainWindow::executeTurn(){
         remove(object);
 
     updateText();
+
 
     tcpmanager->flush();
     QTimer::singleShot(FRAME_TIME, this, &MainWindow::executeTurn);
