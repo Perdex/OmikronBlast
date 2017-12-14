@@ -52,7 +52,6 @@ void projectile::move(int dt, TCPManager &mgr){
         bounceCount += 1;
     if(bounceCount > MAX_BOUNCES)
         isDead = true;
-        //mainWindow->remove(this);
     else{
         UpdateMessage msg(this);
         mgr << &msg;

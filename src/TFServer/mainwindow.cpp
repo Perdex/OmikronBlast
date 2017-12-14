@@ -228,7 +228,6 @@ void MainWindow::remove(stuff *s) {
     objects.remove(s->getId());
     if(s->getType() == Stuff::PLAYER)
         players.remove(s->getId());
-    else
-        delete s;
+    delete s;
     // TODO Fix memory leak
 }
