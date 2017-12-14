@@ -26,9 +26,10 @@ void MapPreview::addPlayer(player *p){
     item->setBrush(Qt::red);
     scene.addItem(item);
     playerItems[p->getId()] = item;
+    updatePlayers({p});
 }
 
-void MapPreview::updatePlayers(QVector<player*> &v){
+void MapPreview::updatePlayers(QVector<player*> v){
     for(player *p: v){
         auto i = playerItems[p->getId()];
         double x = p->getHorizontalPos() * scene.width() / 4000;

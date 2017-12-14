@@ -14,7 +14,7 @@ public:
     ~MapPreview();
     void setMap(bool*);
     void addPlayer(player *p);
-    void updatePlayers(QVector<player*> &v);
+    void updatePlayers(QVector<player*> v);
 private:
     QGraphicsScene scene;
     const int W = 40, H = 40;

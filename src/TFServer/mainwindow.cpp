@@ -46,10 +46,13 @@ MainWindow::MainWindow(QWidget *parent) :
 
 void MainWindow::generateMap() {
     //TODO needs to be changed to map->regenerate etc to not mess up pointers
+    delete map;
     map = new Map(ui->mapView);
     for(player *p: players){
-        p->resetPosition();
+        p->resetPosition(map);
+        ui->mapView->addPlayer(p);
     }
+    ui->mapView->updatePlayers(players.values().toVector());
 }
 
 MainWindow::~MainWindow()
@@ -225,7 +228,6 @@ void MainWindow::executeTurn(){
         remove(object);
 
     updateText();
-
 
     tcpmanager->flush();
     QTimer::singleShot(FRAME_TIME, this, &MainWindow::executeTurn);

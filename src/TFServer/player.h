@@ -29,7 +29,7 @@ public:
     void shoot();
     void die();
     void getPoint();
-    void resetPosition();
+    void resetPosition(Map*);
 
 private:
     QString name;

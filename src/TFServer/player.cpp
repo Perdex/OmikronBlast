@@ -30,7 +30,7 @@ player::player(qint16 id, QString name, QDataStream *stream, Map *map, MainWindo
     aPressed(false),
     dPressed(false){
 
-    resetPosition();
+    resetPosition(map);
 }
 
 bool player::doStep(int dt)
@@ -72,8 +72,9 @@ bool player::doStep(int dt)
     return isDead;
 }
 
-void player::resetPosition()
+void player::resetPosition(Map* m)
 {
+    map = m;
     int x, y;
     do{
         x = rand() % 40;
