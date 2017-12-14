@@ -18,6 +18,11 @@ int player::getAmmo() {return ammo;}
 int player::getFuel() {return fuel;}
 int player::getScore() {return score;}
 QString player::getName() {return name;}
+bool player::operator<(player *p)
+{
+    bool s = getScore() < p->getScore();
+    return s;
+}
 
 void player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
@@ -87,7 +92,7 @@ void player::update(QDataStream *s)
 
 player* player::create(qint16 id, QDataStream *stream) {
 
-    QString name = "player";
+    QString name = "wwwwwwwwwwwwwwwwwwwwwwwwwww";
     double hp, vp;
 
     stream->startTransaction();

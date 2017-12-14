@@ -22,6 +22,9 @@ public:
     Infobox(QWidget* p = 0);
     void setMyPlayer(player*);
     void update();
+    QString createScores();
+    void addPlayer(player *);
+
 protected:
     QGraphicsScene* scene;
     QGraphicsPixmapItem *background;
@@ -29,6 +32,8 @@ protected:
     QGraphicsTextItem *fuel;
     QGraphicsTextItem *score;
     QGraphicsTextItem *name;
+    QGraphicsTextItem *scoreboard;
+    QVector <player*> players;
     player *my_player;
 };
 #endif // INFOBOX_H
