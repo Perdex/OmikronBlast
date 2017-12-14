@@ -159,6 +159,10 @@ qint16 MainWindow::getNextId(){
     return nextId;
 }
 
+bool MainWindow::isRunning(){
+    return running;
+}
+
 /*
  * Updates the status text:
  * lists players in order by points, with their status

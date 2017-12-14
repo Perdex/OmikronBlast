@@ -30,6 +30,7 @@ public:
     void remove(projectile *p);
     void remove(player *p);
     void endGame();
+    bool isRunning();
     qint16 getNextId();
     QMap<qint16, player*> &getPlayers() { return players; }
 public slots:

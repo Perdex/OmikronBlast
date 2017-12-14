@@ -169,9 +169,11 @@ void player::jump()
 
 void player::shoot()
 {
-    projectile *p = new projectile(this->mainWindow->getNextId(), this->x, this->y, this,
-                                   weaponAngle, map, mainWindow);
-    mainWindow->addProjectile(p);
+    if(mainWindow->isRunning()){
+        projectile *p = new projectile(this->mainWindow->getNextId(), this->x, this->y, this,
+                                       weaponAngle, map, mainWindow);
+        mainWindow->addProjectile(p);
+    }
 }
 void player::die()
 {

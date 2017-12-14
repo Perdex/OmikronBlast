@@ -19,6 +19,8 @@ projectile::projectile(qint16 id, double x, double y, player *owner, double angl
     QTimer::singleShot(100, this, &projectile::activate);
     setVerticalSpeed(sin(angle) * SPEED);
     setHorizontalSpeed(cos(angle) * SPEED);
+    x += cos(angle) * 50;
+    y += sin(angle) * 50;
     bounceCount = 0;
 }
 projectile::~projectile(){}
@@ -51,8 +53,6 @@ void projectile::move(int dt, TCPManager &mgr){
             test = map->collide(&x, &y, &vx2, &vy2, dt, 0.9);
             x += dt * vx2;
             y += dt * vy2;
-
-            angle = 180. / M_PI * atan2(vy, vx);
         }
         else
         {
@@ -60,9 +60,9 @@ void projectile::move(int dt, TCPManager &mgr){
             x += dt * vx;
             y += dt * vy;
 
-            angle = 180. / M_PI * atan2(vy, vx);
         }
 
+        angle = 180. / M_PI * atan2(vy, vx);
 
         if(test)
             bounceCount += 1;

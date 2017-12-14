@@ -225,18 +225,22 @@ bool Map::collide(double *x, double *y, double *vx, double *vy, int dt, double b
     n_x = signum(dx);
     n_y = signum(dy);
 
-    //Caused clitching through walls at intersections
-    /*
-    if(dx == 0)// Vertical movement
-        n_y = signum(dy);
-    else if(dy == 0)// Horizontal movement
-        n_x = signum(dx);
-    else{// Diagonal movement
-        double s = sqrt(0.5);
-        n_x = s * signum(dx);
-        n_y = s * signum(dy);
+    // Handle diagonal movement
+    if(dx != 0 && dy != 0){
+        int a = map[next_x][prev_y];
+        int b = map[prev_x][next_y];
+        if(a == 1 && b == 0) // Vertical wall
+            n_y = 0;
+        else if(a == 0 && b == 1) // Horizontal wall
+            n_x = 0;
+        else if(a == 0 && b == 0){ // Corner (outer)
+            // Only reduce magnitude for outer corner to prevent player going through walls
+            double s = 1. / sqrt(2);
+            n_x *= s;
+            n_y *= s;
+        }
     }
-*/
+
     // Dot product of the wall and velocity
     // Is always negative
     double dot_x = *vx * n_x;
