@@ -12,5 +12,6 @@
         <file>Images/projectile.png</file>
         <file>Images/flame2.png</file>
         <file>Images/stone.png</file>
+        <file>Images/background_GMaps.png</file>
     </qresource>
 </RCC>

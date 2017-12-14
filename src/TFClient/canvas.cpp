@@ -16,7 +16,7 @@ Canvas::Canvas(QWidget* p) :
 
     scene = new QGraphicsScene(0,0,4000,4000, this);
     this->setScene(scene);
-    QPixmap pm(":/images/Images/background.png");
+    QPixmap pm(":/images/Images/background_GMaps.png");
     pm = pm.scaled(scene->width(), scene->height());
     background = new QGraphicsPixmapItem();
     background->setPixmap(pm);
@@ -58,10 +58,13 @@ void Canvas::center() {
     if(my_player == nullptr) return;
 
     QPoint sceneCenter(scene->width()/2, scene->height()/2);
-    QPoint viewCenterCand(my_player->getHorizontalPos() + (mouseX - this->width()/2)/2,
-                      my_player->getVerticalPos() + (mouseY - this->height()/2)/2);
 
-    this->centerOn(viewCenterCand);
+    if(!my_player->getDead()) {
+        QPoint viewCenterCand(my_player->getHorizontalPos() + (mouseX - this->width()/2)/2,
+                          my_player->getVerticalPos() + (mouseY - this->height()/2)/2);
+
+        this->centerOn(viewCenterCand);
+    }
 
     QPointF viewCenter = mapToScene(viewport()->rect().center());
 
@@ -73,8 +76,19 @@ void Canvas::center() {
 
 void Canvas::mouseMoveEvent(QMouseEvent *me) {
     if(my_player == nullptr) return;
+
     mouseY = me->y();
     mouseX = me->x();
+
+    /*if(my_player->getDead()) {
+        QPoint c = this->viewport()->rect().center();
+        QPoint shift = c - me->pos();
+        if(shift.manhattanLength() > 100) {
+            this->centerOn(mapToScene(c) - shift/8);
+            center();
+        }
+        return;
+    }*/
     center();
     QPointF p = mapToScene(me->x(), me->y());
     my_player->setAngle(atan2(p.y() - my_player->getVerticalPos(), p.x() - my_player->getHorizontalPos()) * 180 / M_PI);
@@ -98,6 +112,21 @@ void Canvas::mouseReleaseEvent(QMouseEvent *event) {
 
 void Canvas::keyPressEvent(QKeyEvent *ke)
 {
+    if(my_player != nullptr && my_player->getDead()) {
+        int k = ke->key();
+
+        int dx = 0;
+        if(k == Qt::Key_A) dx = -1;
+        else if(k == Qt::Key_D) dx = 1;
+
+        int dy = 0;
+        if(k == Qt::Key_W) dy = -1;
+        else if(k == Qt::Key_S) dy = 1;
+
+        this->centerOn(mapToScene(this->viewport()->rect().center() + 100*QPoint(dx, dy)));
+        center();
+        return;
+    }
     if(!ke->isAutoRepeat() && status.contains(ke->key()) && !status[ke->key()]) {
         status[ke->key()] = true;
         emit statusChanged(status, 0, false);

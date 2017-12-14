@@ -25,7 +25,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void addPlayer(QDataStream *stream, qint16 id);
+    void addPlayer(QDataStream *stream, qint16 id, QString name);
     void addProjectile(projectile *p);
     void remove(projectile *p);
     void remove(player *p);

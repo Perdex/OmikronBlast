@@ -12,7 +12,8 @@ TCPManager::TCPManager() : sock()
                      &TCPManager::onError);
 }
 
-void TCPManager::connectTo(const QString &hostname, const int port) {
+void TCPManager::connectTo(const QString &hostname, const int port, QString name) {
+    this->name = name;
     this->port = port;
     sock.connectToHost(hostname, port);
 }
@@ -56,7 +57,7 @@ void TCPManager::onConnected() {
     QDataStream out(&block, QIODevice::WriteOnly);
     out.setVersion(QDataStream::Qt_5_9);
 
-    out << QString("TFGAME-CLIENT");
+    out << QString("TFGAME-CLIENT") << name;
     sock.write(block);
     sock.flush();
 

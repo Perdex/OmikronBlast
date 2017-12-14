@@ -17,9 +17,9 @@
 #define JUMPSTRENGTH -2.0
 #define COLLWIDTH 15
 
-player::player(qint16 id, QDataStream *stream, Map *map, MainWindow *main)
+player::player(qint16 id, QString name, QDataStream *stream, Map *map, MainWindow *main)
     : stuff(Stuff::PLAYER, id, map, main, stream),
-    name("NONAME_SUCKER"),
+    name(name),
     ammoLeft(AMMOMAX),
     jetpackStatus(false),
     fuelLeft(JETFUELMAX),
