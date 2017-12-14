@@ -17,8 +17,6 @@ Infobox::Infobox(QWidget* p) : QGraphicsView(p), my_player(nullptr)
 void Infobox::setMyPlayer(player *p)
 {
     my_player = p;
-    int a = p->getAmmo();
-    int f = p->getFuel();
 
     QFont fontti("AR DESTINE", 14);
 
@@ -33,8 +31,8 @@ void Infobox::setMyPlayer(player *p)
     fuel->setDefaultTextColor(Qt::red);
     fuel->setFont(fontti);
 
-    ammo->setPlainText(QString::number(a));
-    fuel->setPlainText(QString::number(f));
+    ammo->setPlainText(QString::number(my_player->getAmmo()));
+    fuel->setPlainText(QString::number(my_player->getFuel()));
 
     scene->addItem(ammo);
     scene->addItem(fuel);
