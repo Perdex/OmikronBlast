@@ -12,7 +12,7 @@ Infobox::Infobox(QWidget* p) : QGraphicsView(p), my_player(nullptr)
 
     QFont fontti("AR DESTINE", 14);
     QFont fontti2("AR DESTINE", 18);
-    QFont fontti3("AR DESTINE", 8);
+    QFont fontti3("AR DESTINE", 10);
 
     ammo = new QGraphicsTextItem();
     fuel = new QGraphicsTextItem();
