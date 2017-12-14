@@ -7,7 +7,7 @@
 
 #include <QtDebug>
 
-Engine::Engine(Canvas& c, TCPManager& t) : items(), tcp(t), canvas(c)
+Engine::Engine(Canvas& c, Infobox& i, TCPManager& t) : items(), tcp(t), canvas(c), infobox(i)
 {}
 
 Engine::~Engine() {

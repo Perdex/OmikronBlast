@@ -51,7 +51,7 @@
     <item row="0" column="0">
      <widget class="QStackedWidget" name="views">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="main">
        <layout class="QGridLayout" name="gridLayout_2">
@@ -225,7 +225,7 @@
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QGraphicsView" name="infobox">
+            <widget class="Infobox" name="infobox">
              <property name="minimumSize">
               <size>
                <width>200</width>
@@ -237,6 +237,26 @@
                <width>200</width>
                <height>4000</height>
               </size>
+             </property>
+             <property name="font">
+              <font>
+               <family>AR DESTINE</family>
+              </font>
+             </property>
+             <property name="cursor" stdset="0">
+              <cursorShape>CrossCursor</cursorShape>
+             </property>
+             <property name="whatsThis">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Infobox&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="verticalScrollBarPolicy">
+              <enum>Qt::ScrollBarAlwaysOff</enum>
+             </property>
+             <property name="horizontalScrollBarPolicy">
+              <enum>Qt::ScrollBarAlwaysOff</enum>
+             </property>
+             <property name="interactive">
+              <bool>false</bool>
              </property>
             </widget>
            </item>
@@ -256,6 +276,11 @@
    <class>Canvas</class>
    <extends>QGraphicsView</extends>
    <header>canvas.h</header>
+  </customwidget>
+  <customwidget>
+   <class>Infobox</class>
+   <extends>QGraphicsView</extends>
+   <header location="global">infobox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

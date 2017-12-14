@@ -32,6 +32,11 @@ Canvas& Frame::getCanvas() const {
     return *(ui->canvas);
 }
 
+Infobox& Frame::getBox() const
+{
+    return *(ui->infobox);
+}
+
 void Frame::onConnectClicked() {
     ui->status->setText("Trying to connect...");
     QString name = ui->s_name->text();

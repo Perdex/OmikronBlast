@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "canvas.h"
+#include "infobox.h"
 
 namespace Ui {
 class Frame;
@@ -16,6 +17,7 @@ public:
     explicit Frame(QWidget *parent = 0);
     ~Frame();
     Canvas& getCanvas() const;
+    Infobox& getBox() const;
 public slots:
     void onConnected();
     void showGame();
