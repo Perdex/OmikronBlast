@@ -25,7 +25,7 @@ private slots:
     void dbg(const QMap<int, bool>&);
     void onConnectClicked();
 signals:
-    void requestConnection(const QString, const int);
+    void requestConnection(const QString, const int, QString);
 
 private:
     Ui::Frame *ui;

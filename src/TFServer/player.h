@@ -12,7 +12,7 @@ class Map;
 class player : public stuff
 {
 public:
-    player(qint16 id, QDataStream *stream, Map* map, MainWindow *main);
+    player(qint16 id, QString name, QDataStream *stream, Map* map, MainWindow *main);
     ~player();
     //QDataStream& operator<<(QDataStream& stream);
 

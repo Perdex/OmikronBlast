@@ -16,7 +16,7 @@ Canvas::Canvas(QWidget* p) :
 
     scene = new QGraphicsScene(0,0,4000,4000, this);
     this->setScene(scene);
-    QPixmap pm(":/images/Images/background.png");
+    QPixmap pm(":/images/Images/background_GMaps.png");
     pm = pm.scaled(scene->width(), scene->height());
     background = new QGraphicsPixmapItem();
     background->setPixmap(pm);

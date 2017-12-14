@@ -125,8 +125,8 @@ void MainWindow::endGame(){
  * Adds a player to the game once connected
  * sock: the tcp socket for receiving data
  */
-void MainWindow::addPlayer(QDataStream *stream, qint16 id){
-    player* p = new player(id, stream, map, this);
+void MainWindow::addPlayer(QDataStream *stream, qint16 id, QString name){
+    player* p = new player(id, name, stream, map, this);
     objects[id] = p;
     players[id] = p;
 

@@ -10,7 +10,7 @@ class TCPManager : public QObject
     Q_OBJECT
 public:
     TCPManager();
-    void connectTo(const QString&, const int);
+    void connectTo(const QString&, const int, QString);
     void disconnect(const QString&);
 
 public slots:
@@ -22,6 +22,7 @@ private:
     QTcpSocket sock;
     uint port;
     QDataStream* data;
+    QString name;
 
 private slots:
     void onReadyRead();
