@@ -3,12 +3,7 @@
 
 #include <iostream>
 #include "stuff.h"
-#include <QString>
-#include <QtGlobal>
-#include <QDataStream>
 #include "player.h"
-
-
 class projectile : public stuff
 {
 public:
@@ -19,7 +14,7 @@ public:
     bool doStep(int dt);
     void move(int dt, TCPManager &mgr);
     void hitPlayer(player& victim);
-    double getAngle() { return angle; };
+    double getAngle() { return angle; }
 private slots:
     void activate() { isActive = true; }
 private:

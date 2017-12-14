@@ -32,7 +32,6 @@ public:
     void endGame();
     qint16 getNextId();
     QMap<qint16, player*> &getPlayers() { return players; }
-    void remove(stuff*);
 public slots:
     void startGame();
     void executeTurn();
@@ -45,6 +44,7 @@ private:
     QTime *time;
     int timeElapsed;
     Map *map;
+    void remove(stuff*);
     bool running;
     bool started;
 
