@@ -16,6 +16,7 @@ player::~player(){}
 
 int player::getAmmo() {return ammo;}
 int player::getFuel() {return fuel;}
+int player::getScore() {return score;}
 
 void player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
@@ -67,15 +68,16 @@ void player::update(QDataStream *s)
 
     s->startTransaction();
 
-    int a,f;
+    int a,f,c;
     bool jp, d;
-    *s >> hp >> vp >> d >> jp >> a >> f;
+    *s >> hp >> vp >> d >> jp >> a >> f >> c;
 
     if(!s->commitTransaction() || isDead) return;
 
     jetpackActive = jp;
     ammo = a;
     fuel = f;
+    score = c;
 
     this->setVerticalPos(vp);
     this->setHorizontalPos(hp);
@@ -89,9 +91,9 @@ player* player::create(qint16 id, QDataStream *stream) {
 
     stream->startTransaction();
 
-    int a,f;
+    int a,f,s;
     bool jp, d;
-    *stream >> hp >> vp >> d >> jp >> a >> f;
+    *stream >> hp >> vp >> d >> jp >> a >> f >> s;
 
     if(!stream->commitTransaction() || d) return nullptr;
 

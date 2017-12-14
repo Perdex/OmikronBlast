@@ -16,6 +16,7 @@ public:
     void setAngle(double angle);
     int getAmmo();
     int getFuel();
+    int getScore();
     bool getDead() {return isDead;}
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
@@ -26,6 +27,7 @@ private:
     double angle;
     int ammo;
     int fuel;
+    int score;
     bool jetpackActive;
     QPixmap marine;
     QPixmap gun;

@@ -27,6 +27,7 @@ protected:
     QGraphicsPixmapItem *background;
     QGraphicsTextItem *ammo;
     QGraphicsTextItem *fuel;
+    QGraphicsTextItem *score;
     player *my_player;
 };
 #endif // INFOBOX_H

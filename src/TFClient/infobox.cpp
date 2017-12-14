@@ -14,18 +14,23 @@ Infobox::Infobox(QWidget* p) : QGraphicsView(p), my_player(nullptr)
 
     ammo = new QGraphicsTextItem();
     fuel = new QGraphicsTextItem();
+    score = new QGraphicsTextItem();
 
-    ammo->setPos(95.0,43.0);
+    ammo->setPos(95,43);
     ammo->setDefaultTextColor(Qt::red);
     ammo->setFont(fontti);
 
-    fuel->setPos(95.0,86.0);
+    fuel->setPos(95,86);
     fuel->setDefaultTextColor(Qt::red);
     fuel->setFont(fontti);
 
+    score->setPos(95,124);
+    score->setDefaultTextColor(Qt::red);
+    score->setFont(fontti);
 
     scene->addItem(ammo);
     scene->addItem(fuel);
+    scene->addItem(score);
 
     scene->invalidate();
 }
@@ -36,7 +41,7 @@ void Infobox::setMyPlayer(player *p)
 
     ammo->setPlainText(QString::number(my_player->getAmmo()));
     fuel->setPlainText(QString::number(my_player->getFuel()));
-
+    score->setPlainText(QString::number(my_player->getScore()));
 }
 
 void Infobox::update()
@@ -45,4 +50,5 @@ void Infobox::update()
 
     ammo->setPlainText(QString::number(my_player->getAmmo()));
     fuel->setPlainText(QString::number(my_player->getFuel()));
+    score->setPlainText(QString::number(my_player->getScore()));
 }
