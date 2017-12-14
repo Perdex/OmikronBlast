@@ -6,7 +6,7 @@
 #include <QtDebug>
 
 stuff::stuff(Stuff t, qint16 id, double& x, double& y)
-    : type(t), id(id), horizontalPos(x), verticalPos(y)
+    : type(t), id(id), horizontalPos(x), verticalPos(y), isDead(false)
 {
     setPos(horizontalPos, verticalPos);
 }
@@ -35,15 +35,27 @@ void stuff::setVerticalPos(double nw)
     setPos(horizontalPos, nw);
 }
 
+bool stuff::getIsDead()
+{
+    return isDead;
+}
+
+void stuff::setIsDead(bool s)
+{
+    isDead = s;
+}
+
 QDataStream& operator>>(QDataStream &stream, stuff *s) {
     double hp, vp;
+    bool ded;
 
     stream.startTransaction();
-    stream >> hp >> vp;
+    stream >> hp >> vp >> ded;
     if(!stream.commitTransaction()) return stream;
 
     s->setHorizontalPos(hp);
     s->setVerticalPos(vp);
+    s->setIsDead(ded);
 
     //TODO player(+projectile)-spesifiä juttua
 

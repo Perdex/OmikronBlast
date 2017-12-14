@@ -4,12 +4,11 @@
 
 player::player(QString name, qint16 id, double x, double y): name(name), stuff(Stuff::PLAYER,id,x,y)
 {
-    isDead = 0;
 
     marine = QPixmap(":/images/Images/Marinestance_nogun.png");
     gun = QPixmap(":/images/Images/Marine_gun.png");
     flame = QPixmap(":/images/Images/flame.png");
-    tomb = QPixmap(":/images/Squarebox.png");
+    stone = QPixmap(":/images/Images/stone.png");
 }
 
 player::~player(){}
@@ -19,12 +18,10 @@ int player::getFuel() {return fuel;}
 
 void player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
-    if(isDead){
-        qDebug() << "Dead.";
-        painter->drawPixmap(-20,0,40,40, tomb);
+    if(isDead) {
+        painter->drawPixmap(-30, -15, 60, 60, stone);
         return;
     }
-
     double ang = angle;
     if(ang < -90 || ang > 90){
         //flip the image
@@ -51,6 +48,7 @@ void player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QW
     transf.rotate(ang);
     painter->setTransform(transf);
     painter->drawPixmap(-10,-15,60,36, gun);
+
 }
 QRectF player::boundingRect() const
 {
@@ -70,18 +68,17 @@ void player::update(QDataStream *s)
 
     int a,f;
     bool jp, d;
-    *s >> hp >> vp >> jp >> a >> f >> d;
+    *s >> hp >> vp >> d >> jp >> a >> f;
 
-    if(!s->commitTransaction()) return;
+    if(!s->commitTransaction() || isDead) return;
 
     jetpackActive = jp;
     ammo = a;
     fuel = f;
-    isDead = d;
-    qDebug() << isDead;
 
     this->setVerticalPos(vp);
     this->setHorizontalPos(hp);
+    this->setIsDead(d);
 }
 
 player* player::create(qint16 id, QDataStream *stream) {
@@ -93,9 +90,9 @@ player* player::create(qint16 id, QDataStream *stream) {
 
     int a,f;
     bool jp, d;
-    *stream >> hp >> vp >> jp >> a >> f >> d;
+    *stream >> hp >> vp >> d >> jp >> a >> f;
 
-    if(!stream->commitTransaction()) return nullptr;
+    if(!stream->commitTransaction() || d) return nullptr;
 
     return new player(name, id, hp, vp);
 }

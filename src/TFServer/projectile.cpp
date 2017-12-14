@@ -25,15 +25,17 @@ projectile::~projectile(){}
 
 bool projectile::doStep(int dt){
     if(!isActive) return false;
+    const int playerHitboxW = 30, playerHitboxH = 70;
     for(player *p: mainWindow->getPlayers().values()) {
         QRectF self(x - RADIUS, y - RADIUS, 2*RADIUS, 2*RADIUS);
-        QRectF pl(p->getHorizontalPos()-20, p->getVerticalPos()-40, 40, 80);
+        QRectF pl(p->getHorizontalPos() - playerHitboxW/2, p->getVerticalPos() - playerHitboxH/2, playerHitboxW, playerHitboxH);
 
         if(self.intersects(pl)) {
             hitPlayer(*p);
-            return true;
+            return isDead = true;
         }
     }
+
     return false;
 }
 void projectile::move(int dt, TCPManager &mgr){
@@ -49,14 +51,13 @@ void projectile::move(int dt, TCPManager &mgr){
     if(test)
         bounceCount += 1;
     if(bounceCount > MAX_BOUNCES)
-        mainWindow->remove(this);
+        isDead = true;
+        //mainWindow->remove(this);
     else{
         UpdateMessage msg(this);
         mgr << &msg;
     }
-}
-double projectile::getAngle(){
-    return angle;
+    //return angle;
 }
 
 void projectile::hitPlayer(player& victim)

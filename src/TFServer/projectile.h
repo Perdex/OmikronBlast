@@ -1,13 +1,9 @@
 #ifndef PROJECTILE_H
 #define PROJECTILE_H
+
 #include <iostream>
 #include "stuff.h"
-#include <QString>
-#include <QtGlobal>
-#include <QDataStream>
 #include "player.h"
-
-
 class projectile : public stuff
 {
 public:
@@ -18,7 +14,7 @@ public:
     bool doStep(int dt);
     void move(int dt, TCPManager &mgr);
     void hitPlayer(player& victim);
-    double getAngle();
+    double getAngle() { return angle; }
 private slots:
     void activate() { isActive = true; }
 private:

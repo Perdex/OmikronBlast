@@ -16,14 +16,12 @@ public:
     void setAngle(double angle);
     int getAmmo();
     int getFuel();
-    bool dead() const { return isDead; }
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QRectF boundingRect() const;
 
 private:
     QString name;
-    bool isDead;
     double angle;
     int ammo;
     int fuel;
@@ -31,7 +29,7 @@ private:
     QPixmap marine;
     QPixmap gun;
     QPixmap flame;
-    QPixmap tomb;
+    QPixmap stone;
 };
 
 #endif // PLAYER_H
