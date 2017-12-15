@@ -2,6 +2,7 @@
 #include "player.h"
 #include "projectile.h"
 #include <QtDebug>
+#include <QSound>
 
 Canvas::Canvas(QWidget* p) :
     QGraphicsView(p), status(), my_player(nullptr), mouseKey1Down(false), map(nullptr)
@@ -133,6 +134,9 @@ void Canvas::keyPressEvent(QKeyEvent *ke)
     if(!ke->isAutoRepeat() && status.contains(ke->key()) && !status[ke->key()]) {
         status[ke->key()] = true;
         emit statusChanged(status, 0, false);
+
+        if(ke->key() == Qt::Key_Space && my_player->isOnGround())
+            QSound::play(":/sounds/Sounds/jump.wav");
     }
 }
 

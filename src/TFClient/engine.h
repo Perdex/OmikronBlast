@@ -3,6 +3,7 @@
 
 #include <QMap>
 #include <QObject>
+#include <QSound>
 
 class TCPManager;
 class Canvas;
@@ -33,6 +34,7 @@ private:
     Canvas& canvas;
     Infobox& infobox;
     qint16 my_id;
+    QSound theme;
 private slots:
     //void setPlayer(qint16 id);
     void readData(QDataStream*);

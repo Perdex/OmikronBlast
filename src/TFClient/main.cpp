@@ -3,6 +3,8 @@
 #include <QApplication>
 #include "engine.h"
 
+#include <QSoundEffect>
+
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);

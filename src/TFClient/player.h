@@ -5,6 +5,7 @@
 #include <QVector>
 #include <QString>
 #include <QtGui>
+#include <QSound>
 
 class player :public stuff
 {
@@ -20,6 +21,7 @@ public:
     QString getName();
     bool getDead() {return isDead;}
     bool operator<(player*);
+    bool isOnGround() { return onGround; }
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QRectF boundingRect() const;
@@ -35,6 +37,8 @@ private:
     QPixmap gun;
     QPixmap flame;
     QPixmap stone;
+    bool onGround;
+    QSound jetpack;
 };
 
 #endif // PLAYER_H
