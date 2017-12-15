@@ -38,43 +38,45 @@ bool player::doStep()
     QMap<int, bool> map;
     bool clicked;
     double angle;
+    bool flag;
+    do{
+        stream->startTransaction();
+
+        *stream >> map >> clicked >> angle;
+
+        // Set isFalling = false if player's feet touch the ground
+        isFalling = !this->map->touches(x - COLLWIDTH + 1, y + 41)
+                 && !this->map->touches(x + COLLWIDTH - 1, y + 41);
+        flag = stream->commitTransaction();
+        if(flag) {
+
+            if(map[Qt::Key_W] && fuelLeft > 0)
+            {
+                jetpackStatus = true;
+                lastJetpackUse = 0;
+            }else
+                jetpackStatus = false;
+
+            // Use slightly lower values for jumping than falling for consistency
+            // (the y-position will move slightly when "stationary")
+            bool canJump = this->map->touches(x - COLLWIDTH + 1, y + 43)
+                        || this->map->touches(x + COLLWIDTH - 1, y + 43);
+
+            if(map[Qt::Key_Space] && canJump) jump();
 
 
-    stream->startTransaction();
+            // Horizontal movement flags
+            aPressed = map[Qt::Key_A];
+            dPressed = map[Qt::Key_D];
 
-    *stream >> map >> clicked >> angle;
-
-    // Set isFalling = false if player's feet touch the ground
-    isFalling = !this->map->touches(x - COLLWIDTH + 1, y + 41)
-             && !this->map->touches(x + COLLWIDTH - 1, y + 41);
-    if(stream->commitTransaction()) {
-
-        if(map[Qt::Key_W] && fuelLeft > 0)
-        {
-            jetpackStatus = true;
-            lastJetpackUse = 0;
-        }else
-            jetpackStatus = false;
-
-        // Use slightly lower values for jumping than falling for consistency
-        // (the y-position will move slightly when "stationary")
-        bool canJump = this->map->touches(x - COLLWIDTH + 1, y + 43)
-                    || this->map->touches(x + COLLWIDTH - 1, y + 43);
-
-        if(map[Qt::Key_Space] && canJump) jump();
-
-
-        // Horizontal movement flags
-        aPressed = map[Qt::Key_A];
-        dPressed = map[Qt::Key_D];
-
-        // Shooting functionality
-        if(!isDead && clicked && ammoLeft > 0) {
-            weaponAngle = angle;
-            ammoLeft -= 1;
-            shoot();
+            // Shooting functionality
+            if(!isDead && clicked && ammoLeft > 0) {
+                weaponAngle = angle;
+                ammoLeft -= 1;
+                shoot();
+            }
         }
-    }
+    }while(flag);
     return isDead;
 }
 

@@ -54,14 +54,15 @@ void projectile::move(int dt, TCPManager &mgr){
         x += dt * vx;
         y += dt * vy;
 
-        angle = 180. / M_PI * atan2(vy, vx);
-
         if(test)
             bounceCount += 1;
+
+        if(bounceCount > MAX_BOUNCES)
+            isDead = true;
+        else
+            angle = 180. / M_PI * atan2(vy, vx);
     }
 
-    if(bounceCount > MAX_BOUNCES)
-        isDead = true;
 
     UpdateMessage msg(this);
     mgr << &msg;

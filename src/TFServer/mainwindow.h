@@ -37,7 +37,9 @@ public slots:
     void startGame();
     void executeTurn();
     void generateMap();
+private slots:
     void newRound();
+    void startRunning();
 
 private:
     Ui::MainWindow *ui;

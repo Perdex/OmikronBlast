@@ -86,7 +86,6 @@ MainWindow::~MainWindow()
  */
 void MainWindow::startGame(){
     if(!running){
-        running = true;
 
         StatusMessage start_msg = StatusMessage(GameStatus::START);
         qDebug() << &start_msg;
@@ -110,8 +109,9 @@ void MainWindow::startGame(){
         }
 
         ui->startButton->setText("Pause game");
-        nextFrameTime = COUNTDOWN_TIME;
+        //Do one turn to init objects
         executeTurn();
+        QTimer::singleShot(COUNTDOWN_TIME, this, &MainWindow::startRunning);
     }else{
         StatusMessage msg = StatusMessage(GameStatus::PAUSED);
         qDebug() << &msg;
@@ -219,6 +219,14 @@ qint16 MainWindow::getNextId(){
 bool MainWindow::isRunning(){
     return running;
 }
+void MainWindow::startRunning(){
+    time->restart();
+    // Do one turn to empty streams from commands
+    executeTurn();
+    running = true;
+    // Actually start the loop
+    executeTurn();
+}
 
 /*
  * Updates the status text:
@@ -260,11 +268,6 @@ void MainWindow::updateText(){
  */
 void MainWindow::executeTurn(){
 
-    if(!running){
-        qDebug() << "NOT doing a turn!";
-        return;
-    }
-
     int dt = time->elapsed();
     dt = qMin(dt, 50);
     time->restart();
@@ -284,9 +287,9 @@ void MainWindow::executeTurn(){
 
     updateText();
 
-    tcpmanager->flush();
-    QTimer::singleShot(nextFrameTime, this, &MainWindow::executeTurn);
-    nextFrameTime = FRAME_TIME;
+    if(running)
+        QTimer::singleShot(FRAME_TIME, this, &MainWindow::executeTurn);
+
 }
 
 

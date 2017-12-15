@@ -11,9 +11,7 @@
 Engine::Engine(Canvas& c, Infobox& i, TCPManager& t) : items(), tcp(t), canvas(c), infobox(i)
 {}
 
-Engine::~Engine() {
-
-}
+Engine::~Engine() {}
 
 void Engine::start() {
     QObject::connect(&tcp, &TCPManager::updateReceived, this, &Engine::readData);
@@ -63,7 +61,6 @@ void Engine::readData(QDataStream* data) {
 
 void Engine::processStatus(StatusMessage* msg)
 {
-    //qDebug() << "Status" << (qint8)msg->status();
     switch (msg->status()) {
     case GameStatus::HANDSHAKE: {
         if(msg->data<QString>() != "TFGAME-SERVER") {
@@ -82,26 +79,22 @@ void Engine::processStatus(StatusMessage* msg)
         break;
     }
     case GameStatus::ROUND_END: {
-        //TODO add round end message
         for(stuff *s: items)
             delete s;
         items.clear();
         break;
     }
     case GameStatus::START: {
-        //TODO add 3-second counter to screen
         emit started();
         canvas.center();
         infobox.countDown(3);
         break;
     }
     case GameStatus::PAUSED: {
-        //TODO add pause message
         infobox.countDown(-1);
         break;
     }
     case GameStatus::END: {
-        //TODO add end message
         infobox.countDown(-2);
         break;
     }

@@ -12,14 +12,12 @@ projectile::~projectile(){}
 
 void projectile::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
-    if(!isDead)
-    {
-        QTransform transf = painter->transform();
-        transf.rotate(180 + angle);
-        painter->setTransform(transf);
-        painter->drawPixmap(-20, -7, 40, 14, pixmap);
-    }
+    QTransform transf = painter->transform();
+    transf.rotate(180 + angle);
+    painter->setTransform(transf);
+    painter->drawPixmap(-20, -7, 40, 14, pixmap);
 }
+
 QRectF projectile::boundingRect() const
 {
     return QRectF(-RADIUS*2,-RADIUS*2,RADIUS*4,RADIUS*4);
