@@ -15,7 +15,7 @@ enum class GameStatus : qint8 {
     HANDSHAKE,
     ID_TRANSFER,
     MAP_TRANSFER,
-    COUNTDOWN,
+    ROUND_END,
     START,
     PAUSED,
     UNPAUSED,
@@ -47,7 +47,7 @@ public:
         : Message(MessageType::STATUS), m_status(s), m_data() {}
     StatusMessage(GameStatus s, const QVariant& d)
         : Message(MessageType::STATUS), m_status(s), m_data(d) {}
-    const GameStatus status() const { return m_status; }
+    GameStatus status() const { return m_status; }
     template<typename T> const T data() const { return m_data.value<T>(); }
     friend QDataStream& operator<<(QDataStream&, StatusMessage*);
 private:
