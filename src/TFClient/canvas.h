@@ -19,8 +19,6 @@ public:
     Canvas(QWidget* p = 0);
     void setMyPlayer(player*);
     void addStuff(stuff*);
-    //void addItem(Item*, int, int);
-    void buildMap(int [][39]);
     void buildMap(QString);
     void center();
     void remove(stuff*);
