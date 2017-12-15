@@ -83,6 +83,8 @@ void Engine::processStatus(StatusMessage* msg)
             delete s;
             s = nullptr;
         }
+        canvas.setMyPlayer(nullptr);
+        infobox.setMyPlayer(nullptr);
         items.clear();
         break;
     }
