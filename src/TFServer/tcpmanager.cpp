@@ -90,7 +90,7 @@ void TCPManager::newClient(){
 
     //This is deleted in destructor of stuff
     QDataStream *in = new QDataStream(socket);
-    in->setVersion(QDataStream::Qt_5_9);
+    in->setVersion(QDataStream::Qt_5_0);
 
     QString cver;
     QString name;
@@ -106,7 +106,7 @@ void TCPManager::newClient(){
 
     QByteArray msg;
     QDataStream stream(&msg, QIODevice::WriteOnly);
-    stream.setVersion(QDataStream::Qt_5_9);
+    stream.setVersion(QDataStream::Qt_5_0);
 
     QVariant qhs("TFGAME-SERVER");
     StatusMessage sm_hs = StatusMessage(GameStatus::HANDSHAKE, qhs);
@@ -148,7 +148,7 @@ TCPManager &TCPManager::operator<<(stuff *s){
     qDebug() << "Deprecation warning: TCPManager::operator<<(stuff* s)";
     QByteArray block;
     QDataStream stream(&block, QIODevice::WriteOnly);
-    stream.setVersion(QDataStream::Qt_5_9);
+    stream.setVersion(QDataStream::Qt_5_0);
     stream << *s;
 
     for(QTcpSocket* client: clients){
@@ -161,7 +161,7 @@ TCPManager &TCPManager::operator<<(stuff *s){
 TCPManager &TCPManager::operator<<(Message *msg) {
     QByteArray block;
     QDataStream stream(&block, QIODevice::WriteOnly);
-    stream.setVersion(QDataStream::Qt_5_9);
+    stream.setVersion(QDataStream::Qt_5_0);
     stream << msg;
 
     for(QTcpSocket* client: clients){
