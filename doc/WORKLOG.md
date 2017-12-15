@@ -1,3 +1,4 @@
+# Worklog
 
 # Main focus points each week
 ## Week 1
@@ -22,3 +23,4 @@ UI and gameplay improvements
 | Jaakko Visti   | Joonatan Bergolm   | Perttu Yli-opas   | Essi Rantanen   |
 |:--------------:|:------------------:|:-----------------:|:---------------:|
 | 50h            |                    | 45h               |                 |
+
