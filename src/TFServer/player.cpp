@@ -94,7 +94,8 @@ void player::resetPosition(Map* m)
 
 void player::move(int dt, TCPManager &mgr)
 {
-    //Ammoregen
+    //Ammo regen
+    lastMagazineFull += dt;
     if(ammoLeft == 5)
         lastMagazineFull = 0;
     else if(lastMagazineFull >= 2000)
@@ -102,12 +103,12 @@ void player::move(int dt, TCPManager &mgr)
         ammoLeft += 1;
         lastMagazineFull = 0;
     }
-    else
-        lastMagazineFull += dt;
 
     // Jetpack functionality
-    if(!jetpackStatus) lastJetpackUse += dt;
-    if(lastJetpackUse > 3000) fuelLeft = qMin(JETFUELMAX, fuelLeft + (dt/10));
+    if(!jetpackStatus)
+        lastJetpackUse += dt;
+    if(lastJetpackUse > 2000)
+        fuelLeft = qMin(JETFUELMAX, fuelLeft + (dt/10));
 
     if(jetpackStatus && fuelLeft > 0){
         vy += JETPACKPOWER;
@@ -131,9 +132,10 @@ void player::move(int dt, TCPManager &mgr)
     vy = qBound(-TERMINALSPEED, vy, TERMINALSPEED);
 
 
-    // Collide with map, use three collision points
+    // Collide with map, use multiple collision points
     // Could be done better but whatever
-    QPoint collPoints[] = {QPoint(-COLLWIDTH, 41), QPoint(COLLWIDTH, 41), QPoint(0, -40)};
+    QPoint collPoints[] = {QPoint(-COLLWIDTH, 41), QPoint(COLLWIDTH, 41),
+                           QPoint(-COLLWIDTH, -40),QPoint(COLLWIDTH, -40)};
 
     for(QPoint p: collPoints){
         // First, offset the points, the collide, then undo the offset
