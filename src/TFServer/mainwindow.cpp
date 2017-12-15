@@ -85,7 +85,6 @@ MainWindow::~MainWindow()
  * Start, pause or continue the game
  */
 void MainWindow::startGame(){
-    qDebug() << "Startgame called";
     if(!running){
         running = true;
 
@@ -154,7 +153,6 @@ void MainWindow::addPlayer(QDataStream *stream, qint16 id, QString name){
 }
 
 void MainWindow::addProjectile(projectile *p){
-    qDebug() << "Adding a projectile!!";
     objects[p->getId()] = p;
 }
 
@@ -199,8 +197,6 @@ void MainWindow::newRound()
     deadplayers.clear();
     objects.clear();
 
-    qDebug() << "Old objects cleared, resetting players";
-
     // Add players to objects and resurrect them
     for(player *p: players){
         p->undie();
@@ -208,8 +204,6 @@ void MainWindow::newRound()
     }
 
     generateMap();
-
-    qDebug() << "Map regenerated";
 
     QTimer::singleShot(200, this, &MainWindow::startGame);
 
