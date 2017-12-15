@@ -1,25 +1,25 @@
 # Worklog
 
-# Main focus points each week
-## Week 1
+## Main focus points each week
+###### Week 1
 basic structure for server and client
 
-## Week 2
+###### Week 2
 Player class
 
-## Week 3
+###### Week 3
 Constructing the map
 	
-## Week 4
+###### Week 4
 Moving
 
-## Week 5
+###### Week 5
 Projectile class
 
-## Week 6
+###### Week 6
 UI and gameplay improvements
 
-# Workload
+## Workload
 | Jaakko Visti   | Joonatan Bergolm   | Perttu Yli-opas   | Essi Rantanen   |
 |:--------------:|:------------------:|:-----------------:|:---------------:|
 | 50h            |                    | 45h               |                 |
