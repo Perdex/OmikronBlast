@@ -266,27 +266,33 @@ void MainWindow::updateText(){
 /*
  * Main loop content, called once every FRAME_TIME ms
  */
-void MainWindow::executeTurn(){
-
+void MainWindow::executeTurn()
+{
+    // Get the delta time since last frame
     int dt = time->elapsed();
-    dt = qMin(dt, 50);
+    // Limit in case of lag spikes
+    dt = qMin(dt, 40);
     time->restart();
     timeElapsed += dt;
 
     QVector<stuff*> toBeRemoved;
 
+    // Call doStep of all objects: handles interactions & receiving commands
     for(auto object: objects)
         if(object->doStep())
             toBeRemoved += object;
 
+    // Move objects and send their data to clients
     for(auto object: objects)
         object->move(dt, *tcpmanager);
 
+    // Remove dead objects
     for(auto object: toBeRemoved)
         remove(object);
 
     updateText();
 
+    // Re-add this to the call stack
     if(running)
         QTimer::singleShot(FRAME_TIME, this, &MainWindow::executeTurn);
 
