@@ -24,6 +24,7 @@ public:
     void update();
     QString createScores();
     void addPlayer(player *);
+    void countDown(int sec);
 
 protected:
     QGraphicsScene* scene;
@@ -33,6 +34,7 @@ protected:
     QGraphicsTextItem *score;
     QGraphicsTextItem *name;
     QGraphicsTextItem *scoreboard;
+    QGraphicsTextItem *countdown;
     QVector <player*> players;
     player *my_player;
 };

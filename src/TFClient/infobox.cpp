@@ -1,6 +1,8 @@
 #include "infobox.h"
 
-Infobox::Infobox(QWidget* p) : QGraphicsView(p), my_player(nullptr)
+#include <QTimer>
+
+Infobox::Infobox(QWidget* p) : QGraphicsView(p), countdown(), my_player(nullptr)
 {
     scene = new QGraphicsScene(0,0,200,682, this);
     this->setScene(scene);
@@ -19,6 +21,7 @@ Infobox::Infobox(QWidget* p) : QGraphicsView(p), my_player(nullptr)
     score = new QGraphicsTextItem();
     name = new QGraphicsTextItem();
     scoreboard = new QGraphicsTextItem();
+    countdown = new QGraphicsTextItem();
 
     ammo->setPos(95,43);
     ammo->setDefaultTextColor(Qt::red);
@@ -40,22 +43,33 @@ Infobox::Infobox(QWidget* p) : QGraphicsView(p), my_player(nullptr)
     scoreboard->setDefaultTextColor(Qt::red);
     scoreboard->setFont(fontti3);
 
+    countdown->setPos(40, 200);
+    countdown->setFont(fontti2);
+    countdown->setDefaultTextColor(Qt::red);
+    countdown->setPlainText("Waiting...");
+
     scene->addItem(ammo);
     scene->addItem(fuel);
     scene->addItem(score);
     scene->addItem(name);
     scene->addItem(scoreboard);
+    scene->addItem(countdown);
 
     scene->invalidate();
+}
+
+void Infobox::countDown(int sec) {
+    if(sec == 0) {
+        countdown->setPlainText("Game ON!");
+    }else{
+        countdown->setPlainText(QString("Starts in %1").arg(sec));
+        QTimer::singleShot(1000, this, [this, sec]{ this->countDown(sec-1); });
+    }
 }
 
 void Infobox::setMyPlayer(player *p)
 {
     my_player = p;
-
-    if(my_player->getDead()) {
-
-    }
 
     ammo->setPlainText(QString::number(my_player->getAmmo()));
     fuel->setPlainText(QString::number(my_player->getFuel()));
@@ -68,6 +82,10 @@ void Infobox::setMyPlayer(player *p)
 void Infobox::update()
 {
     if(my_player == nullptr) return;
+
+    if(my_player->getDead()) {
+        return;
+    }
 
     ammo->setPlainText(QString::number(my_player->getAmmo()));
     fuel->setPlainText(QString::number(my_player->getFuel()));
