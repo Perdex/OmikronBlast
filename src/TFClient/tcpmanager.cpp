@@ -41,7 +41,7 @@ void TCPManager::onReadyRead() {
 void TCPManager::onPushUpdate(const QMap<int, bool> &status, float ang, bool clicked) {
     QByteArray block;
     QDataStream tmp(&block, QIODevice::WriteOnly);
-    tmp.setVersion(QDataStream::Qt_5_9);
+    tmp.setVersion(QDataStream::Qt_5_0);
 
     tmp << status << clicked << ang;
 
@@ -55,11 +55,11 @@ void TCPManager::onPushUpdate(const QMap<int, bool> &status, float ang, bool cli
 void TCPManager::onConnected() {
 
     data = new QDataStream(&sock);
-    data->setVersion(QDataStream::Qt_5_9);
+    data->setVersion(QDataStream::Qt_5_0);
 
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
-    out.setVersion(QDataStream::Qt_5_9);
+    out.setVersion(QDataStream::Qt_5_0);
 
     out << QString("TFGAME-CLIENT") << name;
     sock.write(block);
