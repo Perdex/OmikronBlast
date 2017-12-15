@@ -30,27 +30,7 @@ TCPManager::TCPManager(MainWindow* mainWindow)
     }
 
     QObject::connect(server, &QTcpServer::newConnection, this, &TCPManager::newClient);
-/*
- * Can be used for debugging
- * Copied from example
- *
-    QString ipAddress;
-    QList<QHostAddress> ipAddressesList = QNetworkInterface::allAddresses();
-    // use the first non-localhost IPv4 address
-    for (int i = 0; i < ipAddressesList.size(); ++i) {
-        if (ipAddressesList.at(i) != QHostAddress::LocalHost &&
-            ipAddressesList.at(i).toIPv4Address()) {
-            ipAddress = ipAddressesList.at(i).toString();
-            break;
-        }
-    }
-    // if we did not find one, use IPv4 localhost
-    if (ipAddress.isEmpty())
-        ipAddress = QHostAddress(QHostAddress::LocalHost).toString();
-    QMessageBox::information(NULL, QString("Server status"),
-                          QString("The server is running on\n\nIP: %1\nport: %2\n\n")
-                         .arg(ipAddress).arg(server->serverPort()));
-*/
+
 }
 
 TCPManager::~TCPManager()
@@ -66,7 +46,7 @@ TCPManager::~TCPManager()
  * Game is starting, stop accepting players (might be changed later)
  */
 void TCPManager::gameStarted(){
-    //server->pauseAccepting();
+    server->pauseAccepting();
 }
 
 QString TCPManager::getAddress(){
