@@ -44,7 +44,7 @@ protected:
 
     bool mouseKey1Down;
 
-    QPixmap *map;
+    QGraphicsPixmapItem *map;
     QGraphicsPixmapItem *background;
 };
 

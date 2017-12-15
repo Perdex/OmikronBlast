@@ -37,11 +37,11 @@ void Canvas::addStuff(stuff *p) {
 }
 
 void Canvas::buildMap(QString s) {
-    map = new QPixmap(scene->width(), scene->height());
-    map->fill(Qt::transparent);
+    QPixmap pm(scene->width(), scene->height());
+    pm.fill(Qt::transparent);
     QPixmap tile(":/images/Squarebox.png");
     tile = tile.scaled(100, 100);
-    QPainter painter(map);
+    QPainter painter(&pm);
 
     for(int i=0; i<40; i++){
         for(int j=0; j<40; j++){
@@ -51,7 +51,9 @@ void Canvas::buildMap(QString s) {
         }
     }
 
-    scene->addPixmap(*map);
+    scene->removeItem(map);
+    delete map;
+    map = scene->addPixmap(pm);
 }
 
 void Canvas::center() {
