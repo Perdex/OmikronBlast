@@ -51,38 +51,6 @@ double stuff::getHorizontalSpeed() const
 {
     return vx;
 }
-void stuff::changeVerticalSpeed(double change)
-{
-    vy += change;
-}
-void stuff::changeHorizontalSpeed(double change)
-{
-    vx += change;
-}
-void stuff::setVerticalSpeed(double speed)
-{
-    vy = speed;
-}
-void stuff::setHorizontalSpeed(double speed)
-{
-    vx = speed;
-}
-void stuff::changeHorizontalPos(double change)
-{
-    x += change;
-}
-void stuff::changeVerticalPos(double change)
-{
-    y += change;
-}
-void stuff::setHorizontalPos(double x)
-{
-    this->x = x;
-}
-void stuff::setVerticalPos(double y)
-{
-    this->y = y;
-}
 
 QDataStream& operator<<(QDataStream& stream, const stuff &s)
 {

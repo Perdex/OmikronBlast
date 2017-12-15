@@ -18,10 +18,10 @@ projectile::projectile(qint16 id, double x, double y, player *owner, double angl
       angle(angle)
 {
     QTimer::singleShot(ACTIVATION_TIMEOUT, this, &projectile::activate);
-    setVerticalSpeed(sin(angle) * SPEED + owner->getVerticalSpeed());
-    setHorizontalSpeed(cos(angle) * SPEED + owner->getHorizontalSpeed());
-    x += cos(angle) * 15;
-    y += sin(angle) * 15;
+    vx = cos(angle) * SPEED + owner->getHorizontalSpeed();
+    vy = sin(angle) * SPEED + owner->getVerticalSpeed();
+    this->x += cos(angle) * 10;
+    this->y += sin(angle) * 10;
     bounceCount = 0;
 }
 projectile::~projectile(){}
