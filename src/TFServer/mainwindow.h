@@ -48,11 +48,13 @@ private:
     void remove(stuff*);
     bool running;
     bool started;
+    void newRound();
 
     //objects includes also players
     QMap<qint16, stuff*> objects;
     //players, sorted by points
     QMap<qint16, player*> players;
+    QVector<player*> deadplayers;
 
     qint16 nextId;
 

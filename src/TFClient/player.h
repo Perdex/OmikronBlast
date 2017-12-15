@@ -17,7 +17,9 @@ public:
     int getAmmo();
     int getFuel();
     int getScore();
+    QString getName();
     bool getDead() {return isDead;}
+    bool operator<(player*);
 protected:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     QRectF boundingRect() const;

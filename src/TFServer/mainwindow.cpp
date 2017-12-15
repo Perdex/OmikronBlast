@@ -23,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent) :
     started(false),
     objects(),
     players(),
+    deadplayers(),
     nextId(0)
 {
     ui->setupUi(this);
@@ -154,7 +155,35 @@ void MainWindow::remove(projectile *p){
 void MainWindow::remove(player *p){
     objects.remove(p->getId());
     players.remove(p->getId());
-    p->deleteLater();
+    deadplayers += p;
+
+    if(players.size() <= 1){
+        newRound();
+    }
+}
+
+void MainWindow::newRound()
+{
+    for(player *p: deadplayers){
+        players[p->getId()] = p;
+    }
+    deadplayers.clear();
+    objects.clear();
+    for(player *p: players){
+        p->undie();
+        objects[p->getId()] = p;
+    }
+
+    generateMap();
+    //TODO fix this
+    //map->send(tcpmanager);
+
+    StatusMessage msg = StatusMessage(GameStatus::COUNTDOWN);
+    *tcpmanager << &msg;
+    //TODO add delay
+    time->restart();
+    QTimer::singleShot(FRAME_TIME, this, &MainWindow::executeTurn);
+
 }
 
 qint16 MainWindow::getNextId(){
