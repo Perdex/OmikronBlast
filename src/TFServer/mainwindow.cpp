@@ -57,6 +57,7 @@ void MainWindow::generateMap() {
         ui->mapView->addPlayer(p);
     }
     ui->mapView->updatePlayers(players.values().toVector());
+    map->send(tcpmanager);
 }
 
 MainWindow::~MainWindow()
