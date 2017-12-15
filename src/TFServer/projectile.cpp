@@ -72,7 +72,7 @@ void projectile::move(int dt, TCPManager &mgr){
 void projectile::hitPlayer(player& victim)
 {
     victim.die();
-    mainWindow->remove(&victim);
+    //mainWindow->remove(&victim);
     if(victim.getId() != owner->getId())
     {
         owner->getPoint();

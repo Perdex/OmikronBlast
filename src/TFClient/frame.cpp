@@ -20,7 +20,6 @@ Frame::Frame(QWidget *parent) :
 {
     ui->setupUi(this);
     //this->setWindowState(Qt::WindowFullScreen);
-
     ui->views->setCurrentIndex(0);
 
     QObject::connect(ui->quitButton, &QPushButton::clicked, this, &Frame::onQuit);
