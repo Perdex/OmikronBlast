@@ -100,7 +100,6 @@ void player::update(QDataStream *s)
 
     this->setVerticalPos(vp);
     this->setHorizontalPos(hp);
-    this->setIsDead(d);
 }
 
 player* player::create(qint16 id, QDataStream *stream) {
