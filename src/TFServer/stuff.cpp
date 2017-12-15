@@ -5,6 +5,8 @@
 #include <QDataStream>
 #include <QtDebug>
 
+#define COLLWIDTH 15
+
 stuff::stuff(Stuff t, qint16 id, Map *map, MainWindow *main, QDataStream *s,
              int m_x, int m_y)
     : id(id),
@@ -60,8 +62,10 @@ QDataStream& operator<<(QDataStream& stream, const stuff &s)
     switch (s.type) {
     case Stuff::PLAYER: {
         player *p = (player*)&s;
+        bool canJump = p->map->touches(p->x - COLLWIDTH + 1, p->y + 43)
+                        || p->map->touches(p->x + COLLWIDTH - 1, p->y + 43);
         stream << p->getName() << p->getJetpackStatus()
-               << p->getAmmoLeft() << (int)(p->getFuelLeft()+0.5) << p->getScore();
+               << p->getAmmoLeft() << (int)(p->getFuelLeft()+0.5) << p->getScore() << canJump;
         break;
     }
     case Stuff::PROJECTILE: {

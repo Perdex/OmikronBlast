@@ -7,9 +7,13 @@
 #include "message.h"
 
 #include <QtDebug>
+#include <QSound>
+#include <QFile>
 
-Engine::Engine(Canvas& c, Infobox& i, TCPManager& t) : items(), tcp(t), canvas(c), infobox(i)
-{}
+Engine::Engine(Canvas& c, Infobox& i, TCPManager& t) : items(), tcp(t), canvas(c), infobox(i),  theme(":/sounds/Sounds/theme.wav")
+{
+    theme.setLoops(QSound::Infinite);
+}
 
 Engine::~Engine() {}
 
@@ -92,6 +96,9 @@ void Engine::processStatus(StatusMessage* msg)
         emit started();
         canvas.center();
         infobox.countDown(3);
+
+        theme.play();
+
         break;
     }
     case GameStatus::PAUSED: {
@@ -111,6 +118,10 @@ void Engine::processUpdate(UpdateMessage *msg, QDataStream *stream)
 {
     if(!items.contains(msg->id())) {
         addStuff(stuff::create(msg, stream));
+
+        if(items[msg->id()]->getType() == Stuff::PROJECTILE) {
+            QSound::play(":/sounds/Sounds/shoot.wav");
+        }
     }else{
         stuff *s = items[msg->id()];
         s->update(stream);

@@ -1,13 +1,14 @@
 #include "player.h"
 #include <QString>
 #include <QtDebug>
+#include <QSound>
 
 player::player(QString name, qint16 id, double x, double y, int score)
     : stuff(Stuff::PLAYER,id,x,y),
       name(name), ammo(5), fuel(100), angle(0),
-      score(score), jetpackActive(false)
+      score(score), jetpackActive(false), onGround(false), jetpack(":/sounds/Sounds/rocket.wav")
 {
-
+    jetpack.setLoops(QSound::Infinite);
     marine = QPixmap(":/images/Images/Marinestance_nogun.png");
     gun = QPixmap(":/images/Images/Marine_gun.png");
     flame = QPixmap(":/images/Images/flame2.png");
@@ -48,9 +49,9 @@ void player::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget 
             ang = 180 - ang;
     }
 
-    if(jetpackActive)
+    if(jetpackActive) {
         painter->drawPixmap(-22,25,26,34, flame);
-
+    }
 
     painter->drawPixmap(-39,-50,78,100, marine);
 
@@ -81,7 +82,7 @@ void player::update(QDataStream *s)
     s->startTransaction();
 
     int a,f,c;
-    bool jp, d;
+    bool jp, d, canJump;
     //a = ammo
     //f = fuel
     //c = score
@@ -89,9 +90,17 @@ void player::update(QDataStream *s)
     //d tells if player is dead
 
     QString name_;
-    *s >> hp >> vp >> d >> name_ >> jp >> a >> f >> c;
+    *s >> hp >> vp >> d >> name_ >> jp >> a >> f >> c >> canJump;
 
     if(!s->commitTransaction()) return;
+
+    if(!jetpackActive && jp) {
+        jetpack.play();
+    }
+
+    if(!jp) {
+        jetpack.stop();
+    }
 
     jetpackActive = jp;
     ammo = a;
@@ -99,6 +108,7 @@ void player::update(QDataStream *s)
     score = c;
     name = name_;
     isDead = d;
+    onGround = canJump;
 
     this->setVerticalPos(vp);
     this->setHorizontalPos(hp);
@@ -114,9 +124,9 @@ player* player::create(qint16 id, QDataStream *stream) {
     stream->startTransaction();
 
     int ammo,fuel,score;
-    bool jp, dead;
+    bool jp, dead, canJump;
     //jp tells wether jetpack is active or not
-    *stream >> hp >> vp >> dead >> name >> jp >> ammo >> fuel >> score;
+    *stream >> hp >> vp >> dead >> name >> jp >> ammo >> fuel >> score >> canJump;
 
     if(!stream->commitTransaction() || dead) return nullptr;
 

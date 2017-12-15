@@ -1,9 +1,11 @@
 #include "infobox.h"
 
 #include <QTimer>
+#include <QSound>
 
 Infobox::Infobox(QWidget* p) : QGraphicsView(p), countdown(), my_player(nullptr)
 {
+
     scene = new QGraphicsScene(0,0,200,682, this);
     this->setScene(scene);
     QPixmap pm(":/images/Images/infoback.png");
@@ -60,6 +62,7 @@ Infobox::Infobox(QWidget* p) : QGraphicsView(p), countdown(), my_player(nullptr)
 
 void Infobox::countDown(int sec) {
     if(sec == 0) {
+        QSound::play(":/sounds/Sounds/blip.wav");
         countdown->setPlainText("Game ON!");
     }
     else if(sec == -1) {
@@ -67,6 +70,7 @@ void Infobox::countDown(int sec) {
     } else if(sec == -2) {
         countdown->setPlainText("Game ended");
     }else{
+        QSound::play(":/sounds/Sounds/blip.wav");
         countdown->setPlainText(QString("Starts in %1").arg(sec));
         QTimer::singleShot(1000, this, [this, sec]{ this->countDown(sec-1); });
     }

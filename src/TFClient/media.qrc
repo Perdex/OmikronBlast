@@ -1,5 +1,11 @@
 <RCC>
-    <qresource prefix="/sounds"/>
+    <qresource prefix="/sounds">
+        <file>Sounds/blip.wav</file>
+        <file>Sounds/rocket.wav</file>
+        <file>Sounds/shoot.wav</file>
+        <file>Sounds/theme.wav</file>
+        <file>Sounds/jump.wav</file>
+    </qresource>
     <qresource prefix="/images">
         <file>Images/background.png</file>
         <file alias="Squarebox.png">Images/squarebox.png</file>
