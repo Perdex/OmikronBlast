@@ -88,6 +88,7 @@ void player::update(QDataStream *s)
     fuel = f;
     score = c;
     name = name_;
+    isDead = d;
 
     this->setVerticalPos(vp);
     this->setHorizontalPos(hp);
