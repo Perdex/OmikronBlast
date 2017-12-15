@@ -73,11 +73,19 @@ void player::setAngle(double angle){
 void player::update(QDataStream *s)
 {
     double hp, vp;
+    //hp = horizontal position
+    //vp = vertical postition
 
     s->startTransaction();
 
     int a,f,c;
     bool jp, d;
+    //a = ammo
+    //f = fuel
+    //c = score
+    //jp tells wether jetpack is active or not
+    //d tells if player is dead
+
     QString name_;
     *s >> hp >> vp >> d >> name_ >> jp >> a >> f >> c;
 
@@ -99,11 +107,14 @@ player* player::create(qint16 id, QDataStream *stream) {
 
     QString name;
     double hp, vp;
+    //hp = horizontal position
+    //vp = vertical postition
 
     stream->startTransaction();
 
     int ammo,fuel,score;
     bool jp, dead;
+    //jp tells wether jetpack is active or not
     *stream >> hp >> vp >> dead >> name >> jp >> ammo >> fuel >> score;
 
     if(!stream->commitTransaction() || dead) return nullptr;
