@@ -20,9 +20,11 @@ int player::getAmmo() {return ammo;}
 int player::getFuel() {return fuel;}
 int player::getScore() {return score;}
 QString player::getName() {return name;}
+
+//looks funny but propably easiest way to get descending order
 bool player::operator<(player *p)
 {
-    bool s = getScore() < p->getScore();
+    bool s = getScore() >= p->getScore();
     return s;
 }
 
