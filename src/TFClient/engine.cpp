@@ -85,14 +85,15 @@ void Engine::processStatus(StatusMessage* msg)
         canvas.buildMap(msg->data<QString>());
         break;
     }
-    case GameStatus::COUNTDOWN: {
-        //TODO add counter to screen
+    case GameStatus::ROUND_END: {
+        //TODO add round end message
         for(stuff *s: items)
             delete s;
         items.clear();
         break;
     }
     case GameStatus::START: {
+        //TODO add 3-second counter to screen
         emit started();
         canvas.center();
         break;

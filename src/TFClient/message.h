@@ -13,7 +13,7 @@ enum class GameStatus : qint8 {
     HANDSHAKE,
     ID_TRANSFER,
     MAP_TRANSFER,
-    COUNTDOWN,
+    ROUND_END,
     START,
     PAUSED,
     UNPAUSED,

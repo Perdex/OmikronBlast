@@ -201,7 +201,7 @@ void MainWindow::newRound()
 
     QTimer::singleShot(2000, this, &MainWindow::startGame);
 
-    StatusMessage msg = StatusMessage(GameStatus::COUNTDOWN);
+    StatusMessage msg = StatusMessage(GameStatus::ROUND_END);
     *tcpmanager << &msg;
     /*
     //TODO add delay
