@@ -215,11 +215,6 @@ void MainWindow::newRound()
 
     StatusMessage msg = StatusMessage(GameStatus::ROUND_END);
     *tcpmanager << &msg;
-    /*
-    //TODO add delay
-    time->restart();
-    QTimer::singleShot(FRAME_TIME, this, &MainWindow::executeTurn);
-*/
 }
 
 qint16 MainWindow::getNextId(){
@@ -280,15 +275,8 @@ void MainWindow::executeTurn(){
     dt = qMin(dt, 50);
     time->restart();
     timeElapsed += dt;
-    //qDebug() << "Doing a turn! dt: " << dt;
 
     QVector<stuff*> toBeRemoved;
-
-    if(nextFrameTime != FRAME_TIME){
-        qDebug() << "HERE!!!";
-        qDebug() << objects.size();
-        qDebug() << "idk";
-    }
 
     for(auto object: objects)
         if(object->doStep())
@@ -312,6 +300,5 @@ void MainWindow::remove(stuff *s) {
     objects.remove(s->getId());
     if(s->getType() == Stuff::PLAYER)
         players.remove(s->getId());
-    delete s;
-    // TODO Fix memory leak
+    s->deleteLater();
 }
