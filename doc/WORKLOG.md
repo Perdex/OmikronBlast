@@ -2,22 +2,22 @@
 
 ## Main focus points each week
 ###### Week 1
-basic structure for server and client
+Basic structure for server and client.
 
 ###### Week 2
-Player class
+Player class.
 
 ###### Week 3
-Constructing the map
+Constructing the map.
 	
 ###### Week 4
-Moving
+Moving.
 
 ###### Week 5
-Projectile class
+Projectile class.
 
 ###### Week 6
-UI and gameplay improvements
+UI and gameplay improvements.
 
 ## Workload
 | Jaakko Visti   | Joonatan Bergolm   | Perttu Yli-opas   | Essi Rantanen   |
