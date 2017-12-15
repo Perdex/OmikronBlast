@@ -96,6 +96,7 @@ void Engine::processStatus(StatusMessage* msg)
         //TODO add 3-second counter to screen
         emit started();
         canvas.center();
+        infobox.countDown(3);
         break;
     }
     case GameStatus::PAUSED: {
