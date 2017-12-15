@@ -16,7 +16,7 @@ projectile::projectile(qint16 id, double x, double y, player *owner, double angl
       owner(owner),
       angle(angle)
 {
-    QTimer::singleShot(100, this, &projectile::activate);
+    QTimer::singleShot(10, this, &projectile::activate);
     setVerticalSpeed(sin(angle) * SPEED);
     setHorizontalSpeed(cos(angle) * SPEED);
     x += cos(angle) * 25;
