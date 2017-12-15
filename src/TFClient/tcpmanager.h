@@ -10,6 +10,7 @@ class TCPManager : public QObject
     Q_OBJECT
 public:
     TCPManager();
+    ~TCPManager();
     void connectTo(const QString&, const int, QString);
     void disconnect(const QString&);
 
