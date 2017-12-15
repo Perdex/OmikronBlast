@@ -172,13 +172,6 @@ Map::Map(MapPreview *mp)
     delete[] cave;
 }
 
-Map::~Map(){
-
-}
-
-QString Map::streaming(){
-    return stream;
-}
 
 void Map::send(TCPManager* manager){
     StatusMessage msg = StatusMessage(GameStatus::MAP_TRANSFER, stream);
@@ -252,7 +245,7 @@ bool Map::collide(double *x, double *y, double *vx, double *vy, int dt, double b
     *vx -= bounce * dot_x * dx;
     *vy -= bounce * dot_y * dy;
 
-    // set the position to reflected
+    // set the position to edge of wall
     if(dx != 0)
         *x = round((*x + *vx * dt * 0.5) / 100) * 100;
     if(dy != 0)
