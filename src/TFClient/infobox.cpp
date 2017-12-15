@@ -84,7 +84,7 @@ void Infobox::setMyPlayer(player *p)
     name->setPlainText(n);
 }
 
-void Infobox::update()
+void Infobox::update(QMap<qint16, stuff*> items)
 {
     if(my_player == nullptr) return;
 
@@ -97,11 +97,18 @@ void Infobox::update()
     ammo->setPlainText(QString::number(my_player->getAmmo()));
     fuel->setPlainText(QString::number(my_player->getFuel()));
     score->setPlainText(QString::number(my_player->getScore()));
-    //scoreboard->setPlainText(createScores());
+    scoreboard->setPlainText(createScores(items));
 }
 
-QString Infobox::createScores()
+QString Infobox::createScores(QMap<qint16, stuff*> items)
 {
+    QVector <player*> players;
+
+    for(QMap<qint16, stuff*>::iterator it = items.begin(); it != items.end(); it++)
+    {
+        if((*it)->getType() == Stuff::PLAYER)
+            players.push_back(static_cast<player*>(*it));
+    }
     std::sort(players.begin(), players.end());
     QString s = "";
     int m = qMin(10, players.size());
@@ -122,9 +129,4 @@ QString Infobox::createScores()
         s.append(w);
     }
     return s;
-}
-
-void Infobox::addPlayer(player *p)
-{
-    players.push_back(p);
 }

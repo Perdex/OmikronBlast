@@ -25,9 +25,8 @@ class Infobox : public QGraphicsView
 public:
     Infobox(QWidget* p = 0);
     void setMyPlayer(player*);
-    void update();
-    QString createScores();
-    void addPlayer(player *);
+    void update(QMap<qint16, stuff*> items);
+    QString createScores(QMap<qint16, stuff*> items);
     void countDown(int sec);
 
 protected:
@@ -39,7 +38,6 @@ protected:
     QGraphicsTextItem *name;
     QGraphicsTextItem *scoreboard;
     QGraphicsTextItem *countdown;
-    QVector <player*> players;
     player *my_player;
 };
 #endif // INFOBOX_H

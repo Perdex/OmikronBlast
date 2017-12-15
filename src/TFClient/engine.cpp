@@ -27,10 +27,6 @@ void Engine::addStuff(stuff* s) {
         canvas.setMyPlayer(static_cast<player*>(s));
         infobox.setMyPlayer(static_cast<player*>(s));
     }
-    if(s->getType() == Stuff::PLAYER)
-    {
-        infobox.addPlayer(static_cast<player*>(s));
-    }
     canvas.addStuff(s);
 }
 
@@ -62,7 +58,7 @@ void Engine::readData(QDataStream* data) {
         delete msg;
     }
     canvas.center();
-    infobox.update();
+    infobox.update(items);
 }
 
 void Engine::processStatus(StatusMessage* msg)
