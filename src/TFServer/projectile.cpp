@@ -9,7 +9,7 @@
 #define SPEED 1.5
 #define RADIUS 10
 #define MAX_BOUNCES 6
-#define ACTIVATION_TIMEOUT 50
+#define ACTIVATION_TIMEOUT 75
 
 projectile::projectile(qint16 id, double x, double y, player *owner, double angle,
                        Map *map, MainWindow *main)
@@ -20,8 +20,8 @@ projectile::projectile(qint16 id, double x, double y, player *owner, double angl
     QTimer::singleShot(ACTIVATION_TIMEOUT, this, &projectile::activate);
     setVerticalSpeed(sin(angle) * SPEED + owner->getVerticalSpeed());
     setHorizontalSpeed(cos(angle) * SPEED + owner->getHorizontalSpeed());
-    x += cos(angle) * 25;
-    y += sin(angle) * 25;
+    x += cos(angle) * 15;
+    y += sin(angle) * 15;
     bounceCount = 0;
 }
 projectile::~projectile(){}
