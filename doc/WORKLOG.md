@@ -22,5 +22,5 @@ UI and gameplay improvements
 ## Workload
 | Jaakko Visti   | Joonatan Bergolm   | Perttu Yli-opas   | Essi Rantanen   |
 |:--------------:|:------------------:|:-----------------:|:---------------:|
-| 50h            |                    | 45h               |                 |
+| 50h            | 50h                | 45h               |                 |
 
