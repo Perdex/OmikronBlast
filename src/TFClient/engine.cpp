@@ -79,8 +79,10 @@ void Engine::processStatus(StatusMessage* msg)
         break;
     }
     case GameStatus::ROUND_END: {
-        for(stuff *s: items)
+        for(stuff *s: items) {
             delete s;
+            s = nullptr;
+        }
         items.clear();
         break;
     }

@@ -205,7 +205,7 @@ void MainWindow::newRound()
 
     generateMap();
 
-    QTimer::singleShot(200, this, &MainWindow::startGame);
+    QTimer::singleShot(500, this, &MainWindow::startGame);
 
     StatusMessage msg = StatusMessage(GameStatus::ROUND_END);
     *tcpmanager << &msg;

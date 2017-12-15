@@ -12,6 +12,10 @@ TCPManager::TCPManager() : sock()
                      &TCPManager::onError);
 }
 
+TCPManager::~TCPManager() {
+    delete data;
+}
+
 void TCPManager::connectTo(const QString &hostname, const int port, QString name) {
     this->name = name;
     this->port = port;
