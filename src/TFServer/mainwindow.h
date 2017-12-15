@@ -50,6 +50,7 @@ private:
     bool running;
     bool started;
     int nextFrameTime;
+    int roundCount;
 
     //objects includes also players
     QMap<qint16, stuff*> objects;
