@@ -130,7 +130,7 @@ void MainWindow::endGame(){
     *tcpmanager << &msg;
 
     running = false;
-    this->deleteLater();
+    this->close();
 }
 
 
