@@ -69,7 +69,7 @@ bool player::doStep()
         dPressed = map[Qt::Key_D];
 
         // Shooting functionality
-        if(clicked && ammoLeft > 0) {
+        if(!isDead && clicked && ammoLeft > 0) {
             weaponAngle = angle;
             ammoLeft -= 1;
             shoot();
