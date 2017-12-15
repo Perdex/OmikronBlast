@@ -5,8 +5,8 @@
 
 player::player(QString name, qint16 id, double x, double y, int score)
     : stuff(Stuff::PLAYER,id,x,y),
-      name(name), ammo(5), fuel(100), angle(0),
-      score(score), jetpackActive(false), onGround(false), jetpack(":/sounds/Sounds/rocket.wav")
+      name(name), angle(0), ammo(5), fuel(100),
+      score(score), jetpackActive(false), jetpack(":/sounds/Sounds/rocket.wav")
 {
     jetpack.setLoops(QSound::Infinite);
     marine = QPixmap(":/images/Images/Marinestance_nogun.png");
