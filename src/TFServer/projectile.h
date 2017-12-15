@@ -11,7 +11,7 @@ public:
                            Map *map, MainWindow *main);
     ~projectile();
 
-    bool doStep(int dt);
+    bool doStep();
     void move(int dt, TCPManager &mgr);
     void hitPlayer(player& victim);
     double getAngle() { return angle; }

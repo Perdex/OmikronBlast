@@ -10,7 +10,7 @@ projectile::projectile(qint16 id, double &x, double &y, double angle)
 
 projectile::~projectile(){}
 
-void projectile::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void projectile::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     if(!isDead)
     {

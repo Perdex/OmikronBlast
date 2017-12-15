@@ -26,7 +26,7 @@ bool player::operator<(player *p)
     return s;
 }
 
-void player::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void player::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     if(isDead) {
         painter->drawPixmap(-30, -15, 60, 60, stone);

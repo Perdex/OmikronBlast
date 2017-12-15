@@ -279,7 +279,7 @@ void MainWindow::executeTurn(){
     }
 
     for(auto object: objects)
-        if(object->doStep(dt))
+        if(object->doStep())
             toBeRemoved += object;
 
     for(auto object: objects)
