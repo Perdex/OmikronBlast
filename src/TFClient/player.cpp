@@ -29,7 +29,7 @@ bool player::operator<(player *p)
 void player::paint(QPainter *painter, const QStyleOptionGraphicsItem *, QWidget *)
 {
     if(isDead) {
-        painter->drawPixmap(-30, -15, 60, 60, stone);
+        painter->drawPixmap(-35, -25, 70, 70, stone);
         return;
     }
     double ang = angle;
@@ -89,7 +89,7 @@ void player::update(QDataStream *s)
     QString name_;
     *s >> hp >> vp >> d >> name_ >> jp >> a >> f >> c;
 
-    if(!s->commitTransaction() || isDead) return;
+    if(!s->commitTransaction()) return;
 
     jetpackActive = jp;
     ammo = a;

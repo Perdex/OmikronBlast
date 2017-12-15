@@ -94,7 +94,6 @@ void Canvas::mouseMoveEvent(QMouseEvent *me) {
     center();
     QPointF p = mapToScene(me->x(), me->y());
     my_player->setAngle(atan2(p.y() - my_player->getVerticalPos(), p.x() - my_player->getHorizontalPos()) * 180 / M_PI);
-    //this->centerOn(my_player->getHorizontalPos() + (me->x() - this->width()/2)/2, my_player->getVerticalPos() + (me->y() - this->height()/2)/2);
 }
 
 void Canvas::mousePressEvent(QMouseEvent *me) {
