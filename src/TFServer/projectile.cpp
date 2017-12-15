@@ -62,10 +62,9 @@ void projectile::move(int dt, TCPManager &mgr){
 
     if(bounceCount > MAX_BOUNCES)
         isDead = true;
-    else{
-        UpdateMessage msg(this);
-        mgr << &msg;
-    }
+
+    UpdateMessage msg(this);
+    mgr << &msg;
     //return angle;
 }
 

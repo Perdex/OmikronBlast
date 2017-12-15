@@ -75,7 +75,7 @@ bool player::doStep()
             shoot();
         }
     }
-    return isDead;
+    return false;
 }
 
 void player::resetPosition(Map* m)
