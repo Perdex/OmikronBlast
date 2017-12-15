@@ -101,10 +101,12 @@ void Engine::processStatus(StatusMessage* msg)
     }
     case GameStatus::PAUSED: {
         //TODO add pause message
+        infobox.countDown(-1);
         break;
     }
     case GameStatus::END: {
         //TODO add end message
+        infobox.countDown(-2);
         break;
     }
     default:

@@ -43,7 +43,7 @@ Infobox::Infobox(QWidget* p) : QGraphicsView(p), countdown(), my_player(nullptr)
     scoreboard->setDefaultTextColor(Qt::red);
     scoreboard->setFont(fontti3);
 
-    countdown->setPos(40, 200);
+    countdown->setPos(22, 200);
     countdown->setFont(fontti2);
     countdown->setDefaultTextColor(Qt::red);
     countdown->setPlainText("Waiting...");
@@ -61,6 +61,11 @@ Infobox::Infobox(QWidget* p) : QGraphicsView(p), countdown(), my_player(nullptr)
 void Infobox::countDown(int sec) {
     if(sec == 0) {
         countdown->setPlainText("Game ON!");
+    }
+    else if(sec == -1) {
+        countdown->setPlainText("Game paused");
+    } else if(sec == -2) {
+        countdown->setPlainText("Game ended");
     }else{
         countdown->setPlainText(QString("Starts in %1").arg(sec));
         QTimer::singleShot(1000, this, [this, sec]{ this->countDown(sec-1); });
