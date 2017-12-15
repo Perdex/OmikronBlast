@@ -99,9 +99,11 @@ void Engine::processStatus(StatusMessage* msg)
         break;
     }
     case GameStatus::PAUSED: {
+        //TODO add pause message
         break;
     }
     case GameStatus::END: {
+        //TODO add end message
         break;
     }
     default:
