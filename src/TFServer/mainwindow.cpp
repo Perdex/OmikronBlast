@@ -297,8 +297,8 @@ void MainWindow::executeTurn(){
 
 
 void MainWindow::remove(stuff *s) {
-    objects.remove(s->getId());
-    if(s->getType() == Stuff::PLAYER)
-        players.remove(s->getId());
-    s->deleteLater();
+    if(s->getType() == Stuff::PLAYER){
+        remove((player*)s);
+    }else
+        remove((projectile*)s);
 }

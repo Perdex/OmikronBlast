@@ -88,7 +88,6 @@ void Infobox::update(QMap<qint16, stuff*> items)
 {
     if(my_player == nullptr) return;
 
-    qDebug() << my_player->getDead();
     if(my_player->getDead()) {
         countdown->setPlainText("DEAD!!");
         return;
