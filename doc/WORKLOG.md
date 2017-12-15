@@ -21,5 +21,5 @@ main focus points each week:
 workload:
     Jaakko Visti 70h
     Joonatan Bergolm
-    Perttu Yli-opas 40h
+    Perttu Yli-opas 45h
     Essi Rantanen
