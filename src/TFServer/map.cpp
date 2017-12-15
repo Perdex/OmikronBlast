@@ -202,21 +202,17 @@ bool Map::collide(double *x, double *y, double *vx, double *vy, int dt, double b
     int dy = next_y - prev_y;
 
     // Stays within the same block: can return
-    // CHANGE IF CORNERS ROUNDED
     if(dx == 0 && dy == 0)
         return false;
 
     // If not colliding, or is for some reason in a block, return
-    if(map[next_x][next_y] == 0 || map[prev_x][prev_y] != 0)
+    if(map[next_x][next_y] == 0)// || map[prev_x][prev_y] != 0)
         return false;
 
     // Collision is happening: determine the direction
     // and store the (anti-)normal direction to n_x, n_y
-    double n_x = 0;
-    double n_y = 0;
-
-    n_x = signum(dx);
-    n_y = signum(dy);
+    double n_x = signum(dx);
+    double n_y = signum(dy);
 
     // Handle diagonal movement
     if(dx != 0 && dy != 0){
@@ -226,8 +222,7 @@ bool Map::collide(double *x, double *y, double *vx, double *vy, int dt, double b
             n_y = 0;
         else if(a == 0 && b == 1) // Horizontal wall
             n_x = 0;
-        else if(a == 0 && b == 0){ // Corner (outer)
-            // Only reduce magnitude for outer corner to prevent player going through walls
+        else{ // Corner
             double s = 1. / sqrt(2);
             n_x *= s;
             n_y *= s;
@@ -235,21 +230,19 @@ bool Map::collide(double *x, double *y, double *vx, double *vy, int dt, double b
     }
 
     // Dot product of the wall and velocity
-    // Is always negative
-    double dot_x = *vx * n_x;
-    double dot_y = *vy * n_y;
+    double dot = *vx * n_x + *vy * n_y;
 
     bounce += 1;
 
     // reflect the velocity
-    *vx -= bounce * dot_x * dx;
-    *vy -= bounce * dot_y * dy;
+    *vx -= bounce * dot * n_x;
+    *vy -= bounce * dot * n_y;
 
     // set the position to edge of wall
-    if(dx != 0)
-        *x = round((*x + *vx * dt * 0.5) / 100) * 100;
-    if(dy != 0)
-        *y = round((*y + *vy * dt * 0.5) / 100) * 100;
+    if(n_x != 0)
+        *x = round((*x + *vx * dt * 0.5) / 100) * 100 - n_x / 10;
+    if(n_y != 0)
+        *y = round((*y + *vy * dt * 0.5) / 100) * 100 - n_y / 10;
 
     return true;
 }
