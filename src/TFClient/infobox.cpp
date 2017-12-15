@@ -72,7 +72,7 @@ void Infobox::update()
     ammo->setPlainText(QString::number(my_player->getAmmo()));
     fuel->setPlainText(QString::number(my_player->getFuel()));
     score->setPlainText(QString::number(my_player->getScore()));
-    scoreboard->setPlainText(createScores());
+    //scoreboard->setPlainText(createScores());
 }
 
 QString Infobox::createScores()
