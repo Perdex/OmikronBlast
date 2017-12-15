@@ -1,3 +1,4 @@
+#Worklog
 
 main focus points each week:
     week1:
@@ -20,6 +21,6 @@ main focus points each week:
 
 workload:
     Jaakko Visti 70h
-    Joonatan Bergolm
-    Perttu Yli-opas
-    Essi Rantanen
+    Joonatan Bergolm 80h
+    Perttu Yli-opas 80h
+    Essi Rantanen 50h
