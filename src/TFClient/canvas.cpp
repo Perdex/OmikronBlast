@@ -27,9 +27,11 @@ Canvas::Canvas(QWidget* p) :
 
 void Canvas::setMyPlayer(player* p) {
     my_player = p;
-    mouseX = p->x();
-    mouseY = p->y();
-    center();
+    if(my_player != nullptr) {
+        mouseX = p->x();
+        mouseY = p->y();
+        center();
+    }
 }
 
 void Canvas::addStuff(stuff *p) {

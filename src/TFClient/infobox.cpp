@@ -76,6 +76,8 @@ void Infobox::setMyPlayer(player *p)
 {
     my_player = p;
 
+    if(my_player == nullptr) return;
+
     ammo->setPlainText(QString::number(my_player->getAmmo()));
     fuel->setPlainText(QString::number(my_player->getFuel()));
     score->setPlainText(QString::number(my_player->getScore()));

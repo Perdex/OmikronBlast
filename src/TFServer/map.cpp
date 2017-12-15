@@ -41,7 +41,7 @@ Map::Map(MapPreview *mp)
             ncave[H*(W-1)+i] = true;
         }
 
-        for(int i =1; i < W-1; i++) {
+        for(int i = 1; i < W-1; i++) {
             for(int j = 1; j < H-1; j++) {
                 int count1 = 0, count2 = 0;
                 for(int dx = -1; dx <= 1; dx++) {
@@ -52,7 +52,7 @@ Map::Map(MapPreview *mp)
 
                 for(int dx = -2; dx <= 2; dx++) {
                     for(int dy = -2; dy <= 2; dy++) {
-                        count2 += cave[(i+dx)*H+(j+dy)];
+                        count2 += cave[(qBound(0, i+dx, W-1))*H+(qBound(0, j+dy, H-1))];
                     }
                 }
 
