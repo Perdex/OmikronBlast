@@ -95,7 +95,7 @@ void Infobox::update()
 
 QString Infobox::createScores()
 {
-    qSort(players);
+    std::sort(players.begin(), players.end());
     QString s = "";
     int m = qMin(10, players.size());
 

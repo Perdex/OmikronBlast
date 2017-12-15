@@ -23,6 +23,8 @@ MainWindow::MainWindow(QWidget *parent) :
     map(nullptr),
     running(false),
     started(false),
+    nextFrameTime(1000),
+    roundCount(1),
     objects(),
     players(),
     deadplayers(),
@@ -123,6 +125,10 @@ void MainWindow::startGame(){
 
 void MainWindow::endGame(){
     qDebug() << "Ending the game!";
+
+    StatusMessage msg = StatusMessage(GameStatus::END);
+    *tcpmanager << &msg;
+
     running = false;
     this->deleteLater();
 }
@@ -174,6 +180,11 @@ void MainWindow::remove(player *p){
 void MainWindow::newRound()
 {
     running = false;
+    if(roundCount >= 5){
+        endGame();
+        return;
+    }
+    roundCount++;
 
     // Move dead players to active players
     for(player *p: deadplayers)
@@ -199,7 +210,7 @@ void MainWindow::newRound()
 
     qDebug() << "Map regenerated";
 
-    QTimer::singleShot(2000, this, &MainWindow::startGame);
+    QTimer::singleShot(200, this, &MainWindow::startGame);
 
     StatusMessage msg = StatusMessage(GameStatus::ROUND_END);
     *tcpmanager << &msg;
@@ -279,7 +290,7 @@ void MainWindow::executeTurn(){
     }
 
     for(auto object: objects)
-        if(object->doStep(dt))
+        if(object->doStep())
             toBeRemoved += object;
 
     for(auto object: objects)

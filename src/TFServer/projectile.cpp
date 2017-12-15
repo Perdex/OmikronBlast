@@ -6,7 +6,7 @@
 #include <cmath>
 #include <QTimer>
 
-#define SPEED 1
+#define SPEED 1.5
 #define RADIUS 10
 #define MAX_BOUNCES 6
 
@@ -25,7 +25,7 @@ projectile::projectile(qint16 id, double x, double y, player *owner, double angl
 }
 projectile::~projectile(){}
 
-bool projectile::doStep(int dt){
+bool projectile::doStep(){
     if(!isActive) return false;
     const int playerHitboxW = 30, playerHitboxH = 70;
     for(player *p: mainWindow->getPlayers().values()) {

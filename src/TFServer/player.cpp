@@ -33,7 +33,7 @@ player::player(qint16 id, QString name, QDataStream *stream, Map *map, MainWindo
     resetPosition(map);
 }
 
-bool player::doStep(int dt)
+bool player::doStep()
 {
     QMap<int, bool> map;
     bool clicked;

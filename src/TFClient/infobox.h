@@ -15,6 +15,10 @@
 
 #define ANGLE 0
 
+/*This class is used to create the box in the ui that shows player all the information they're allowed to have
+ * including their name, ammo, fuel, score and overall scoreboard.
+ */
+
 class Infobox : public QGraphicsView
 {
     Q_OBJECT
