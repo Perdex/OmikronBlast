@@ -9,7 +9,7 @@
 class player :public stuff
 {
 public:
-    player(QString name, qint16 id, double x, double y);
+    player(QString name, qint16 id, double x, double y, int score);
     ~player();
     void update(QDataStream*);
     static player* create(qint16 id, QDataStream*);

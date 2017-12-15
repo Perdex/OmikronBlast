@@ -37,6 +37,7 @@ public slots:
     void startGame();
     void executeTurn();
     void generateMap();
+    void newRound();
 
 private:
     Ui::MainWindow *ui;
@@ -48,7 +49,7 @@ private:
     void remove(stuff*);
     bool running;
     bool started;
-    void newRound();
+    int nextFrameTime;
 
     //objects includes also players
     QMap<qint16, stuff*> objects;

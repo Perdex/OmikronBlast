@@ -11,7 +11,7 @@
 #define AMMOMAX 5
 #define JETFUELMAX 100.0
 #define GRAVITY 0.1
-#define JETPACKPOWER -0.15
+#define JETPACKPOWER -0.2
 #define TERMINALSPEED 3.0
 #define HORIZONTALMOVEMENT 0.20
 #define JUMPSTRENGTH -2.0
@@ -44,10 +44,10 @@ bool player::doStep(int dt)
 
     *stream >> map >> clicked >> angle;
 
-    isFalling = !this->map->touches(x - COLLWIDTH + 1, y + 42)
-             && !this->map->touches(x + COLLWIDTH - 1, y + 42);
+    // Set isFalling = false if player's feet touch the ground
+    isFalling = !this->map->touches(x - COLLWIDTH + 1, y + 41)
+             && !this->map->touches(x + COLLWIDTH - 1, y + 41);
     if(stream->commitTransaction()) {
-        //qDebug() << map;
 
         if(map[Qt::Key_W] && fuelLeft > 0)
         {
@@ -56,13 +56,19 @@ bool player::doStep(int dt)
         }else
             jetpackStatus = false;
 
+        // Use slightly lower values for jumping than falling for consistency
+        // (the y-position will move slightly when "stationary")
+        bool canJump = this->map->touches(x - COLLWIDTH + 1, y + 43)
+                    || this->map->touches(x + COLLWIDTH - 1, y + 43);
 
-        if(map[Qt::Key_Space] && !isFalling) jump();
+        if(map[Qt::Key_Space] && canJump) jump();
 
 
+        // Horizontal movement flags
         aPressed = map[Qt::Key_A];
         dPressed = map[Qt::Key_D];
 
+        // Shooting functionality
         if(clicked && ammoLeft > 0) {
             weaponAngle = angle;
             ammoLeft -= 1;
@@ -97,7 +103,7 @@ void player::move(int dt, TCPManager &mgr)
     else
         lastMagazineFull += dt;
 
-
+    // Jetpack functionality
     if(!jetpackStatus) lastJetpackUse += dt;
     if(lastJetpackUse > 3000) fuelLeft = qMin(JETFUELMAX, fuelLeft + (dt/10));
 
@@ -106,12 +112,15 @@ void player::move(int dt, TCPManager &mgr)
         fuelLeft = qMax(fuelLeft - (dt/20), 0.0);
     }
 
+    // Horizontal movement
     if(aPressed) vx -= HORIZONTALMOVEMENT;
     if(dPressed) vx += HORIZONTALMOVEMENT;
 
+    // Add gravity
     if(isFalling)
         vy += GRAVITY;
 
+    // Damp velocities
     vx *= 0.8;
     vy *= 0.95;
 
@@ -133,9 +142,11 @@ void player::move(int dt, TCPManager &mgr)
         y = y_temp - p.y();
     }
 
+    // Move
     x += dt * vx;
     y += dt * vy;
 
+    // Send the new state to clients
     UpdateMessage msg = UpdateMessage((stuff*)this);
     mgr << &msg;
 }

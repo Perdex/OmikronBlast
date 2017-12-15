@@ -8,7 +8,7 @@
 
 #define SPEED 1
 #define RADIUS 10
-#define MAX_BOUNCES 10
+#define MAX_BOUNCES 6
 
 projectile::projectile(qint16 id, double x, double y, player *owner, double angle,
                        Map *map, MainWindow *main)

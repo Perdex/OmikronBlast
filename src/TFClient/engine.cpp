@@ -86,6 +86,10 @@ void Engine::processStatus(StatusMessage* msg)
         break;
     }
     case GameStatus::COUNTDOWN: {
+        //TODO add counter to screen
+        for(stuff *s: items)
+            delete s;
+        items.clear();
         break;
     }
     case GameStatus::START: {

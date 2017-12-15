@@ -11,6 +11,8 @@
 #include <QTime>
 #include <QDebug>
 
+#define COUNTDOWN_TIME 3000
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
@@ -46,7 +48,6 @@ MainWindow::MainWindow(QWidget *parent) :
 }
 
 void MainWindow::generateMap() {
-    //TODO needs to be changed to map->regenerate etc to not mess up pointers
     delete map;
     map = new Map(ui->mapView);
     for(player *p: players){
@@ -81,6 +82,7 @@ MainWindow::~MainWindow()
  * Start, pause or continue the game
  */
 void MainWindow::startGame(){
+    qDebug() << "Startgame called";
     if(!running){
         running = true;
 
@@ -106,7 +108,8 @@ void MainWindow::startGame(){
         }
 
         ui->startButton->setText("Pause game");
-        QTimer::singleShot(FRAME_TIME, this, &MainWindow::executeTurn);
+        nextFrameTime = COUNTDOWN_TIME;
+        executeTurn();
     }else{
         StatusMessage msg = StatusMessage(GameStatus::PAUSED);
         qDebug() << &msg;
@@ -157,33 +160,54 @@ void MainWindow::remove(player *p){
     players.remove(p->getId());
     deadplayers += p;
 
-    if(players.size() <= 1){
-        newRound();
-    }
+    // If only one player left, add new round creation to call stack
+    if(players.size() <= 1)
+        QTimer::singleShot(0, this, &MainWindow::newRound);
+
 }
 
+/*
+ * Reset the game:
+ * remove projectiles,
+ * respawn players
+ */
 void MainWindow::newRound()
 {
-    for(player *p: deadplayers){
+    running = false;
+
+    // Move dead players to active players
+    for(player *p: deadplayers)
         players[p->getId()] = p;
-    }
+
+    // Deallocate projectiles
+    for(stuff *s: objects)
+        if(s->getType() == Stuff::PROJECTILE)
+            s->deleteLater();
+
     deadplayers.clear();
     objects.clear();
+
+    qDebug() << "Old objects cleared, resetting players";
+
+    // Add players to objects and resurrect them
     for(player *p: players){
         p->undie();
         objects[p->getId()] = p;
     }
 
     generateMap();
-    //TODO fix this
-    //map->send(tcpmanager);
+
+    qDebug() << "Map regenerated";
+
+    QTimer::singleShot(2000, this, &MainWindow::startGame);
 
     StatusMessage msg = StatusMessage(GameStatus::COUNTDOWN);
     *tcpmanager << &msg;
+    /*
     //TODO add delay
     time->restart();
     QTimer::singleShot(FRAME_TIME, this, &MainWindow::executeTurn);
-
+*/
 }
 
 qint16 MainWindow::getNextId(){
@@ -235,8 +259,10 @@ void MainWindow::updateText(){
  */
 void MainWindow::executeTurn(){
 
-    if(!running)
+    if(!running){
+        qDebug() << "NOT doing a turn!";
         return;
+    }
 
     int dt = time->elapsed();
     dt = qMin(dt, 50);
@@ -245,6 +271,12 @@ void MainWindow::executeTurn(){
     //qDebug() << "Doing a turn! dt: " << dt;
 
     QVector<stuff*> toBeRemoved;
+
+    if(nextFrameTime != FRAME_TIME){
+        qDebug() << "HERE!!!";
+        qDebug() << objects.size();
+        qDebug() << "idk";
+    }
 
     for(auto object: objects)
         if(object->doStep(dt))
@@ -259,7 +291,8 @@ void MainWindow::executeTurn(){
     updateText();
 
     tcpmanager->flush();
-    QTimer::singleShot(FRAME_TIME, this, &MainWindow::executeTurn);
+    QTimer::singleShot(nextFrameTime, this, &MainWindow::executeTurn);
+    nextFrameTime = FRAME_TIME;
 }
 
 
