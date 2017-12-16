@@ -15,7 +15,7 @@ public:
     void disconnect(const QString&);
 
 public slots:
-    void onPushUpdate(const QMap<int, bool>& status, float ang, bool clicked);
+    void onPushUpdate(qint16 my_id, const QMap<int, bool>& status, float ang, bool clicked);
 
 private:
     QUdpSocket sock;

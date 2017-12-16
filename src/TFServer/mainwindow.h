@@ -4,7 +4,7 @@
 #include <QMainWindow>
 #include <QMap>
 
-#define FRAME_TIME 20
+#define FRAME_TIME 500
 
 namespace Ui {
     class MainWindow;

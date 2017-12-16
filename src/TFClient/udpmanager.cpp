@@ -20,7 +20,6 @@ void UDPManager::connectTo(const QString &hostname, QString name) {
 
     sock.bind(QHostAddress::LocalHost, cport);
 
-    qDebug() << "Sending handshake";
     QByteArray msg;
     QDataStream tmp(&msg, QIODevice::WriteOnly);
     tmp.setVersion(QDataStream::Qt_5_9);
@@ -38,7 +37,6 @@ void UDPManager::connectTo(const QString &hostname, QString name) {
  * This method is for pulling updates
  */
 void UDPManager::onReadyRead() {
-    qDebug() << "Received a datagram";
 
     // Set up the datastream for reading
     QByteArray data = sock.receiveDatagram().data();
@@ -51,13 +49,14 @@ void UDPManager::onReadyRead() {
 /*
  * This method is for pushing updates to server
  */
-void UDPManager::onPushUpdate(const QMap<int, bool> &status, float ang, bool clicked) {
+void UDPManager::onPushUpdate(qint16 my_id, const QMap<int, bool> &status, float ang, bool clicked) {
     QByteArray block;
     QDataStream tmp(&block, QIODevice::WriteOnly);
     tmp.setVersion(QDataStream::Qt_5_9);
 
-    tmp << status << clicked << ang;
+    tmp << (qint8)MessageType::UPDATE << my_id << status << clicked << ang;
 
+    qDebug() << "Sending a datagram to" << address << sport;
     sock.writeDatagram(block, address, sport);
 }
 

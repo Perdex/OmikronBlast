@@ -23,7 +23,7 @@ public:
     void center();
     void remove(stuff*);
 signals:
-    void statusChanged(const QMap<int, bool>&, float ang, bool clicked);
+    void statusChanged(qint16 my_id, const QMap<int, bool>&, float ang, bool clicked);
 protected:
     void mouseMoveEvent(QMouseEvent*);
     void keyPressEvent(QKeyEvent*);

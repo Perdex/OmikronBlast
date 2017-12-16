@@ -47,6 +47,19 @@ public:
     StoCStatus status() const { return m_status; }
     template <typename T> const T data() const { return m_data.value<T>(); }
     friend QDataStream& operator<<(QDataStream&, StatusMessage*);
+    static QString statusToString(StoCStatus s){
+        switch(s){
+        case StoCStatus::HANDSHAKE: return "HANDSHAKE";
+        case StoCStatus::ID_TRANSFER: return "ID_TRANSFER";
+        case StoCStatus::MAP_TRANSFER: return "MAP_TRANSFER";
+        case StoCStatus::ROUND_END: return "ROUND_END";
+        case StoCStatus::START: return "START";
+        case StoCStatus::PAUSED: return "PAUSED";
+        case StoCStatus::UNPAUSED: return "UNPAUSED";
+        case StoCStatus::END: return "END";
+        }
+        return "ERROR";
+    }
 private:
     StoCStatus m_status;
     QVariant m_data;

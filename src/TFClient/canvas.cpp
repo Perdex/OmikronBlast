@@ -104,7 +104,8 @@ void Canvas::mousePressEvent(QMouseEvent *me) {
     if(!mouseKey1Down && me->button() == Qt::LeftButton) {
         mouseKey1Down = true;
         QPointF p = mapToScene(me->pos());
-        emit statusChanged(status, qAtan2(p.y() - my_player->y(), p.x() - my_player->x()), true);
+        qreal angle = qAtan2(p.y() - my_player->y(), p.x() - my_player->x());
+        emit statusChanged(my_player->getId(), status, angle, true);
     }
 }
 
@@ -133,7 +134,7 @@ void Canvas::keyPressEvent(QKeyEvent *ke)
     }
     if(!ke->isAutoRepeat() && status.contains(ke->key()) && !status[ke->key()]) {
         status[ke->key()] = true;
-        emit statusChanged(status, 0, false);
+        emit statusChanged(my_player->getId(), status, 0, false);
 
         if(ke->key() == Qt::Key_Space && my_player->isOnGround())
             QSound::play(":/sounds/Sounds/jump.wav");
@@ -144,7 +145,7 @@ void Canvas::keyReleaseEvent(QKeyEvent *ke)
 {
     if(!ke->isAutoRepeat() && status.contains(ke->key()) && status[ke->key()]) {
         status[ke->key()] = false;
-        emit statusChanged(status, 0, false);
+        emit statusChanged(my_player->getId(), status, 0, false);
         center();
     }
 }

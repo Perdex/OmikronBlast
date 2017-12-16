@@ -40,8 +40,6 @@ Message* Message::create(QDataStream *stream)
             return nullptr;
         }
 
-        qDebug() << "Status message contents are" << qv;
-
         msg = (Message*)
                 (new StatusMessage((StoCStatus)gs, qv));
         break;

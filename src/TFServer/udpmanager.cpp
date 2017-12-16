@@ -19,15 +19,12 @@ UDPManager::UDPManager(MainWindow* mainWindow)
       mainWindow(mainWindow),
       addresses()
 {
-
     socket = new QUdpSocket(this);
     socket->bind(QHostAddress::LocalHost, sport);
     connect(socket, SIGNAL(readyRead()), this, SLOT(readData()));
 }
 UDPManager::~UDPManager()
-{
-
-}
+{}
 
 /*
  * Game is starting, stop accepting players (might be changed later)
@@ -54,9 +51,6 @@ QString UDPManager::getAddress(){
 
 void UDPManager::readData(){
     while (socket->hasPendingDatagrams()) {
-
-        qDebug() << "Received a datagram";
-
         QNetworkDatagram datagram = socket->receiveDatagram();
 
         // Set up datastream from datagram
@@ -69,14 +63,13 @@ void UDPManager::readData(){
         in >> messageType;
 
         if(messageType == (qint8)MessageType::UPDATE){
-            qDebug() << "Datagram type: UPDATE";
             mainWindow->processUpdate(in);
         }else if(messageType == (qint8)MessageType::STATUS){
-            qDebug() << "Datagram type: STATUS";
+            qDebug() << "UDPMgr: Datagram type: STATUS";
             processStatus(in, datagram);
-        }else{
-            qDebug() << "UDPManager: Unknown message type:" << messageType;
-        }
+        }else
+            qDebug() << "UDPMgr: Unknown message type:" << messageType;
+
 
     }
 }
@@ -91,7 +84,7 @@ void UDPManager::processStatus(QDataStream &stream, QNetworkDatagram &datagram){
     if(type == (qint8)CtoSStatus::HANDSHAKE)
         processHandshake(stream, datagram);
     else
-        qDebug() << "UdpManager: check was" << type;
+        qDebug() << "UDPMgr: check was" << type;
 }
 
 /*
@@ -106,6 +99,19 @@ void UDPManager::processHandshake(QDataStream &stream, QNetworkDatagram &datagra
     QString name;
     stream >> name;
 
+    {
+        // Set up outgoing stream
+        QByteArray msg;
+        QDataStream out(&msg, QIODevice::WriteOnly);
+        out.setVersion(QDataStream::Qt_5_9);
+
+        // Create a handshake message
+        StatusMessage sm_hs = StatusMessage(StoCStatus::HANDSHAKE, QString("OMIKRON-SERVER"));
+        out << &sm_hs;
+        // Send the ID
+        socket->writeDatagram(msg, datagram.senderAddress(), cport);
+    }
+
     // Set up outgoing stream
     QByteArray msg;
     QDataStream out(&msg, QIODevice::WriteOnly);
@@ -113,18 +119,13 @@ void UDPManager::processHandshake(QDataStream &stream, QNetworkDatagram &datagra
 
     // Create a new ID
     qint16 id = mainWindow->getNextId();
-    QVariant qid(id);
-    StatusMessage sm_id = StatusMessage(StoCStatus::ID_TRANSFER, qid);
-
+    qDebug() << "UDPMgr: id is" << id;
+    StatusMessage sm_id = StatusMessage(StoCStatus::ID_TRANSFER, QVariant(id));
     out << &sm_id;
-
-    qDebug() << "Sending ID_TRANSFER to" << datagram.senderAddress()
-             << "port" << datagram.senderPort();
-
     // Send the ID
     socket->writeDatagram(msg, datagram.senderAddress(), cport);
-
     mainWindow->addPlayer(id, name);
+
 }
 
 UDPManager &UDPManager::operator<<(Message *msg) {
@@ -133,8 +134,9 @@ UDPManager &UDPManager::operator<<(Message *msg) {
     stream.setVersion(QDataStream::Qt_5_9);
     stream << msg;
 
-    for(QHostAddress address: addresses)
+    for(QHostAddress address: addresses){
         socket->writeDatagram(block, address, cport);
+    }
 
     return *this;
 }

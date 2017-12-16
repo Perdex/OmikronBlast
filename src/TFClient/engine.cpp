@@ -18,6 +18,7 @@ Engine::Engine(Canvas& c, Infobox& i, UDPManager& u) : items(), udp(u), canvas(c
 Engine::~Engine() {}
 
 void Engine::start() {
+    qDebug() << "Start called!!!";
     QObject::connect(&canvas, &Canvas::statusChanged, &udp, &UDPManager::onPushUpdate);
 }
 
@@ -36,7 +37,6 @@ void Engine::readData(QDataStream* data) {
     while(!data->atEnd()) {
         data->startTransaction();
 
-        qDebug() << "Building a message";
         Message *msg = Message::create(data);
 
         if(!data->commitTransaction()) break;
@@ -45,13 +45,13 @@ void Engine::readData(QDataStream* data) {
 
         switch (msg->type()) {
         case MessageType::STATUS: {
-            qDebug() << "Message type was STATUS";
+            qDebug() << "Received"
+                     << StatusMessage::statusToString(static_cast<StatusMessage*>(msg)->status());
             StatusMessage *sm = static_cast<StatusMessage*>(msg);
             processStatus(sm);
             break;
         }
         case MessageType::UPDATE: {
-            qDebug() << "Message type was UPDATE";
             UpdateMessage *um = static_cast<UpdateMessage*>(msg);
             processUpdate(um, data);
             break;
@@ -70,10 +70,10 @@ void Engine::processStatus(StatusMessage* msg)
 {
     switch (msg->status()) {
     case StoCStatus::HANDSHAKE: {
-        if(msg->data<QString>() != "TFGAME-SERVER") {
+        if(msg->data<QString>() == "OMIKRON-SERVER")
+            emit connected();
+        else
             qDebug() << "Smthing is amiss.";
-        }
-        emit connected();
         break;
     }
     case StoCStatus::ID_TRANSFER: {

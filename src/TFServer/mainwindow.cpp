@@ -28,7 +28,7 @@ MainWindow::MainWindow(QWidget *parent) :
     objects(),
     players(),
     deadplayers(),
-    nextId(0)
+    nextId(1)
 {
     ui->setupUi(this);
 
@@ -86,14 +86,13 @@ void MainWindow::startGame(){
     if(!running){
 
         StatusMessage start_msg = StatusMessage(StoCStatus::START);
-        qDebug() << &start_msg;
-        qDebug() << (qint8)start_msg.status();
+        qDebug() << "MainWindow: StartMessage:" << &start_msg << (qint8)start_msg.status();
         *tcpmanager << &start_msg;
 
         map->send(tcpmanager);
 
         if(!started){
-            qDebug() << "Starting game";
+            qDebug() << "MainWindow: Starting game";
 
             started = true;
             tcpmanager->gameStarted();
@@ -101,7 +100,7 @@ void MainWindow::startGame(){
             time = new QTime();
             time->start();
         }else{
-            qDebug() << "Continuing game";
+            qDebug() << "MainWindow: Continuing game";
 
             time->restart();
         }
@@ -112,8 +111,7 @@ void MainWindow::startGame(){
         QTimer::singleShot(COUNTDOWN_TIME, this, &MainWindow::startRunning);
     }else{
         StatusMessage msg = StatusMessage(StoCStatus::PAUSED);
-        qDebug() << &msg;
-        qDebug() << (qint8)msg.status();
+        qDebug() << "MainWindow: Pause message:" << &msg << (qint8)msg.status();
         *tcpmanager << &msg;
         //pause
         ui->startButton->setText("Continue game");
@@ -122,7 +120,7 @@ void MainWindow::startGame(){
 }
 
 void MainWindow::endGame(){
-    qDebug() << "Ending the game!";
+    qDebug() << "MainWindow: Ending the game!";
 
     StatusMessage msg = StatusMessage(StoCStatus::END);
     *tcpmanager << &msg;
@@ -134,9 +132,17 @@ void MainWindow::endGame(){
 
 void MainWindow::processUpdate(QDataStream &stream)
 {
+    // Read the player's id and pass the stream to it
     qint16 id;
+    stream.startTransaction();
     stream >> id;
-    players[id]->receiveData(stream);
+    if(stream.commitTransaction()){
+        if(players.contains(id))
+            players[id]->receiveData(stream);
+        else
+            qDebug() << "MainWindow: Incorrect player id" << id;
+    }else
+        qDebug() << "MainWindow: Not able to commit transaction";
 }
 
 
@@ -218,8 +224,7 @@ void MainWindow::newRound()
 }
 
 qint16 MainWindow::getNextId(){
-    nextId++;
-    return nextId;
+    return nextId++;
 }
 
 bool MainWindow::isRunning(){

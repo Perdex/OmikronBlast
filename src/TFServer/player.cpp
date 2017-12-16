@@ -34,11 +34,12 @@ player::player(qint16 id, QString name, Map *map, MainWindow *main)
 }
 
 bool player::doStep(){
-    return false;
+    return isDead;
 }
 
 bool player::receiveData(QDataStream &stream)
 {
+    qDebug() << "I'm a player and I'm a-receiving some mighty fine data!";
     QMap<int, bool> map;
     bool clicked;
     double angle;
