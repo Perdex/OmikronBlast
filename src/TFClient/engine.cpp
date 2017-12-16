@@ -23,6 +23,10 @@ void Engine::start() {
 }
 
 void Engine::addStuff(stuff* s) {
+    if(s == nullptr){
+        qDebug() << "Engine: adding stuff: s == nullptr!!!";
+        return;
+    }
     items.insert(s->getId(), s);
     if(s->getId() == my_id)
     {

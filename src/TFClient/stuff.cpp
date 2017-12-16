@@ -66,10 +66,11 @@ stuff* stuff::create(UpdateMessage *msg, QDataStream *stream) {
     switch(msg->datatype()) {
     case Stuff::PLAYER:
         return player::create(msg->id(), stream);
-    case Stuff::PROJECTILE: {
+    case Stuff::PROJECTILE:
         return projectile::create(msg->id(), stream);
-    }
     default:
+        qDebug() << "Stuff: Something is wrong when creating new object! Datatype:"
+                 << (qint8)msg->datatype();
         return nullptr;
     }
 }
