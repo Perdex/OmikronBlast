@@ -9,7 +9,7 @@
 namespace Ui {
     class MainWindow;
 }
-class TCPManager;
+class UDPManager;
 class QTimer;
 class QTcpSocket;
 class stuff;
@@ -25,7 +25,7 @@ class MainWindow : public QMainWindow
 public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
-    void addPlayer(QDataStream *stream, qint16 id, QString name);
+    void addPlayer(qint16 id, QString name);
     void addProjectile(projectile *p);
     void remove(projectile *p);
     void remove(player *p);
@@ -33,6 +33,7 @@ public:
     bool isRunning();
     qint16 getNextId();
     QMap<qint16, player*> &getPlayers() { return players; }
+    void processUpdate(QDataStream &in);
 public slots:
     void startGame();
     void executeTurn();
@@ -43,7 +44,7 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    TCPManager *tcpmanager;
+    UDPManager *tcpmanager;
     //QTimer *gameLoopTimer;
     QTime *time;
     int timeElapsed;

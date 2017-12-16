@@ -1,7 +1,7 @@
 #include "projectile.h"
 #include "map.h"
 #include "message.h"
-#include "tcpmanager.h"
+#include "udpmanager.h"
 #include "mainwindow.h"
 #include <cmath>
 #include <QTimer>
@@ -13,7 +13,7 @@
 
 projectile::projectile(qint16 id, double x, double y, player *owner, double angle,
                        Map *map, MainWindow *main)
-    : stuff(Stuff::PROJECTILE, id, map, main, nullptr, x,y),
+    : stuff(Stuff::PROJECTILE, id, map, main, x,y),
       owner(owner),
       angle(angle)
 {
@@ -41,7 +41,7 @@ bool projectile::doStep(){
 
     return false;
 }
-void projectile::move(int dt, TCPManager &mgr){
+void projectile::move(int dt, UDPManager &mgr){
 
     bool test;
 

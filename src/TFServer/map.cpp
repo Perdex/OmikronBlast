@@ -1,5 +1,5 @@
 #include "map.h"
-#include "tcpmanager.h"
+#include "udpmanager.h"
 #include "message.h"
 #include "mappreview.h"
 
@@ -173,8 +173,8 @@ Map::Map(MapPreview *mp)
 }
 
 
-void Map::send(TCPManager* manager){
-    StatusMessage msg = StatusMessage(GameStatus::MAP_TRANSFER, stream);
+void Map::send(UDPManager* manager){
+    StatusMessage msg = StatusMessage(StoCStatus::MAP_TRANSFER, stream);
     *manager << &msg;
 }
 

@@ -7,7 +7,7 @@
 
 #define COLLWIDTH 15
 
-stuff::stuff(Stuff t, qint16 id, Map *map, MainWindow *main, QDataStream *s,
+stuff::stuff(Stuff t, qint16 id, Map *map, MainWindow *main,
              int m_x, int m_y)
     : id(id),
       x(m_x),
@@ -17,16 +17,10 @@ stuff::stuff(Stuff t, qint16 id, Map *map, MainWindow *main, QDataStream *s,
       isDead(false),
       type(t),
       map(map),
-      mainWindow(main),
-      stream(s)
+      mainWindow(main)
 {}
 
-stuff::~stuff(){
-    if(stream){
-        delete stream;
-        stream = nullptr;
-    }
-}
+stuff::~stuff(){}
 
 qint16 stuff::getId() const
 {

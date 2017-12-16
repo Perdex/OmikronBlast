@@ -12,7 +12,7 @@ public:
     ~projectile();
 
     bool doStep();
-    void move(int dt, TCPManager &mgr);
+    void move(int dt, UDPManager &mgr);
     void hitPlayer(player& victim);
     double getAngle() { return angle; }
 private slots:

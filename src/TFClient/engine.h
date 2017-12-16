@@ -5,7 +5,7 @@
 #include <QObject>
 #include <QSound>
 
-class TCPManager;
+class UDPManager;
 class Canvas;
 class Infobox;
 class stuff;
@@ -16,13 +16,14 @@ class Engine : public QObject
 {
     Q_OBJECT
 public:
-    Engine(Canvas&, Infobox&, TCPManager&);
+    Engine(Canvas&, Infobox&, UDPManager&);
     ~Engine();
     void start();
 signals:
     void started();
     void pauseChanged(bool);
     void ended();
+    void connected();
 private:
     void processUpdate(UpdateMessage*, QDataStream*);
     void processStatus(StatusMessage*);
@@ -30,12 +31,12 @@ private:
     void addStuff(stuff*);
 
     QMap<qint16, stuff*> items;
-    TCPManager& tcp;
+    UDPManager& udp;
     Canvas& canvas;
     Infobox& infobox;
     qint16 my_id;
     QSound theme;
-private slots:
+public slots:
     //void setPlayer(qint16 id);
     void readData(QDataStream*);
 };

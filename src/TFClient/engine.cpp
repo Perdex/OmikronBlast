@@ -1,6 +1,6 @@
 #include "engine.h"
 
-#include "tcpmanager.h"
+#include "udpmanager.h"
 #include "stuff.h"
 #include "canvas.h"
 #include "infobox.h"
@@ -10,7 +10,7 @@
 #include <QSound>
 #include <QFile>
 
-Engine::Engine(Canvas& c, Infobox& i, TCPManager& t) : items(), tcp(t), canvas(c), infobox(i),  theme(":/sounds/Sounds/theme.wav")
+Engine::Engine(Canvas& c, Infobox& i, UDPManager& u) : items(), udp(u), canvas(c), infobox(i),  theme(":/sounds/Sounds/theme.wav")
 {
     theme.setLoops(QSound::Infinite);
 }
@@ -18,8 +18,7 @@ Engine::Engine(Canvas& c, Infobox& i, TCPManager& t) : items(), tcp(t), canvas(c
 Engine::~Engine() {}
 
 void Engine::start() {
-    QObject::connect(&tcp, &TCPManager::updateReceived, this, &Engine::readData);
-    QObject::connect(&canvas, &Canvas::statusChanged, &tcp, &TCPManager::onPushUpdate);
+    QObject::connect(&canvas, &Canvas::statusChanged, &udp, &UDPManager::onPushUpdate);
 }
 
 void Engine::addStuff(stuff* s) {
@@ -37,6 +36,7 @@ void Engine::readData(QDataStream* data) {
     while(!data->atEnd()) {
         data->startTransaction();
 
+        qDebug() << "Building a message";
         Message *msg = Message::create(data);
 
         if(!data->commitTransaction()) break;
@@ -45,16 +45,19 @@ void Engine::readData(QDataStream* data) {
 
         switch (msg->type()) {
         case MessageType::STATUS: {
+            qDebug() << "Message type was STATUS";
             StatusMessage *sm = static_cast<StatusMessage*>(msg);
             processStatus(sm);
             break;
         }
         case MessageType::UPDATE: {
+            qDebug() << "Message type was UPDATE";
             UpdateMessage *um = static_cast<UpdateMessage*>(msg);
             processUpdate(um, data);
             break;
         }
         default:
+            qDebug() << "Message type was unknown!";
             break;
         }
         delete msg;
@@ -66,23 +69,24 @@ void Engine::readData(QDataStream* data) {
 void Engine::processStatus(StatusMessage* msg)
 {
     switch (msg->status()) {
-    case GameStatus::HANDSHAKE: {
+    case StoCStatus::HANDSHAKE: {
         if(msg->data<QString>() != "TFGAME-SERVER") {
             qDebug() << "Smthing is amiss.";
-            tcp.disconnect("Bad server type.");
         }
+        emit connected();
         break;
     }
-    case GameStatus::ID_TRANSFER: {
+    case StoCStatus::ID_TRANSFER: {
         qint16 id = msg->data<qint16>();
         my_id = id;
+        qDebug() << "ID_TRANSFER received: my id set to" << id;
         break;
     }
-    case GameStatus::MAP_TRANSFER: {
+    case StoCStatus::MAP_TRANSFER: {
         canvas.buildMap(msg->data<QString>());
         break;
     }
-    case GameStatus::ROUND_END: {
+    case StoCStatus::ROUND_END: {
         for(stuff *s: items) {
             delete s;
             s = nullptr;
@@ -92,7 +96,7 @@ void Engine::processStatus(StatusMessage* msg)
         items.clear();
         break;
     }
-    case GameStatus::START: {
+    case StoCStatus::START: {
         emit started();
         canvas.center();
         infobox.countDown(3);
@@ -101,11 +105,11 @@ void Engine::processStatus(StatusMessage* msg)
 
         break;
     }
-    case GameStatus::PAUSED: {
+    case StoCStatus::PAUSED: {
         infobox.countDown(-1);
         break;
     }
-    case GameStatus::END: {
+    case StoCStatus::END: {
         infobox.countDown(-2);
         break;
     }

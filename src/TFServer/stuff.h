@@ -6,7 +6,7 @@
 #include <QString>
 #include <QtGlobal>
 
-class TCPManager;
+class UDPManager;
 class Map;
 class MainWindow;
 
@@ -18,7 +18,7 @@ class stuff: public QObject
 {
     Q_OBJECT
 public:
-    stuff(Stuff t, qint16 id, Map *map, MainWindow *main, QDataStream *s,
+    stuff(Stuff t, qint16 id, Map *map, MainWindow *main,
           int x = 2500, int y = 2500);
     ~stuff();
     qint16 getId() const;
@@ -28,7 +28,7 @@ public:
     double getVerticalSpeed() const;
     double getHorizontalSpeed() const;
     virtual bool doStep() = 0;
-    virtual void move(int dt, TCPManager& mgr) = 0;
+    virtual void move(int dt, UDPManager& mgr) = 0;
     Stuff getType() const { return type; }
     friend QDataStream& operator<<(QDataStream& stream, const stuff &s);
 protected:
@@ -41,8 +41,6 @@ protected:
     Stuff type;
     Map* map;
     MainWindow *mainWindow;
-protected:
-    QDataStream *stream;
 };
 
 #endif // STUFF_H

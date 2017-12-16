@@ -9,7 +9,7 @@ enum class MessageType : qint8 {
     UPDATE, STATUS
 };
 
-enum class GameStatus : qint8 {
+enum class StoCStatus : qint8 {
     HANDSHAKE,
     ID_TRANSFER,
     MAP_TRANSFER,
@@ -18,6 +18,9 @@ enum class GameStatus : qint8 {
     PAUSED,
     UNPAUSED,
     END
+};
+enum class CtoSStatus : qint8 {
+    HANDSHAKE
 };
 
 class Message
@@ -39,12 +42,13 @@ private:
 class StatusMessage : public Message
 {
 public:
-    StatusMessage(GameStatus s, QVariant d)
+    StatusMessage(StoCStatus s, QVariant d)
         : Message(MessageType::STATUS), m_status(s), m_data(d) {}
-    GameStatus status() const { return m_status; }
+    StoCStatus status() const { return m_status; }
     template <typename T> const T data() const { return m_data.value<T>(); }
+    friend QDataStream& operator<<(QDataStream&, StatusMessage*);
 private:
-    GameStatus m_status;
+    StoCStatus m_status;
     QVariant m_data;
 };
 

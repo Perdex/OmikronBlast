@@ -25,25 +25,25 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         frame.cpp \
-    tcpmanager.cpp \
     canvas.cpp \
     player.cpp \
     stuff.cpp \
     engine.cpp \
     message.cpp \
     projectile.cpp \
-    infobox.cpp
+    infobox.cpp \
+    udpmanager.cpp
 
 HEADERS += \
         frame.h \
-    tcpmanager.h \
     canvas.h \
     player.h \
     stuff.h \
     engine.h \
     message.h \
     projectile.h \
-    infobox.h
+    infobox.h \
+    udpmanager.h
 
 FORMS += \
         frame.ui

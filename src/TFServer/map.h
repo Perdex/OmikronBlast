@@ -12,7 +12,7 @@
 #include <string>
 #include <math.h>
 
-class TCPManager;
+class UDPManager;
 class MapPreview;
 
 class Map
@@ -21,7 +21,7 @@ class Map
 public:
     Map(MapPreview*);
     bool isWall(int x, int y);
-    void send(TCPManager* manager);
+    void send(UDPManager* manager);
 
     // if necessary, collides with a wall and updates the position and velocity
     bool collide(double *x, double *y, double *vx, double *vy, int dt, double bounce);

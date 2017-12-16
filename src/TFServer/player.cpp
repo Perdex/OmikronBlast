@@ -1,7 +1,7 @@
 #include "player.h"
 #include "message.h"
 #include "map.h"
-#include "tcpmanager.h"
+#include "udpmanager.h"
 #include "projectile.h"
 #include "mainwindow.h"
 #include <QDataStream>
@@ -17,8 +17,8 @@
 #define JUMPSTRENGTH -2.0
 #define COLLWIDTH 15
 
-player::player(qint16 id, QString name, QDataStream *stream, Map *map, MainWindow *main)
-    : stuff(Stuff::PLAYER, id, map, main, stream),
+player::player(qint16 id, QString name, Map *map, MainWindow *main)
+    : stuff(Stuff::PLAYER, id, map, main),
     name(name),
     ammoLeft(AMMOMAX),
     jetpackStatus(false),
@@ -33,50 +33,52 @@ player::player(qint16 id, QString name, QDataStream *stream, Map *map, MainWindo
     resetPosition(map);
 }
 
-bool player::doStep()
+bool player::doStep(){
+    return false;
+}
+
+bool player::receiveData(QDataStream &stream)
 {
     QMap<int, bool> map;
     bool clicked;
     double angle;
-    bool flag;
-    do{
-        stream->startTransaction();
 
-        *stream >> map >> clicked >> angle;
+    stream.startTransaction();
 
-        // Set isFalling = false if player's feet touch the ground
-        isFalling = !this->map->touches(x - COLLWIDTH + 1, y + 41)
-                 && !this->map->touches(x + COLLWIDTH - 1, y + 41);
-        flag = stream->commitTransaction();
-        if(flag) {
+    stream >> map >> clicked >> angle;
 
-            if(map[Qt::Key_W] && fuelLeft > 0)
-            {
-                jetpackStatus = true;
-                lastJetpackUse = 0;
-            }else
-                jetpackStatus = false;
+    // Set isFalling = false if player's feet touch the ground
+    isFalling = !this->map->touches(x - COLLWIDTH + 1, y + 41)
+             && !this->map->touches(x + COLLWIDTH - 1, y + 41);
 
-            // Use slightly lower values for jumping than falling for consistency
-            // (the y-position will move slightly when "stationary")
-            bool canJump = this->map->touches(x - COLLWIDTH + 1, y + 43)
-                        || this->map->touches(x + COLLWIDTH - 1, y + 43);
+    if(stream.commitTransaction()) {
 
-            if(map[Qt::Key_Space] && canJump) jump();
+        if(map[Qt::Key_W] && fuelLeft > 0)
+        {
+            jetpackStatus = true;
+            lastJetpackUse = 0;
+        }else
+            jetpackStatus = false;
+
+        // Use slightly lower values for jumping than falling for consistency
+        // (the y-position will move slightly when "stationary")
+        bool canJump = this->map->touches(x - COLLWIDTH + 1, y + 43)
+                    || this->map->touches(x + COLLWIDTH - 1, y + 43);
+
+        if(map[Qt::Key_Space] && canJump) jump();
 
 
-            // Horizontal movement flags
-            aPressed = map[Qt::Key_A];
-            dPressed = map[Qt::Key_D];
+        // Horizontal movement flags
+        aPressed = map[Qt::Key_A];
+        dPressed = map[Qt::Key_D];
 
-            // Shooting functionality
-            if(!isDead && clicked && ammoLeft > 0) {
-                weaponAngle = angle;
-                ammoLeft -= 1;
-                shoot();
-            }
+        // Shooting functionality
+        if(!isDead && clicked && ammoLeft > 0) {
+            weaponAngle = angle;
+            ammoLeft -= 1;
+            shoot();
         }
-    }while(flag);
+    }
     return isDead;
 }
 
@@ -92,7 +94,7 @@ void player::resetPosition(Map* m)
     this->y = y * 100 + 50;
 }
 
-void player::move(int dt, TCPManager &mgr)
+void player::move(int dt, UDPManager &mgr)
 {
     //Ammo regen
     lastMagazineFull += dt;

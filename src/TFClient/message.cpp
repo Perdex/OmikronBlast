@@ -5,6 +5,12 @@
 #include <QVariant>
 #include <QtDebug>
 
+QDataStream& operator<<(QDataStream& stream, StatusMessage* msg)
+{
+    stream << (qint8)msg->type() << (qint8)msg->m_status << msg->m_data;
+    return stream;
+}
+
 Message* Message::create(QDataStream *stream)
 {
     Message* msg = nullptr;
@@ -15,6 +21,7 @@ Message* Message::create(QDataStream *stream)
     MessageType mt = (MessageType)t;
 
     if(!stream->commitTransaction()) {
+        qDebug() << "Message: couldn't read message type";
         delete msg;
         return nullptr;
     }
@@ -28,12 +35,15 @@ Message* Message::create(QDataStream *stream)
         *stream >> gs >> qv;
 
         if(!stream->commitTransaction()) {
+            qDebug() << "Message: couldn't read status details";
             delete msg;
             return nullptr;
         }
 
+        qDebug() << "Status message contents are" << qv;
+
         msg = (Message*)
-                (new StatusMessage((GameStatus)gs, qv));
+                (new StatusMessage((StoCStatus)gs, qv));
         break;
     }
     case MessageType::UPDATE: {
@@ -44,6 +54,7 @@ Message* Message::create(QDataStream *stream)
         *stream >> t >> id;
 
         if(!stream->commitTransaction()) {
+            qDebug() << "Message: couldn't read update details";
             delete msg;
             return nullptr;
         }
@@ -55,6 +66,7 @@ Message* Message::create(QDataStream *stream)
         break;
     }
     default:
+        qDebug() << "Message: message type unknown" << (qint8)mt;
         break;
     }
     return msg;

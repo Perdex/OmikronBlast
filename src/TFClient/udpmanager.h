@@ -2,27 +2,26 @@
 #define TCPMANAGER_H
 
 #include <QObject>
-#include <QTcpSocket>
+#include <QUdpSocket>
 #include <QDataStream>
 
-class TCPManager : public QObject
+class UDPManager : public QObject
 {
     Q_OBJECT
 public:
-    TCPManager();
-    ~TCPManager();
-    void connectTo(const QString&, const int, QString);
+    UDPManager();
+    ~UDPManager();
+    void connectTo(const QString&, QString);
     void disconnect(const QString&);
 
 public slots:
     void onPushUpdate(const QMap<int, bool>& status, float ang, bool clicked);
-    void onConnected();
-    void onDisconnected();
 
 private:
-    QTcpSocket sock;
-    uint port;
-    QDataStream* data;
+    QUdpSocket sock;
+    QHostAddress address;
+    uint sport;
+    uint cport;
     QString name;
 
 private slots:
@@ -31,8 +30,6 @@ private slots:
 
 signals:
     void updateReceived(QDataStream*);
-    void disconnected(const QString&);
-    void connected();
     void error(QString);
 };
 

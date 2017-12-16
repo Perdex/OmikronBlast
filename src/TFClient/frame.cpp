@@ -41,7 +41,7 @@ void Frame::onConnectClicked() {
     QString name = ui->s_name->text();
     if(name.isEmpty())
         name = "NONAME_SUCKER";
-    emit requestConnection(ui->s_address->text(), ui->s_port->text().toInt(), name);
+    emit requestConnection(ui->s_address->text(), name);
 }
 
 void Frame::onConnected() {

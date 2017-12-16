@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "tcpmanager.h"
+#include "udpmanager.h"
 #include "player.h"
 #include "stuff.h"
 #include "map.h"
@@ -32,12 +32,10 @@ MainWindow::MainWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    tcpmanager = new TCPManager(this);
+    tcpmanager = new UDPManager(this);
 
     QString s = "Server active at:\n";
     s += tcpmanager->getAddress();
-    s += "\nport: ";
-    s += tcpmanager->getPort();
     ui->InfoLabel->setText(s);
 
     map = new Map(ui->mapView);
@@ -87,7 +85,7 @@ MainWindow::~MainWindow()
 void MainWindow::startGame(){
     if(!running){
 
-        StatusMessage start_msg = StatusMessage(GameStatus::START);
+        StatusMessage start_msg = StatusMessage(StoCStatus::START);
         qDebug() << &start_msg;
         qDebug() << (qint8)start_msg.status();
         *tcpmanager << &start_msg;
@@ -113,7 +111,7 @@ void MainWindow::startGame(){
         executeTurn();
         QTimer::singleShot(COUNTDOWN_TIME, this, &MainWindow::startRunning);
     }else{
-        StatusMessage msg = StatusMessage(GameStatus::PAUSED);
+        StatusMessage msg = StatusMessage(StoCStatus::PAUSED);
         qDebug() << &msg;
         qDebug() << (qint8)msg.status();
         *tcpmanager << &msg;
@@ -126,7 +124,7 @@ void MainWindow::startGame(){
 void MainWindow::endGame(){
     qDebug() << "Ending the game!";
 
-    StatusMessage msg = StatusMessage(GameStatus::END);
+    StatusMessage msg = StatusMessage(StoCStatus::END);
     *tcpmanager << &msg;
 
     running = false;
@@ -134,12 +132,20 @@ void MainWindow::endGame(){
 }
 
 
+void MainWindow::processUpdate(QDataStream &stream)
+{
+    qint16 id;
+    stream >> id;
+    players[id]->receiveData(stream);
+}
+
+
 /*
  * Adds a player to the game once connected
  * sock: the tcp socket for receiving data
  */
-void MainWindow::addPlayer(QDataStream *stream, qint16 id, QString name){
-    player* p = new player(id, name, stream, map, this);
+void MainWindow::addPlayer(qint16 id, QString name){
+    player* p = new player(id, name, map, this);
     objects[id] = p;
     players[id] = p;
     ui->mapView->addPlayer(p);
@@ -207,7 +213,7 @@ void MainWindow::newRound()
 
     QTimer::singleShot(500, this, &MainWindow::startGame);
 
-    StatusMessage msg = StatusMessage(GameStatus::ROUND_END);
+    StatusMessage msg = StatusMessage(StoCStatus::ROUND_END);
     *tcpmanager << &msg;
 }
 

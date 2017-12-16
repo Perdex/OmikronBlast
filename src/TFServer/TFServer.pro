@@ -26,23 +26,23 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    tcpmanager.cpp \
     stuff.cpp \
     player.cpp\
     map.cpp \
     message.cpp \
     mappreview.cpp \
-    projectile.cpp
+    projectile.cpp \
+    udpmanager.cpp
 
 HEADERS += \
         mainwindow.h \
-    tcpmanager.h \
     stuff.h \
     player.h\
     map.h \
     message.h \
     mappreview.h \
-    projectile.h
+    projectile.h \
+    udpmanager.h
 
 
 FORMS += \

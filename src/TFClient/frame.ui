@@ -51,7 +51,7 @@
     <item row="0" column="0">
      <widget class="QStackedWidget" name="views">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="main">
        <layout class="QGridLayout" name="gridLayout_2">
@@ -136,20 +136,6 @@
            <widget class="QLineEdit" name="s_address">
             <property name="text">
              <string>127.0.0.1</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLabel" name="label_2">
-            <property name="text">
-             <string>Server port</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QLineEdit" name="s_port">
-            <property name="text">
-             <string>2000</string>
             </property>
            </widget>
           </item>
