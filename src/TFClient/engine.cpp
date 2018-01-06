@@ -43,7 +43,10 @@ void Engine::readData(QDataStream* data) {
 
         Message *msg = Message::create(data);
 
-        if(!data->commitTransaction()) break;
+        if(!data->commitTransaction()){
+            qDebug() << "Engine: unable to commit read transaction";
+            break;
+        }
 
         //qDebug() << "Type" << (qint8)msg->type();
 

@@ -79,6 +79,8 @@ bool player::receiveData(QDataStream &stream)
             ammoLeft -= 1;
             shoot();
         }
+    }else{
+        qDebug() << "Player: not able to commit transaction";
     }
     return isDead;
 }

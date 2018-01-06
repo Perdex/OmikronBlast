@@ -56,7 +56,7 @@ void UDPManager::onPushUpdate(qint16 my_id, const QMap<int, bool> &status, float
 
     tmp << (qint8)MessageType::UPDATE << my_id << status << clicked << ang;
 
-    qDebug() << "Sending a datagram to" << address << sport;
+    qDebug() << "Sending a datagram to" << address << sport << "id is" << my_id;
     sock.writeDatagram(block, address, sport);
 }
 
